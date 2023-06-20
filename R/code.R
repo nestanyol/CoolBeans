@@ -29,11 +29,11 @@ raw_data <- sim_data
 summary(raw_data)
 
 raw_data_boxplots <- raw_data %>%
-  gather(key = "metabolite", value = "value", starts_with("metabolite"))
+  tidyr::gather(key = "metabolite", value = "value", starts_with("metabolite"))
 
 boxplot <- raw_data_boxplots %>%
-  ggplot(aes(x = metabolite, y = value)) +
-  geom_boxplot() +
+  ggplot2::ggplot(aes(x = metabolite, y = value)) +
+  ggplot2::geom_boxplot() +
   labs(x = "Metabolites", y = "Intensity") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
@@ -44,15 +44,15 @@ ggsave(filename = "doc/images/raw_data_boxplots.png", plot = boxplot)
 prep_data <- preprocess_data(raw_data)
 
 prep_data_boxplots <- prep_data %>%
-  gather(key = "metabolite", value = "value", starts_with("metabolite"))
+  tidyr::gather(key = "metabolite", value = "value", starts_with("metabolite"))
 
 boxplot_prep <- prep_data_boxplots %>%
-  ggplot(aes(x = metabolite, y = value)) +
-  geom_boxplot() +
-  labs(x = "Metabolites", y = "Intensity") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  ggplot2::ggplot(aes(x = metabolite, y = value)) +
+  ggplot2::geom_boxplot() +
+  ggplot2::labs(x = "Metabolites", y = "Intensity") +
+  ggplot2::theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
-ggsave(filename = "doc/images/prep_data_boxplots.png", plot = boxplot_prep)
+ggplot2::ggsave(filename = "doc/images/prep_data_boxplots.png", plot = boxplot_prep)
 
 # SPLIT DATA --------------------------------------------------------------
 
