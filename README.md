@@ -1,26 +1,28 @@
-
 # CoolBeans
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
-The goal of CoolBeans is to ...
+The aim of CoolBeans is to enable the construction of multi-metabolite
+signatures of dietary scores that could serve as biomarkers. These
+biomarkers, in turn, can facilitate the targeting of precision nutrition
+strategies to improve health and reduce disease risk.
+
+CoolBeans introduces functions for preprocessing, spliting and building
+the multi-metabolite signatures.
 
 ## Installation
 
-You can install the development version of CoolBeans from [GitHub](https://github.com/) with:
+You can install the development version of CoolBeans from
+[GitHub](https://github.com/nestanyol/CoolBeans) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("nestanyol/CoolBeans")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
 ``` r
 library(CoolBeans)
 ## basic example code
 ```
-
