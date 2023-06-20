@@ -4,6 +4,7 @@
 #' @param training_split
 #'
 #' @return split dataframes
+#' @export
 #'
 split_data <- function(preprocessed_data, training_split = 0.7) {
   # Perform a random split using the `rsample` package

@@ -3,6 +3,7 @@
 #' @param raw_data dataframe with metabolomic data
 #'
 #' @return dataframe
+#' @export
 #'
 preprocess_data <- function(raw_data) {
   # Remove noise data

@@ -3,6 +3,7 @@
 #' @param train_data
 #'
 #' @return model parameters
+#' @export
 #'
 train_model <- function(train_data) {
   # Create a recipe
