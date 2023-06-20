@@ -4,6 +4,7 @@
 #' @param test_data
 #'
 #' @return model coefficients
+#' @export
 #'
 test_model <- function(model, test_data) {
 
