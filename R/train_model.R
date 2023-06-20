@@ -7,18 +7,18 @@
 #'
 train_model <- function(train_data) {
   # Create a recipe
-  recipe <- recipe(diet_score ~ ., data = train_data) %>%
-    step_rm(id)
+  recipe <- recipes::recipe(diet_score ~ ., data = train_data) %>%
+    recipes::step_rm(id)
 
   # Create the model specification
-  model_spec <- linear_reg(penalty = 1, mixture = 0.5) %>%
-    set_engine("glmnet")
+  model_spec <- parsnip::linear_reg(penalty = 1, mixture = 0.5) %>%
+    parsnip::set_engine("glmnet")
 
   # Train the model
-  model <- workflow() %>%
-    add_recipe(recipe) %>%
-    add_model(model_spec) %>%
-    fit(data = train_data)
+  model <- workflows::workflow() %>%
+    workflows::add_recipe(recipe) %>%
+    workflows::add_model(model_spec) %>%
+    workflows::fit(data = train_data)
 
   return(model$fit)
 }

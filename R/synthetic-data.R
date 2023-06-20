@@ -49,9 +49,9 @@ sim_data <- as_tibble(simulateData(dag_model, sample.nobs = 2000)) %>%
 
 
 # Check if DAG was created correctly:
-sim_model_fit <- sem(model = dag_model, data = sim_data)
+sim_model_fit <- lavaan::sem(model = dag_model, data = sim_data)
 summary(sim_model_fit)
-lavaanPlot(model = sim_model_fit)
+lavaan::lavaanPlot(model = sim_model_fit)
 
 # Save data ---------------------------------------------------------------
 

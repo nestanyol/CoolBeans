@@ -11,10 +11,10 @@ test_model <- function(model, test_data) {
   model_fit <- model$fit
 
   # Make predictions on the test set
-  predictions <- predict(model_fit, new_data = test_data) %>%
-    as_tibble() %>%
-    rename(predicted = .pred) %>%
-    bind_cols(test_data)
+  predictions <- stats::predict(model_fit, new_data = test_data) %>%
+    dplyr::as_tibble() %>%
+    dplyr::rename(predicted = .pred) %>%
+    dplyr::bind_cols(test_data)
 
   # Assess model performance
   rmse <- caret::RMSE(predictions$predicted, predictions$diet_score)
