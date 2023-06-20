@@ -20,3 +20,4 @@ split_data <- function(preprocessed_data, training_split = 0.7) {
 
   return(list(test_data = test_data, train_data = train_data))
 }
+
