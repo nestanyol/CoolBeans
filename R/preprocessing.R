@@ -5,24 +5,26 @@
 #' @return dataframe
 #' @export
 #'
-preprocess_data <- function(raw_data) {
+preprocess_data <- function(raw_data, cutoff_met = 0, cutoff_subj = 0) {
   # Remove noise data
   preprocessed_data_prep <- raw_data %>%
     # Remove duplicate rows
     dplyr::distinct() %>%
     # Remove columns (metabolites) that have 20% of values as missing
-    janitor::remove_empty("cols", cutoff = 0.2) %>%
+    janitor::remove_empty("cols", cutoff = cutoff_met) %>% # Optional step
     # Remove rows (subjects) that have 20% of values as missing
-    janitor::remove_empty("rows", cutoff = 0.2)
+    janitor::remove_empty("rows", cutoff = cutoff_subj) # Optional step
 
   # Create a recipe for preprocessing the data
   preprocess_recipe <- recipes::recipe(~., data = preprocessed_data_prep) %>%
     recipes::update_role(id, new_role = "id") %>%
     recipes::update_role(diet_score, new_role = "outcome") %>%
     # Imputation
-    recipes::step_impute_mean(recipes::all_predictors()) %>%
-    # log normalization
-    recipes::step_log(recipes::all_predictors())
+    recipes::step_impute_median(recipes::all_predictors()) %>% #step_imputelower() min?
+    # log transformation
+    recipes::step_log(recipes::all_predictors()) %>%
+    # normalization
+    recipes::step_normalize(recipes::all_predictors())
 
   # Apply the recipe to preprocess data
   preprocessed_data <- preprocess_recipe %>%
