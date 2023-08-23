@@ -39,12 +39,19 @@ insert_random_missingness <- function(data) {
   data
 }
 
+# Range -------------------------------------------------------------------
+
+fun_range <- function(x) {                              # Create user-defined function
+  (x - min(x)) / (max(x) - min(x))*10
+}
+
 # Simulate data -----------------------------------------------------------
 
 sim_data <- as_tibble(simulateData(dag_model, sample.nobs = 2000)) %>%
   mutate(across(matches("metabolite_"), ~ . + (5 + abs(min(.))) * 1.1)) %>%
   mutate(id = 1:n()) %>%
-  mutate(diet_score = sapply(1:n(), function(x) sample(0:50, 1))) %>%
+  #mutate(diet_score = sapply(1:n(), function(x) sample(0:50, 1))) %>%
+  mutate(diet_score = fun_range(diet_score)) %>%
   insert_random_missingness()
 
 
