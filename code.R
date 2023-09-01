@@ -7,12 +7,15 @@ library(rsample)
 library(parsnip)
 library(caret)
 library(workflows)
+library(devtools)
+load_all()
 source(here::here("R/preprocessing.R"))
 source(here::here("R/split_data.R"))
 source(here::here("R/train_model.R"))
 source(here::here("R/test_model.R"))
 
 # IMPORT DATASET ----------------------------------------------------------
+
 
 # raw_data <- read_csv2(
 #  here::here("data/metabolomics_data.csv"),
