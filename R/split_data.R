@@ -1,7 +1,7 @@
 #' Split dataset
 #'
-#' @param preprocessed_data
-#' @param training_split
+#' @param preprocessed_data data after pre-processing
+#' @param training_split data fraction to use for training
 #'
 #' @return split dataframes
 #' @export

@@ -7,7 +7,9 @@
 test_model(model, test_data)
 }
 \arguments{
-\item{test_data}{}
+\item{model}{to be use with the data}
+
+\item{test_data}{data to test the model}
 }
 \value{
 model coefficients

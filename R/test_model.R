@@ -1,7 +1,7 @@
 #' Title
 #'
-#' @param model
-#' @param test_data
+#' @param model to be use with the data
+#' @param test_data data to test the model
 #'
 #' @return model coefficients
 #' @export
