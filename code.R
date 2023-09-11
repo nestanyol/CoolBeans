@@ -9,10 +9,10 @@ library(caret)
 library(workflows)
 library(devtools)
 load_all()
-source(here::here("R/preprocessing.R"))
-source(here::here("R/split_data.R"))
-source(here::here("R/train_model.R"))
-source(here::here("R/test_model.R"))
+#source(here::here("R/preprocessing.R"))
+#source(here::here("R/split_data.R"))
+#source(here::here("R/train_model.R"))
+#source(here::here("R/test_model.R"))
 
 # IMPORT DATASET ----------------------------------------------------------
 
@@ -75,5 +75,7 @@ rmse_val <- results$rmse_val
 #r_squared_val <- results$r_squared_val
 
 coefficients <- model_coeffs$estimate
-feature_names <- names(coefficients)[-1]
+#feature_names <- names(coefficients)[-1] doesn't capture the name of the metabolites
+feature_names <- model_coeffs$term[-1]
+
 coefficients_df <- data.frame(feature = feature_names, coefficient = coefficients[-1])

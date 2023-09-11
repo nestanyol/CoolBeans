@@ -5,7 +5,9 @@
 #' @return dataframe
 #' @export
 #'
-preprocess_data <- function(raw_data, cutoff_met = 0, cutoff_subj = 0) {
+#preprocess_data <- function(raw_data, cutoff_met = 0, cutoff_subj = 0) {
+#modified definition to have the cutoffs intended in the comments
+preprocess_data <- function(raw_data, cutoff_met = 0.2, cutoff_subj = 0.2) {
   # Remove noise data
   preprocessed_data_prep <- raw_data %>%
     # Remove duplicate rows
