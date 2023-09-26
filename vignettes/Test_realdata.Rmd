@@ -1,0 +1,97 @@
+---
+title: "Test_MEDGICARB_data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Test_realdata}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include = FALSE}
+library(CoolBeans)
+library(tidyverse)
+library(tidymodels)
+library(missRanger)
+library(missForest)
+library(recipes)
+library(glmnet)
+library(rsample)
+library(caret)
+devtools::load_all()
+```
+
+Load clustered data:
+
+```{r load raw data}
+fpath <- system.file("extdata", "MEDGICARB_peaktable_clustered.rds", package="CoolBeans")
+raw_dataAll <- readRDS(fpath)
+
+#raw_data <- raw_dataAll[,c(1,8,14:50)]
+raw_data <- raw_dataAll[,c(1,8,14:ncol(raw_dataAll))] #all columns
+raw_data <- raw_data%>%rename_at('combo', ~'id')
+raw_data <- raw_data%>%rename_at('group', ~'diet_score')
+
+raw_data_boxplots <- raw_data[,c(1:20)] %>%
+  tidyr::gather(key = "HN", value = "value", starts_with("HN"))
+
+boxplot <- raw_data_boxplots %>%
+  ggplot2::ggplot(aes(x = HN, y = value)) +
+  ggplot2::geom_boxplot() +
+  labs(x = "Metabolites", y = "Intensity") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+boxplot
+```
+
+Data preprocessing:
+
+```{r}
+prep_data <- preprocess_data(raw_data)
+prep_data_boxplots <- prep_data[,c(1:20)] %>%
+  tidyr::gather(key = "HNC", value = "value", starts_with("HNC"))
+
+boxplot_prep <- prep_data_boxplots %>%
+  ggplot2::ggplot(aes(x = HNC, y = value)) +
+  ggplot2::geom_boxplot() +
+  ggplot2::labs(x = "Metabolites", y = "Intensity") +
+  ggplot2::theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+boxplot_prep
+```
+
+Split data into training and testing datasets. NaN are also removed from
+the diet_score column.
+
+```{r}
+data_split <- split_data(prep_data)
+train_data <- data_split$train_data
+test_data <- data_split$test_data
+#check NA
+which(is.na(train_data$diet_score))
+which(is.na(test_data$diet_score))
+#remove rows that have NA in target/label column
+train_data <- train_data%>%drop_na('diet_score')
+test_data <- test_data%>%drop_na('diet_score')
+
+```
+
+Trained model, for regression select 1 and for classification select 2:
+
+```{r}
+trained_model <- train_model_rf(train_data, type=2)
+trained_model
+```
+
+Testing model and results:
+
+```{r}
+results <- test_model_class(trained_model, test_data)
+results
+```
