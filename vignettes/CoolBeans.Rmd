@@ -59,7 +59,7 @@ boxplot
 Data preprocessing:
 
 ```{r}
-prep_data <- preprocess_data(raw_data)
+prep_data <- preprocess_data(raw_data,'id','diet_score')
 
 prep_data_boxplots <- prep_data %>%
   gather(key = "metabolite", value = "value", starts_with("metabolite"))
@@ -87,6 +87,7 @@ Trained model:
 
 ```{r}
 trained_model <- train_model(train_data)
+trained_model
 ```
 
 Testing model and results:
@@ -94,7 +95,10 @@ Testing model and results:
 ```{r}
 results <- test_model(trained_model, test_data)
 model_coeffs <- results$model_coeffs
+model_coeffs
+
 rmse_val <- results$rmse_val
+rmse_val
 #r_squared_val <- results$r_squared_val
 
 coefficients <- model_coeffs$estimate
