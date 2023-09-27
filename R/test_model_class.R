@@ -6,7 +6,7 @@
 #' @return model coefficients
 #' @export
 #'
-test_model_class <- function(model, test_data) {
+test_rf_classification <- function(model, test_data) {
 
   model_fit <- model$fit
 
@@ -18,8 +18,8 @@ test_model_class <- function(model, test_data) {
 
   # Assess model performance
   #rocau <- roc_auc(predictions, diet_score, predicted)
-  acc <- accuracy(predictions, diet_score, predicted)
-  confmat <- conf_mat(predictions, truth = diet_score, estimate = predicted)
+  acc <- accuracy(predictions, target, predicted)
+  confmat <- conf_mat(predictions, truth = target, estimate = predicted)
 
   # View the variable importance
   model_importance <- vip::vi(model_fit)

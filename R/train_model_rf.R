@@ -8,7 +8,7 @@
 #'
 train_model_rf <- function(train_data, type = 1) {
   # Create a recipe
-  recipe <- recipes::recipe(diet_score ~ ., data = train_data) %>%
+  recipe <- recipes::recipe(target ~ ., data = train_data) %>%
     recipes::step_rm(id)
 
   # Create the model specification

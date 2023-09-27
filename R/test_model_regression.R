@@ -6,7 +6,7 @@
 #' @return model coefficients
 #' @export
 #'
-test_model <- function(model, test_data) {
+test_rf_regression <- function(model, test_data) {
   #model_fit <- trained_model$fit
   model_fit <- model$fit
 
@@ -17,16 +17,13 @@ test_model <- function(model, test_data) {
     dplyr::bind_cols(test_data)
 
   # Assess model performance
-  rmse <- caret::RMSE(predictions$predicted, predictions$diet_score)
-  # r_squared <- caret::R2(predictions$predicted, predictions$diet_score)
+  rmse <- caret::RMSE(predictions$predicted, predictions$target)
+  r2 <- caret::R2(predictions$predicted, predictions$target)
 
-  # View the model coefficients
-  model_coeffs <- broom::tidy(model_fit)
+  # View the variable importance
+  model_importance <- vip::vi(model_fit)
 
-  # Print the evaluation metrics
-  #cat("Root Mean Squared Error:", rmse, "\n")
-  #cat("R-squared:", r_squared, "\n")
-
-  return(list(model_coeffs = model_coeffs, rmse_val = rmse))
+  #return(list(model_importance = model_importance, roc_au = rocau, accuracy = acc, conf_mat = confmat))
+  return(list(model_importance = model_importance, r_squared = r2, RMSE = rmse))
 
 }
