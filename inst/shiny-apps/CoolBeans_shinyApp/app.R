@@ -62,8 +62,9 @@ ui <- dashboardPage(
 
 
 server <- function(input, output, session) {
-  dwServer("dataWrangling1")
-  mlServer('machineLearning1')
+  prep_data <- dwServer(id = "dataWrangling1")
+  mlServer(id = 'machineLearning1',
+                 df = prep_data)
   #callModule(dwServer,"dataWrangling1")
   #callModule(mlServer, "ml1")
 }
