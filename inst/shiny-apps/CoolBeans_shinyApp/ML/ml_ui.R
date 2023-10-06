@@ -1,4 +1,4 @@
-mlUI <- function(id, label = 'ML') {
+mlUI <- function(id, label = 'machineLearning1') {
   ns <- NS(id)
 
   tagList(
@@ -6,6 +6,16 @@ mlUI <- function(id, label = 'ML') {
 
     sidebarLayout(
       sidebarPanel(
+        
+        wellPanel(
+          # Training and Validation Split for Supervised Learning
+          sliderInput(ns("split"), "Training Data Split (%):", min = 50, max = 90, value = 70, step = 5),
+
+          # Train Model Button for Supervised Learning
+          actionButton(ns("run_split"), "Split Data")
+
+        ),
+
         wellPanel(
           # Model Selection for Supervised Learning
           selectInput(ns("model_type"), "Choose Model:",
@@ -20,10 +30,10 @@ mlUI <- function(id, label = 'ML') {
                        selected = "regression"),
 
           # Training and Validation Split for Supervised Learning
-          sliderInput(ns("split"), "Training Data Split (%):", min = 50, max = 90, value = 70, step = 5),
+          #sliderInput(ns("split"), "Training Data Split (%):", min = 50, max = 90, value = 70, step = 5),
 
           # Train Model Button for Supervised Learning
-          actionButton(ns("train_model"), "Train Model")
+          actionButton(ns("run_train"), "Train Model")
         )
         ),
 

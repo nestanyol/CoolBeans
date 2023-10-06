@@ -1,4 +1,4 @@
-dwUI <- function(id, label = 'DW') {
+dwUI <- function(id, label = 'dataWrangling1') {
   ns <- NS(id)
 
   tagList(
@@ -20,10 +20,10 @@ dwUI <- function(id, label = 'DW') {
              title = "Pre-analitical step",
              h4("Do pre-analitical step"),
              #Columns to select
-             textInput(ns("ncols"), "Enter columns (comma delimited)", "1,2,3"),
+             textInput(ns("ncols"), "Enter columns (comma delimited)", "1,8,14"),
              #Insert column names for ID and target
-             textInput(ns("id"), "id column"),
-             textInput(ns("target"), "target column"),
+             textInput(ns("id"), "id column", "combo"),
+             textInput(ns("target"), "target column", "group"),
              # columns cutoff
              sliderInput(ns("na_cutoff"), "Na cutoff (%):", min = 0, max = 100, value = 20, step = 10),
              #run the pre-analytical step
