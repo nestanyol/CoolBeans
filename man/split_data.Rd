@@ -7,7 +7,9 @@
 split_data(preprocessed_data, training_split = 0.7)
 }
 \arguments{
-\item{training_split}{}
+\item{preprocessed_data}{data after pre-processing}
+
+\item{training_split}{data fraction to use for training}
 }
 \value{
 split dataframes

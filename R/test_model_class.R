@@ -1,0 +1,30 @@
+#' test_model_class
+#'
+#' @param model to be use with the data
+#' @param test_data data to test the model
+#'
+#' @return model coefficients
+#' @export
+#'
+test_rf_classification <- function(model, test_data) {
+
+  model_fit <- model$fit
+
+  # Make predictions on the test set
+  predictions <- stats::predict(model_fit, new_data = test_data) %>%
+    dplyr::as_tibble() %>%
+    dplyr::rename(predicted = .pred_class) %>%
+    dplyr::bind_cols(test_data)
+
+  # Assess model performance
+  #rocau <- roc_auc(predictions, diet_score, predicted)
+  acc <- accuracy(predictions, target, predicted)
+  confmat <- conf_mat(predictions, truth = target, estimate = predicted)
+
+  # View the variable importance
+  model_importance <- vip::vi(model_fit)
+
+  #return(list(model_importance = model_importance, roc_au = rocau, accuracy = acc, conf_mat = confmat))
+  return(list(model_importance = model_importance, accuracy = acc, conf_mat = confmat))
+
+}
