@@ -4,7 +4,7 @@
 \alias{preprocess_data}
 \title{Standard preprocessing}
 \usage{
-preprocess_data(raw_data, cutoff_met = 0, cutoff_subj = 0)
+preprocess_data(raw_data, cutoff_met = 0.2, cutoff_subj = 0.2)
 }
 \arguments{
 \item{raw_data}{dataframe with metabolomic data}
