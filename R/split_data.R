@@ -1,5 +1,10 @@
 #' Split dataset
 #'
+#' @description The function splits the data for model training, two datasets
+#' are generated for training and testing. It is possible to define the percetage
+#' of data wanted for training, default = 0.7.
+#'
+#'
 #' @param preprocessed_data data after pre-processing
 #' @param training_split data fraction to use for training
 #'

@@ -1,4 +1,10 @@
-#' Standard preprocessing
+#' Standard data wrangling (pre-processing)
+#'
+#' @description This function performs a simple workflow of data wrangling.
+#' Overall it will remove noise data, duplicate rows and columns/rows with NAs.
+#' Next the data will be transformed using imputation, log transformation and
+#' normalization. The function will also assign new column names to ID column
+#' and target column which will be used later for the other functions.
 #'
 #' @param raw_data dataframe with metabolomic data
 #' @param id id of each row
@@ -6,7 +12,7 @@
 #' @param cutoff_met threshold to use to discard columns given n NaN
 #' @param cutoff_subj threshold to use to discard rows given n NaN
 #'
-#' @return dataframe
+#' @return dataframe after data wrangling
 #' @export
 #'
 #preprocess_data <- function(raw_data, cutoff_met = 0, cutoff_subj = 0) {
@@ -14,6 +20,8 @@
 preprocess_data <- function(raw_data, id, target, cutoff_met = 0.2, cutoff_subj = 0.2) {
   # Remove noise data
   preprocessed_data_prep <- raw_data %>%
+    # Remove rows with NaN in target column
+    #tidyr::drop_na(target)%>%
     # Remove duplicate rows
     dplyr::distinct() %>%
     # Remove columns (metabolites) that have 20% of values as missing
@@ -25,7 +33,7 @@ preprocess_data <- function(raw_data, id, target, cutoff_met = 0.2, cutoff_subj 
 
   # Create a recipe for preprocessing the data
   preprocess_recipe <- recipes::recipe(~., data = preprocessed_data_prep) %>%
-    #are we always expecting the same column names?
+    #are we always expecting the same column names? #changed to be more general
     recipes::update_role(id, new_role = "id") %>%
     recipes::update_role(target, new_role = "outcome") %>%
     # Imputation
@@ -40,6 +48,7 @@ preprocess_data <- function(raw_data, id, target, cutoff_met = 0.2, cutoff_subj 
     recipes::prep(data = preprocessed_data_prep) %>%
     recipes::juice()
 
+  #allows the downstream funtions to run with this initial decision
   preprocessed_data <- preprocessed_data%>%rename_at(id, ~'id')
   preprocessed_data <- preprocessed_data%>%rename_at(target, ~'target')
 
