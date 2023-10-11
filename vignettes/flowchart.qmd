@@ -1,0 +1,56 @@
+---
+title: "Flow chart"
+format: html
+---
+
+```{mermaid}
+flowchart TB
+    RD -.- l0[Raw Data visualization]
+    RD[("`**Raw Data**
+    .csv or .txt files
+    `")] --> PREPROCESSING
+    subgraph PREPROCESSING
+    direction LR
+    p.1["`**Remove duplicate rows**`"] --> p.2["`**Missing value handling**
+    User option %. Default: 20%`"]
+    p.2 --> p.3["`**Imputation**
+    User option: Minimum value, half minimum value, Random Forest
+    `"]
+    p.3 --> p.4["`**Normalization**
+    (z-score)`"] 
+    p.4 --> p.5["`**Transformation**
+    (Log)`"] 
+    end
+    PREPROCESSING -.- l1[Preprocessed 
+    data vizualization]
+    PREPROCESSING  --> FEATURE_SELECTION
+    PREPROCESSING --> split
+    subgraph FEATURE_SELECTION
+    fs1["`**Single metabolite models**
+    (User option: covariates)`"]   
+    fs1 --> fs2["`**p-value correction**
+    (FDR, Bonferroni)`"]
+    end
+    FEATURE_SELECTION --> split["`**SPLIT DATA**
+    User option %. Default: training 70%, testing 30%`"]
+    split --Training 
+    dataset--> MULTI_METABOLITE_SIGNATURE
+    FEATURE_SELECTION -.-> l2["`Results output:
+    β estimates, confidence intervals, p-values, corrected p-values.
+    `"]
+    subgraph MULTI_METABOLITE_SIGNATURE
+    direction LR
+    mms.1["`**Machine learning models**
+    (User option: covariates)
+    - Elastic Net Regression
+    - Random forest
+    - k-NN`"]  --Cross validation
+    (k-folds)--> mms.2("`**Best models**`")
+    end
+    split--test 
+    dataset-->mms.2
+    MULTI_METABOLITE_SIGNATURE -.- l3["`**Prediction results:**
+    Classification metrics: Specificity, Accuracy, Sensitivity, Confusion Matrix 
+    Regression metrics: R2, RMSE, MSE`"]
+    
+```
