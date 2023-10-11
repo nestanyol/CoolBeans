@@ -1,4 +1,7 @@
-#' Title
+#' test_model_lr
+#'
+#' @description The function asses the performance of the trained model using
+#' linear regression.
 #'
 #' @param model to be use with the data
 #' @param test_data data to test the model
@@ -7,7 +10,7 @@
 #' @export
 #'
 test_model <- function(model, test_data) {
-
+  #model_fit <- trained_model$fit
   model_fit <- model$fit
 
   # Make predictions on the test set
@@ -17,7 +20,7 @@ test_model <- function(model, test_data) {
     dplyr::bind_cols(test_data)
 
   # Assess model performance
-  rmse <- caret::RMSE(predictions$predicted, predictions$diet_score)
+  rmse <- caret::RMSE(predictions$predicted, predictions$target)
   # r_squared <- caret::R2(predictions$predicted, predictions$diet_score)
 
   # View the model coefficients

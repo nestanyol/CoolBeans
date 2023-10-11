@@ -1,4 +1,8 @@
-#' test_model_regression
+#' test_model_rf_regression
+#'
+#' @description The function asses the performance of the trained model using
+#' random forest with regression algorithm.
+#'
 #'
 #' @param model to be use with the data
 #' @param test_data data to test the model
