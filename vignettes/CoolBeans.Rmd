@@ -74,6 +74,10 @@ boxplot_prep
 #ggsave(filename = "doc/images/prep_data_boxplots.png", plot = boxplot_prep)
 ```
 
+Feature selection.
+
+Single metabolite models. Meti \~ β0P + β1C + ... + Ԑ
+
 Split data into training and testing datasets:
 
 ```{r}
