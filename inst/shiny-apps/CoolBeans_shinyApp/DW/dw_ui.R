@@ -12,8 +12,8 @@ dwUI <- function(id, label = 'dataWrangling1') {
         wellPanel(
           title = "Data Upload",
           fileInput(ns("data"), "Upload your dataset", accept = c(".rds", ".csv")),
-          numericInput(ns("columns"), "# columns to include in summary",10),
-          actionButton(ns("summary"), "Summary")
+          #numericInput(ns("columns"), "# columns to include in summary",10),
+          actionButton(ns("plot_raw"), "Plot")
         ),
         
         wellPanel(
@@ -39,10 +39,15 @@ dwUI <- function(id, label = 'dataWrangling1') {
       mainPanel(
         # Model Evaluation Outputs
         tabsetPanel(
-          tabPanel("Raw Data Summary",
-                   verbatimTextOutput(ns("preview1"))),
-          tabPanel("Data Pre-Analitical Summary",
-                   verbatimTextOutput(ns("preview2")))
+          tabPanel("Raw Data",
+                   #verbatimTextOutput(ns("preview1"))
+                   plotOutput(ns("plot1"))
+                  
+                   ),
+          tabPanel("Data Pre-Analitical",
+                   #verbatimTextOutput(ns("preview2")))
+                   plotOutput(ns("plot2")))
+                   
         )
       )
     )
