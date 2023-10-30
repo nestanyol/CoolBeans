@@ -41,7 +41,7 @@ dwServer <- function(id) {
           
           boxplot
         }, res = 96)
-        })
+      })
       
       # Reactive value to store the transformed data
       prep_data <- reactiveVal()
@@ -50,19 +50,26 @@ dwServer <- function(id) {
       #eventReactive(input$run, { #doesn't give output
       observeEvent(input$run, {
         
-        ncols <- as.numeric(unlist(strsplit(input$ncols,",")))
-        data <- original_data()[,c(ncols[1],ncols[2],ncols[3]:ncol(original_data()))]
-        #data <- original_data()[,c(ncols[1],ncols[2],ncols[3]:30)]
-        observe({prep_data(preprocess_data(data, input$id, input$target, 
-                                           cutoff_met = input$na_cutoff/100, cutoff_subj = input$na_cutoff/100)) 
+        #ncols <- as.numeric(unlist(strsplit(input$ncols,",")))
+        #data <- original_data()[,c(ncols[1],ncols[2],ncols[3]:ncol(original_data()))]
+        data <- original_data()
+        
+        # observe({prep_data(preprocess_data(data, input$id, input$target, 
+        #                                    cutoff_met = input$na_cutoff/100, cutoff_subj = input$na_cutoff/100)) 
+        # })
+        
+        observe({prep_data(preprocess_data_all(data, input$id, input$target, input$ncols,
+                                           cutoff_met = input$na_cutoff/100, cutoff_subj = input$na_cutoff/100,
+                                           imputation = input$imputation_method))
         })
+        
         #check if something is happening
         # output$preview2 <- renderPrint({
         #   skim_without_charts(prep_data(),c(1:10))
         # })
         
         output$plot2 <- renderPlot({
-          prep_data_boxplots <- prep_data()[,c(1:9)] %>%
+          prep_data_boxplots <- prep_data()[,c(1:20)] %>%
             tidyr::gather(key = "HN", value = "value", starts_with("HN"))
           
           boxplot_prep <- prep_data_boxplots %>%
