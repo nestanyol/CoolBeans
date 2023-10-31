@@ -1,5 +1,5 @@
 # Module server function
-smServer <- function(id) {
+smServer <- function(id, df) {
   #dwServer.R
   library(tidyr)
   library(tidyverse)
@@ -9,41 +9,47 @@ smServer <- function(id) {
   moduleServer(
     id,
     function(input, output, session){
-      #Reactive expression to read the uploaded data
-      input_data <- reactive({
-        req(input$data)
-        tryCatch({
-          if (tools::file_ext(input$data$datapath) == "rds") {
-            readRDS(input$data$datapath)
-          } else {
-            read.csv(input$data$datapath)
-          }
-        }, error = function(e) {
-          showNotification(paste("Error:", e$message), type = "error")
-          return(NULL)
-        })
-      })
+      # #Reactive expression to read the uploaded data
+      # original_data <- reactive({
+      #   req(input$data)
+      #   tryCatch({
+      #     if (tools::file_ext(input$data$datapath) == "rds") {
+      #       readRDS(input$data$datapath)
+      #     } else {
+      #       read.csv(input$data$datapath)
+      #     }
+      #   }, error = function(e) {
+      #     showNotification(paste("Error:", e$message), type = "error")
+      #     return(NULL)
+      #   })
+      # })
 
-      observeEvent(input$summary, {
-        output$preview1 <- renderPrint({
-          skim_without_charts(input_data(),c(1:input$columns))
-        })})
 
       # Reactive value to store the transformed data
       single_metabolites <- reactiveVal()
+      single_metabolites_corrected <- reactiveVal()
+      
 
       ###Pre-analytical step###
       #eventReactive(input$run, { #doesn't give output
       observeEvent(input$run, {
-        observe({single_metabolites(sing_met(data = input_data(), start_met = input$smet, confounders = input$confounders))
-        #observe({single_metabolites(sing_met(data = input_data(), start_met = input$smet, confounders = c("age", "sex")))
-
-          })
+        observe({single_metabolites(sing_met(data = df(), start_met = input$smet, confounders = input$confounders))
+        })
+        #check if something is happening
+        output$preview1 <- renderPrint({
+          #head(single_metabolites())
+          single_metabolites()
+        })
+        
+        single_metabolites_corrected <- single_metabolites()
+        #single_metabolites_corrected()$p.value <- p.adjust(single_metabolites_corrected()$p.value, method = input$correction_method)
+        
         #check if something is happening
         output$preview2 <- renderPrint({
-          #cat(input$confounders)
-          head(single_metabolites(), 5)
+          #input$confounders
+          head(single_metabolites_corrected())
         })
+        
 
       })
 

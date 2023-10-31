@@ -1,6 +1,6 @@
 library(shinydashboard)
 library(shiny)
-options(shiny.maxRequestSize = 500*1024^2)
+options(shiny.maxRequestSize = 900*1024^2)
 
 source("DW/dw_ui.R")
 source("DW/dw_server.R")
@@ -68,7 +68,8 @@ ui <- dashboardPage(
 
 server <- function(input, output, session) {
   data <- dwServer(id = "dataWrangling1")
-  smServer(id = "singMetabolite1")
+  #smServer(id = "singMetabolite1")
+  smServer(id = "singMetabolite1", df=data)
   mlServer(id = 'machineLearning1', df=data)
   #callModule(dwServer,"dataWrangling1")
   #callModule(mlServer, "ml1")
