@@ -3,6 +3,7 @@
 #' @param data dataframe to use for analysis
 #' @param start_met column number where metabolites start
 #' @param confounders list of confounders
+#' @param correction correction method to use
 #'
 #' @return
 #' @export
@@ -10,7 +11,7 @@
 #' @examples
 
 
-sing_met <- function(data, start_met, confounders) {
+sing_met <- function(data, start_met, confounders, correction=NULL) {
   library(future)
   #sing_met <- function(data, metadata, confounders) {
 
@@ -39,6 +40,10 @@ sing_met <- function(data, start_met, confounders) {
   # Reset the plan to sequential
   plan(sequential)
 
-  return(output)
-
+  if(length(correction)){
+    output$p.value <- p.adjust(output$p.value, method = correction)
+    return(output)
+  } else {
+    return(output)
+    }
 }
