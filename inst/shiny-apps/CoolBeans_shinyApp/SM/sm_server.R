@@ -35,21 +35,23 @@ smServer <- function(id, df) {
       observeEvent(input$run, {
         observe({single_metabolites(sing_met(data = df(), start_met = input$smet, confounders = input$confounders))
         })
+        
         #check if something is happening
         output$preview1 <- renderPrint({
           #head(single_metabolites())
-          single_metabolites()
+          single_metabolites() 
+          })
+          
+        
+        observe({single_metabolites_corrected(sing_met(data = df(), start_met = input$smet, confounders = input$confounders))
         })
-        
-        single_metabolites_corrected <- single_metabolites()
         #single_metabolites_corrected()$p.value <- p.adjust(single_metabolites_corrected()$p.value, method = input$correction_method)
-        
         #check if something is happening
         output$preview2 <- renderPrint({
           #input$confounders
           head(single_metabolites_corrected())
-        })
-        
+          })
+          
 
       })
 
