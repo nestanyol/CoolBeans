@@ -38,18 +38,17 @@ smServer <- function(id, df) {
         
         #check if something is happening
         output$preview1 <- renderPrint({
-          #head(single_metabolites())
-          single_metabolites() 
+          head(single_metabolites(), 10)
           })
           
         
-        observe({single_metabolites_corrected(sing_met(data = df(), start_met = input$smet, confounders = input$confounders))
+        observe({single_metabolites_corrected(sing_met(data = df(), start_met = input$smet, confounders = input$confounders, correction = input$correction_method))
         })
         #single_metabolites_corrected()$p.value <- p.adjust(single_metabolites_corrected()$p.value, method = input$correction_method)
         #check if something is happening
         output$preview2 <- renderPrint({
           #input$confounders
-          head(single_metabolites_corrected())
+          head(single_metabolites_corrected(), 10)
           })
           
 

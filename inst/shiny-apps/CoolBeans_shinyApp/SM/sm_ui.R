@@ -20,7 +20,7 @@ smUI <- function(id, label = 'singMetabolite1') {
           title = "Single metabolite analysis",
           #h4("Do pre-analitical step"),
           #Column number where metabolites start
-          numericInput(ns("smet"), "Column where metabolites start",10),
+          numericInput(ns("smet"), "Column where metabolites start",14),
           #Columns to select
           #textInput(ns("confounders"), "Enter the confounders list", "id, sex, etc"),
           selectizeInput(ns("confounders"),  "Enter the confounders list",
