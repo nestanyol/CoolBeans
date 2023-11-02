@@ -9,24 +9,26 @@ smUI <- function(id, label = 'singMetabolite1') {
     sidebarLayout(
       sidebarPanel(
 
-        wellPanel(
-          title = "Data Upload",
-          fileInput(ns("data"), "Upload your dataset", accept = c(".rds", ".csv")),
-          numericInput(ns("columns"), "# columns to include in summary",10),
-          actionButton(ns("summary"), "Summary")
-        ),
+        # wellPanel(
+        #   title = "Data Upload",
+        #   fileInput(ns("data"), "Upload your dataset", accept = c(".rds", ".csv")),
+        #   numericInput(ns("columns"), "# columns to include in summary",10),
+        #   actionButton(ns("summary"), "Summary")
+        # ),
 
         wellPanel(
           title = "Single metabolite analysis",
           #h4("Do pre-analitical step"),
           #Column number where metabolites start
-          numericInput(ns("smet"), "column where metabolites start",10),
+          numericInput(ns("smet"), "Column where metabolites start",14),
           #Columns to select
           #textInput(ns("confounders"), "Enter the confounders list", "id, sex, etc"),
           selectizeInput(ns("confounders"),  "Enter the confounders list",
                          choices = NULL,
                          multiple =TRUE,
                          options = list(create = TRUE)),
+          selectInput(ns("correction_method"), "Select correction method", choices = list("fdr",
+                                                                                          "bonferroni")),
           actionButton(ns("run"), "Run")
         )
 
@@ -39,9 +41,9 @@ smUI <- function(id, label = 'singMetabolite1') {
       mainPanel(
         # Model Evaluation Outputs
         tabsetPanel(
-          tabPanel("Raw Data Summary",
+          tabPanel("Model Output Before Correction",
                    verbatimTextOutput(ns("preview1"))),
-          tabPanel("Model Output",
+          tabPanel("Model Output After Correction",
                    verbatimTextOutput(ns("preview2")))
         )
       )

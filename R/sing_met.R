@@ -4,6 +4,7 @@
 #' @param exposure_feature variable of exposure name (e.g. diet score, group of exposure)
 #' @param start_met column number where metabolites start
 #' @param confounders list of confounders
+#' @param correction correction method to use
 #'
 #' @return
 #' @export
@@ -12,13 +13,11 @@
 
 
 sing_met <- function(data, exposure_feature, start_met, confounders) {
+
   library(future)
 
   # Variables definition
   metabolite_columns <- colnames(data)[c(start_met:ncol(data))]
-
-  # Merge data_main and data_confounders based on the ID column
-  #merged_data <- merge(data, metadata, by = id)
 
   # Set up modelling function:
   lm_singmet <- function(data, exposure_feature, metabolite, confounders) {
@@ -38,6 +37,10 @@ sing_met <- function(data, exposure_feature, start_met, confounders) {
   # Reset the plan to sequential
   plan(sequential)
 
-  return(output)
-
+  if(length(correction)){
+    output$p.value <- p.adjust(output$p.value, method = correction)
+    return(output)
+  } else {
+    return(output)
+    }
 }
