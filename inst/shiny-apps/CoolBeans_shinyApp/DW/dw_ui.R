@@ -5,7 +5,7 @@ dwUI <- function(id, label = 'dataWrangling1') {
     #fluidPage(
     titlePanel("Data Wrangling"),
     p("Here the data will be prepared for the ML step. Run will do the following: 1)remove duplicate columns, 2) remove columns/rows
-       with high Na number defined by the cutoff value, 3) data imputation using the mean, 4) log transformation and 5) normalization."),
+       with high Na number defined by the cutoff value, 3) data imputation with the option of 4 different methods, 4) log transformation and 5) normalization."),
     
     sidebarLayout(
       sidebarPanel(
@@ -19,13 +19,19 @@ dwUI <- function(id, label = 'dataWrangling1') {
         wellPanel(
           title = "Pre-analitical step",
           h4("Do pre-analitical step"),
-          #Columns to select
-          textInput(ns("ncols"), "Enter columns (comma delimited)", "1,8,14"),
           #Insert column names for ID and target
-          textInput(ns("id"), "id column", "combo"),
-          textInput(ns("target"), "target column", "group"),
+          textInput(ns("id"), "Type id column", "combo"),
+          textInput(ns("target"), "Type target column", "group"),
+          #Columns to select
+          # textInput(ns("ncols"), "Enter columns (comma delimited)", "1,8,14"),
+          textInput(ns("ncols"), "Enter first column with metabolites", "14"),
           # columns cutoff
           sliderInput(ns("na_cutoff"), "Na cutoff (%):", min = 0, max = 100, value = 20, step = 10),
+          # select imputation method
+          selectInput(ns("imputation_method"), "Select imputation method", choices = list("mean",
+                                                                                          "median",
+                                                                                          "knn",
+                                                                                          "lower")),
           #run the pre-analytical step
           actionButton(ns("run"), "Run")
         )
