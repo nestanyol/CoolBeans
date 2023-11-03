@@ -33,7 +33,7 @@ smServer <- function(id, df) {
       ###Pre-analytical step###
       #eventReactive(input$run, { #doesn't give output
       observeEvent(input$run, {
-        observe({single_metabolites(sing_met(data = df(), start_met = input$smet, confounders = input$confounders))
+        observe({single_metabolites(sing_met(data = df(), exposure_feature = "target", start_met = input$smet, confounders = input$confounders))
         })
         
         #check if something is happening
@@ -42,7 +42,7 @@ smServer <- function(id, df) {
           })
           
         
-        observe({single_metabolites_corrected(sing_met(data = df(), start_met = input$smet, confounders = input$confounders, correction = input$correction_method))
+        observe({single_metabolites_corrected(sing_met(data = df(), exposure_feature = "target", start_met = input$smet, confounders = input$confounders, correction = input$correction_method))
         })
         #single_metabolites_corrected()$p.value <- p.adjust(single_metabolites_corrected()$p.value, method = input$correction_method)
         #check if something is happening

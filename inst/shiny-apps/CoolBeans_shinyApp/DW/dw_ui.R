@@ -21,7 +21,7 @@ dwUI <- function(id, label = 'dataWrangling1') {
           h4("Do pre-analitical step"),
           #Insert column names for ID and target
           textInput(ns("id"), "Type id column", "combo"),
-          textInput(ns("target"), "Type target column", "group"),
+          textInput(ns("target"), "Type exposure feature column", "group"),
           #Columns to select
           # textInput(ns("ncols"), "Enter columns (comma delimited)", "1,8,14"),
           textInput(ns("ncols"), "Enter first column with metabolites", "14"),
