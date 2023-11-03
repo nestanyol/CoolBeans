@@ -30,12 +30,13 @@ smUI <- function(id, label = 'singMetabolite1') {
           selectInput(ns("correction_method"), "Select correction method", choices = list("fdr",
                                                                                           "bonferroni")),
           actionButton(ns("run"), "Run")
-        )
+        ),
 
-        # wellPanel(
-        # title = "Data Splitting",
-        # numericInput(ns("train_ratio"), "Training Set Ratio:", 0.7, min = 0.1, max = 0.9, step = 0.1),
-        # actionButton(ns("split_data"), "Split"))
+        wellPanel(
+        title = "Data for machine learning model",
+        selectInput(ns("whichdata"), "Select which data to use in ML", choices = list("original",
+                                                                                        "after single metabolite selection")),
+        actionButton(ns("select"), "Select"))
       ),
 
       mainPanel(

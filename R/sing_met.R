@@ -12,16 +12,18 @@
 #' @examples
 
 
-sing_met <- function(data, exposure_feature, start_met, confounders) {
+sing_met <- function(data, exposure_feature, start_met, confounders, threshold=0.1, correction=NULL) {
 
   library(future)
 
   # Variables definition
   metabolite_columns <- colnames(data)[c(start_met:ncol(data))]
+  #defining the model
+  features <- c(exposure_feature, confounders)
 
   # Set up modelling function:
-  lm_singmet <- function(data, exposure_feature, metabolite, confounders) {
-    model_formula <- reformulate(c(exposure_feature, confounders), response = metabolite)
+  lm_singmet <- function(data, metabolite, y) {
+    model_formula <- reformulate(features, response = metabolite)
     results <- lm(model_formula, data = data)
     broom::tidy(results) %>%
       mutate(yvar = metabolite,.before = everything())
@@ -31,16 +33,24 @@ sing_met <- function(data, exposure_feature, start_met, confounders) {
   plan(multisession)
 
   output <- metabolite_columns %>%
-    furrr::future_map(~lm_singmet(.x, exposure_feature, confounders, data=data)) %>%
+    furrr::future_map(~lm_singmet(.x, features, data=data)) %>%
     list_rbind(names_to = "model_id")
 
   # Reset the plan to sequential
   plan(sequential)
 
   if(length(correction)){
-    output$p.value <- p.adjust(output$p.value, method = correction)
-    return(output)
+    p.value_corrected <- p.adjust(output$p.value, method = correction)
+    output <- cbind(output, p.value_corrected)
+
+    output_filtered <- output[str_detect(output$term, "target"),] %>%
+      filter(p.value_corrected < threshold) %>%
+      arrange(p.value_corrected)
+    return(output_filtered)
   } else {
-    return(output)
+    output_filtered <- output[str_detect(output$term, "target"),] %>%
+      filter(p.value < threshold) %>%
+      arrange(p.value)
+    return(output_filtered)
     }
 }
