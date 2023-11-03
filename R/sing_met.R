@@ -12,7 +12,7 @@
 #' @examples
 
 
-sing_met <- function(data, exposure_feature, start_met, confounders, correction=NULL) {
+sing_met <- function(data, exposure_feature, start_met, confounders, threshold=0.1, correction=NULL) {
 
   library(future)
 
@@ -42,8 +42,15 @@ sing_met <- function(data, exposure_feature, start_met, confounders, correction=
   if(length(correction)){
     p.value_corrected <- p.adjust(output$p.value, method = correction)
     output <- cbind(output, p.value_corrected)
-    return(output)
+
+    output_filtered <- output[str_detect(output$term, "target"),] %>%
+      filter(p.value_corrected < threshold) %>%
+      arrange(p.value_corrected)
+    return(output_filtered)
   } else {
+    output_filtered <- output[str_detect(output$term, "target"),] %>%
+      filter(p.value < threshold) %>%
+      arrange(p.value)
     return(output)
     }
 }
