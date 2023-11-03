@@ -51,6 +51,6 @@ sing_met <- function(data, exposure_feature, start_met, confounders, threshold=0
     output_filtered <- output[str_detect(output$term, "target"),] %>%
       filter(p.value < threshold) %>%
       arrange(p.value)
-    return(output)
+    return(output_filtered)
     }
 }

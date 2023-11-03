@@ -67,10 +67,10 @@ ui <- dashboardPage(
 
 
 server <- function(input, output, session) {
-  data <- dwServer(id = "dataWrangling1")
+  data_preprocessed <- dwServer(id = "dataWrangling1")
   #smServer(id = "singMetabolite1")
-  smServer(id = "singMetabolite1", df=data)
-  mlServer(id = 'machineLearning1', df=data)
+  data_filtered <- smServer(id = "singMetabolite1", df=data_preprocessed)
+  mlServer(id = 'machineLearning1', df=data_filtered)
   #callModule(dwServer,"dataWrangling1")
   #callModule(mlServer, "ml1")
 }
