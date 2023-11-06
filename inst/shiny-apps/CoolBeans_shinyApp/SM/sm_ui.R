@@ -29,6 +29,8 @@ smUI <- function(id, label = 'singMetabolite1') {
                          options = list(create = TRUE)),
           selectInput(ns("correction_method"), "Select correction method", choices = list("fdr",
                                                                                           "bonferroni")),
+          #p-value
+          numericInput(ns("pvalue"), "Insert p-value threshold after correction",0.01),
           actionButton(ns("run"), "Run")
         ),
 
@@ -42,10 +44,11 @@ smUI <- function(id, label = 'singMetabolite1') {
       mainPanel(
         # Model Evaluation Outputs
         tabsetPanel(
-          tabPanel("Model Output Before Correction",
-                   verbatimTextOutput(ns("preview1"))),
-          tabPanel("Model Output After Correction",
-                   verbatimTextOutput(ns("preview2")))
+          tabPanel("Preview Model Output",
+                   verbatimTextOutput(ns("preview1")),
+                   verbatimTextOutput(ns("preview2"))),
+          tabPanel("p-value",
+                   plotOutput(ns("plot1")))
         )
       )
     )
