@@ -17,17 +17,19 @@ introUI <- function(id) {
 
   fluidPage(
 
-    titlePanel("Welcome to the Metabolomics Data Analysis Platform!"),
+    titlePanel("Welcome to CoolBeans!"),
 
-    p("Metabolomics, a branch of 'omics' science, focuses on the comprehensive analysis of metabolites in biological samples.
-      This platform provides a comprehensive suite of tools tailored for metabolomics data analysis."),
+    p("High-throughput metabolomics approaches in human studies provide large datasets with complex correlation structures that reflect genetic, phenotypical, lifestyle and environmental influences. 
+      At the same time, metabolomics data are strongly predictive of multiple disease outcomes and the multi-metabolite patterns (aka signatures) have proved instrumental in capturing the exposure 
+      to complex lifestyles factors."),
 
-    p("What you can do with this platform:"),
+    p("CoolBeans is a tool that leverages metabolomics data for multi-metabolite biomarker assessment."),
 
     tags$ul(
-      tags$li("Preprocess your data to make it suitable for machine learning."),
-      tags$li("Apply various machine learning algorithms to predict outcomes or classify samples."),
-      tags$li("Understand the importance of different metabolites or features in your dataset.")
+      tags$li("Data preprocessing"),
+      tags$li("Dimension reduction"),
+      tags$li("Multi-metabolite signature"),
+      #tags$li("Understand the importance of different metabolites or features in your dataset.")
     ),
 
     p("To get started, upload your dataset and navigate through the tabs to access the different functionalities.
