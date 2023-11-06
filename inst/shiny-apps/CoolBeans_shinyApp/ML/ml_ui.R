@@ -2,7 +2,7 @@ mlUI <- function(id, label = 'machineLearning1') {
   ns <- NS(id)
 
   tagList(
-    titlePanel("Machine Learning on Metabolomics Data"),
+    titlePanel("Machine learning"),
 
     sidebarLayout(
       sidebarPanel(

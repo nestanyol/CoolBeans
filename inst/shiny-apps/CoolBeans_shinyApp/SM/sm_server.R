@@ -27,9 +27,8 @@ smServer <- function(id, df) {
 
       # Reactive value to store the transformed data
       single_metabolites <- reactiveVal()
-      #single_metabolites_corrected <- reactiveVal()
+      data_filtered <- reactiveVal()
       
-
       ###Pre-analytical step###
       #eventReactive(input$run, { #doesn't give output
       observeEvent(input$run, {
@@ -39,6 +38,7 @@ smServer <- function(id, df) {
         #check output
         output$preview1 <- renderPrint({
           head(single_metabolites(), 10)
+
           #cat("Number of filtered metabolites", nrow(single_metabolites()))
           })
         #check if something is happening
@@ -54,11 +54,14 @@ smServer <- function(id, df) {
             theme_light() +
             coord_flip() +
             labs(x = "Metabolites", y = "p-value") +
-            theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+            theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 0.5))
+            #theme(axis.text.y = element_text(size = 10))
           
           met_pvalue
         }, res = 96)
           
+        #filter dataset based on metabolites with high p-value
+        #observeEvent(input$select, {
         
         # observe({single_metabolites_corrected(sing_met(data = df(), exposure_feature = "target", start_met = input$smet, confounders = input$confounders, correction = input$correction_method))
         # })
@@ -68,10 +71,16 @@ smServer <- function(id, df) {
         #   #input$confounders
         #   head(single_metabolites_corrected(), 10)
         #   })
-          
-
+        
+        #data_ML 
+        observe({data_filtered(df()%>%
+                select(id, target, sin_metabolites$yvar))
+        })
+      
       })
+      
+      return(data_filtered)    
 
-      return(single_metabolites)
 
-    })}
+    })
+  }
