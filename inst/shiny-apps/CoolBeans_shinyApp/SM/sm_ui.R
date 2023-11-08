@@ -3,7 +3,7 @@ smUI <- function(id, label = 'singMetabolite1') {
 
   tagList(
     #fluidPage(
-    titlePanel("Single metabolites analysis"),
+    titlePanel("Single metabolite analysis"),
     p(""),
 
     sidebarLayout(
@@ -29,23 +29,26 @@ smUI <- function(id, label = 'singMetabolite1') {
                          options = list(create = TRUE)),
           selectInput(ns("correction_method"), "Select correction method", choices = list("fdr",
                                                                                           "bonferroni")),
+          #p-value
+          numericInput(ns("pvalue"), "Insert p-value threshold after correction",0.01),
           actionButton(ns("run"), "Run")
         ),
 
-        wellPanel(
-        title = "Data for machine learning model",
-        selectInput(ns("whichdata"), "Select which data to use in ML", choices = list("original",
-                                                                                        "after single metabolite selection")),
-        actionButton(ns("select"), "Select"))
+        # wellPanel(
+        # title = "Data for machine learning model",
+        # selectInput(ns("whichdata"), "Select which data to use in ML", choices = list("original",
+        #                                                                                 "after single metabolite selection")),
+        # actionButton(ns("select"), "Select"))
       ),
 
       mainPanel(
         # Model Evaluation Outputs
         tabsetPanel(
-          tabPanel("Model Output Before Correction",
-                   verbatimTextOutput(ns("preview1"))),
-          tabPanel("Model Output After Correction",
-                   verbatimTextOutput(ns("preview2")))
+          tabPanel("Preview Model Output",
+                   verbatimTextOutput(ns("preview1")),
+                   verbatimTextOutput(ns("preview2"))),
+          tabPanel("P-value",
+                   plotOutput(ns("plot1"), height = 1500))
         )
       )
     )

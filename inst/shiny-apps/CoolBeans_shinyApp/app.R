@@ -16,18 +16,19 @@ introUI <- function(id) {
   ns <- NS(id)
 
   fluidPage(
+    titlePanel("Welcome to CoolBeans!"),
 
-    titlePanel("Welcome to the Metabolomics Data Analysis Platform!"),
+    p("High-throughput metabolomics approaches in human studies provide large datasets with complex correlation structures that reflect genetic, phenotypical, lifestyle and environmental influences. 
+      At the same time, metabolomics data are strongly predictive of multiple disease outcomes and the multi-metabolite patterns (aka signatures) have proved instrumental in capturing the exposure 
+      to complex lifestyles factors."),
 
-    p("Metabolomics, a branch of 'omics' science, focuses on the comprehensive analysis of metabolites in biological samples.
-      This platform provides a comprehensive suite of tools tailored for metabolomics data analysis."),
-
-    p("What you can do with this platform:"),
+    p("CoolBeans is a tool that leverages metabolomics data for multi-metabolite biomarker assessment. Here you can do:"),
 
     tags$ul(
-      tags$li("Preprocess your data to make it suitable for machine learning."),
-      tags$li("Apply various machine learning algorithms to predict outcomes or classify samples."),
-      tags$li("Understand the importance of different metabolites or features in your dataset.")
+      tags$li("Data preprocessing"),
+      tags$li("Single metabolite analysis"),
+      tags$li("Multi-metabolite signature"),
+      #tags$li("Understand the importance of different metabolites or features in your dataset.")
     ),
 
     p("To get started, upload your dataset and navigate through the tabs to access the different functionalities.
@@ -43,13 +44,14 @@ introUI <- function(id) {
 
 
 ui <- dashboardPage(
+  skin = "black",
   header = dashboardHeader(title = "Metabolomics Data Analysis"),
   sidebar = dashboardSidebar(
     sidebarMenu(
       menuItem("Introduction", tabName = "intro", icon = icon("info-circle")),
-      menuItem("Data Wrangling", tabName = "dataWrangling", icon = icon("cogs")),
-      menuItem("Metabolites selection", tabName = "singMetabolite", icon = icon("tachometer-alt")),
-      menuItem("Machine Learning", tabName = "ml", icon = icon("robot"))#,
+      menuItem("Data Preprocessing", tabName = "dataWrangling", icon = icon("cogs")),
+      menuItem("Dimension reduction", tabName = "singMetabolite", icon = icon("tachometer-alt")),
+      menuItem("Multi-metabolite signature", tabName = "ml", icon = icon("robot"))#,
       #menuItem("Feature Importance", tabName = "feature_importance", icon = icon("list"))
     )
   ),
@@ -63,6 +65,7 @@ ui <- dashboardPage(
     )
   ),
   title = "Metabolomics Analysis"
+  #theme = "cyborg"
 )
 
 
