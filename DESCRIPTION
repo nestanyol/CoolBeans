@@ -19,12 +19,14 @@ Depends:
     tidyverse
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    styler
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 Imports: 
     caret,
     dplyr,
+    future,
     ggplot2,
     glmnet,
     here,
@@ -34,5 +36,8 @@ Imports:
     purrr,
     recipes,
     rsample,
+    simsurv,
     usethis,
-    workflows
+    vip,
+    workflows,
+    broom

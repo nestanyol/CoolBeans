@@ -14,8 +14,6 @@
 
 sing_met <- function(data, exposure_feature, start_met, confounders, threshold=0.1, correction=NULL) {
 
-  library(future)
-
   # Variables definition
   metabolite_columns <- colnames(data)[c(start_met:ncol(data))]
   #defining the model
@@ -39,7 +37,7 @@ sing_met <- function(data, exposure_feature, start_met, confounders, threshold=0
   # Reset the plan to sequential
   plan(sequential)
 
-  if(length(correction)){
+  if (length(correction)) {
     p.value_corrected <- p.adjust(output$p.value, method = correction)
     output <- cbind(output, p.value_corrected)
 
