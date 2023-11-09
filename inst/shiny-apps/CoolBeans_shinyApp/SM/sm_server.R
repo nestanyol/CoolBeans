@@ -74,7 +74,7 @@ smServer <- function(id, df) {
         
         #data_ML 
         observe({data_filtered(df()%>%
-                select(id, target, sin_metabolites$yvar))
+                select(id, target, single_metabolites()$yvar))
         })
       
       })
