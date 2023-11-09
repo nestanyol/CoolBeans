@@ -1,6 +1,10 @@
 library(shinydashboard)
 library(shiny)
+library(shinyWidgets)
+
 options(shiny.maxRequestSize = 900*1024^2)
+setBackgroundColor("DimGrey")
+
 
 source("DW/dw_ui.R")
 source("DW/dw_server.R")
@@ -27,7 +31,7 @@ introUI <- function(id) {
     tags$ul(
       tags$li("Data preprocessing"),
       tags$li("Single metabolite analysis"),
-      tags$li("Multi-metabolite signature"),
+      tags$li("Multi-metabolite signature")
       #tags$li("Understand the importance of different metabolites or features in your dataset.")
     ),
 
