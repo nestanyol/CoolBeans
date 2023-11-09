@@ -20,14 +20,14 @@ mlUI <- function(id, label = 'machineLearning1') {
           # Model Selection for Supervised Learning
           selectInput(ns("model_type"), "Choose Model:",
                       #choices = c("Linear Regression", "Random Forest", "SVM", "Neural Network", "k-NN"),
-                      choices = c("Linear Regression", "Random Forest"),
-                      selected = "Linear Regression"),
+                      choices = c("Random Forest", "Linear Regression", "K-Nearest Neighbor"),
+                      selected = "Random Forest"),
           # Select regression or classification
           #h4("Select algorithm"),
           radioButtons(ns("algorithm"), "algorithm:",
                        choices = list("regression" = "regression",
                                       "classification" = "classification"),
-                       selected = "regression"),
+                       selected = "classification"),
 
           # Training and Validation Split for Supervised Learning
           #sliderInput(ns("split"), "Training Data Split (%):", min = 50, max = 90, value = 70, step = 5),

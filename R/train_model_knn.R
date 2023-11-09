@@ -25,7 +25,7 @@ train_model_knn <- function(train_data, type = 1) {
   # Create the model specification
   if(type == 1){
     model_spec <- nearest_neighbor(neighbors = n, weight_func = "triangular") %>%
-      parsnip::set_engine("knn") %>% #needs to be install
+      parsnip::set_engine("kknn") %>% #needs to be install
       parsnip::set_mode("regression")
   }else if(type == 2){
     model_spec <- nearest_neighbor(neighbors = n, weight_func = "triangular") %>%

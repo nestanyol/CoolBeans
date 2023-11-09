@@ -76,6 +76,38 @@ mlServer <- function(id, df) {
               })
       
             }
+          } else if (input$model_type == "K-Nearest Neighbor") {
+            if(input$algorithm == 'regression'){
+              
+              #train model with regression option
+              model <- train_model_knn(train_data, type=1)
+              #test model
+              results <- test_kknn_regression(model, test_data)
+              
+              output$output_model <- renderPrint({
+                model
+              })
+              
+              output$feature_imp <- renderPrint({
+                results
+              })
+              
+            } else if(input$algorithm == 'classification'){
+              
+              #train model with regression option
+              model <- train_model_knn(train_data, type=2)
+              #test model
+              results <- test_kknn_classification(model, test_data)
+              
+              output$output_model <- renderPrint({
+                model
+              })
+              
+              output$feature_imp <- renderPrint({
+                results
+              })
+              
+            }
           }
         })
           })
