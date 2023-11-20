@@ -6,7 +6,7 @@
 #' @param confounders list of confounders
 #' @param correction correction method to use
 #'
-#' @return
+#' @return A [tibble::tibble()].
 #' @export
 #'
 #' @examples
