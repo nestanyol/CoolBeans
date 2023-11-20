@@ -24,12 +24,14 @@ sing_met <- function(data, exposure_feature, start_met, confounders, threshold =
     p.value_corrected <- stats::p.adjust(output$p.value, method = correction)
     output <- cbind(output, p.value_corrected)
 
-    output_filtered <- output[stringr::str_detect(output$term, "target"), ] %>%
+    output_filtered <- output %>%
+      dplyr::filter(stringr::str_detect(term, "target")) %>%
       dplyr::filter(p.value_corrected < threshold) %>%
       dplyr::arrange(p.value_corrected)
     return(output_filtered)
   } else {
-    output_filtered <- output[stringr::str_detect(output$term, "target"), ] %>%
+    output_filtered <- output %>%
+      dplyr::filter(stringr::str_detect(term, "target")) %>%
       dplyr::filter(p.value < threshold) %>%
       dplyr::arrange(p.value)
     return(output_filtered)
