@@ -3,7 +3,6 @@ library(lavaan)
 library(lavaanPlot)
 library(simsurv)
 
-
 # Build the DAG model to base simulation ----------------------------------
 
 dag_model <- "
@@ -41,8 +40,9 @@ insert_random_missingness <- function(data) {
 
 # Range -------------------------------------------------------------------
 
-fun_range <- function(x) {                              # Create user-defined function
-  (x - min(x)) / (max(x) - min(x))*10
+# Standardize range, based on min and max
+min_max_range <- function(x) {
+  (x - min(x)) / (max(x) - min(x)) * 10
 }
 
 # Simulate data -----------------------------------------------------------
@@ -50,10 +50,8 @@ fun_range <- function(x) {                              # Create user-defined fu
 sim_data <- as_tibble(simulateData(dag_model, sample.nobs = 2000)) %>%
   mutate(across(matches("metabolite_"), ~ . + (5 + abs(min(.))) * 1.1)) %>%
   mutate(id = 1:n()) %>%
-  #mutate(diet_score = sapply(1:n(), function(x) sample(0:50, 1))) %>%
-  mutate(diet_score = fun_range(diet_score)) %>%
+  mutate(diet_score = min_max_range(diet_score)) %>%
   insert_random_missingness()
-
 
 # Check if DAG was created correctly:
 # sim_model_fit <- lavaan::sem(model = dag_model, data = sim_data)
@@ -62,4 +60,5 @@ sim_data <- as_tibble(simulateData(dag_model, sample.nobs = 2000)) %>%
 
 # Save data ---------------------------------------------------------------
 
-usethis::use_data(sim_data, overwrite = TRUE) # Save dataset in the `data/` folder
+# Save dataset in the `data/` folder
+usethis::use_data(sim_data, overwrite = TRUE)

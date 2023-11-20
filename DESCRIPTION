@@ -31,13 +31,12 @@ Imports:
     glmnet,
     here,
     janitor,
-    lavaan,
     parsnip,
     purrr,
     recipes,
     rsample,
-    simsurv,
     usethis,
     vip,
     workflows,
     broom
+Roxygen: list(markdown = TRUE)
