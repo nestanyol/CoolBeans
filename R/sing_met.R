@@ -28,14 +28,13 @@ sing_met <- function(data, exposure_feature, start_met, confounders, threshold =
       dplyr::filter(stringr::str_detect(term, "target")) %>%
       dplyr::filter(p.value_corrected < threshold) %>%
       dplyr::arrange(p.value_corrected)
-    return(output_filtered)
   } else {
     output_filtered <- output %>%
       dplyr::filter(stringr::str_detect(term, "target")) %>%
       dplyr::filter(p.value < threshold) %>%
       dplyr::arrange(p.value)
-    return(output_filtered)
   }
+  output_filtered
 }
 
 # Set up modelling function:
