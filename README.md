@@ -2,6 +2,7 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/nestanyol/CoolBeans/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nestanyol/CoolBeans/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The aim of CoolBeans is to enable the construction of multi-metabolite
