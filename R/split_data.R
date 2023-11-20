@@ -15,8 +15,8 @@ split_data <- function(preprocessed_data, target, training_split = 0.7) {
   split <- rsample::initial_split(
     preprocessed_data,
     prop = training_split,
-    strata = target#,
-    #jitter = 0.05 parameter doesn't exist
+    strata = target # ,
+    # jitter = 0.05 parameter doesn't exist
   )
 
   train_data <- rsample::training(split)
@@ -24,4 +24,3 @@ split_data <- function(preprocessed_data, target, training_split = 0.7) {
 
   return(list(test_data = test_data, train_data = train_data))
 }
-

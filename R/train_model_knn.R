@@ -11,10 +11,9 @@
 #' @export
 #'
 train_model_knn <- function(train_data, type = 1) {
-
-  #number of cluster k/neighbour
+  # number of cluster k/neighbour
   n <- length(unique(train_data$target))
-  if(n > 10) {
+  if (n > 10) {
     n <- 10
   }
 
@@ -23,11 +22,11 @@ train_model_knn <- function(train_data, type = 1) {
     recipes::step_rm(id)
 
   # Create the model specification
-  if(type == 1){
+  if (type == 1) {
     model_spec <- parsnip::nearest_neighbor(neighbors = n, weight_func = "triangular") %>%
-      parsnip::set_engine("kknn") %>% #needs to be install
+      parsnip::set_engine("kknn") %>% # needs to be install
       parsnip::set_mode("regression")
-  }else if(type == 2){
+  } else if (type == 2) {
     model_spec <- parsnip::nearest_neighbor(neighbors = n, weight_func = "triangular") %>%
       parsnip::set_engine("kknn") %>%
       parsnip::set_mode("classification")

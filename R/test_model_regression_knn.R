@@ -11,7 +11,7 @@
 #' @export
 #'
 test_knn_regression <- function(model, test_data) {
-  #model_fit <- trained_model$fit
+  # model_fit <- trained_model$fit
   model_fit <- model$fit
 
   # Make predictions on the test set
@@ -25,8 +25,8 @@ test_knn_regression <- function(model, test_data) {
   r2 <- caret::R2(predictions$predicted, predictions$target)
 
   # View the variable importance
-  #model_importance <- vip::vi(model_fit)
+  # model_importance <- vip::vi(model_fit)
 
-  #return(list(model_importance = model_importance, r_squared = r2, RMSE = rmse))
+  # return(list(model_importance = model_importance, r_squared = r2, RMSE = rmse))
   return(list(prediction = predictions, r_squared = r2, RMSE = rmse))
 }
