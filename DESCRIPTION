@@ -40,4 +40,5 @@ Imports:
     usethis,
     vip,
     workflows,
-    broom
+    broom,
+    magrittr
