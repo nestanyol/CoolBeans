@@ -24,11 +24,11 @@ train_model_knn <- function(train_data, type = 1) {
 
   # Create the model specification
   if(type == 1){
-    model_spec <- nearest_neighbor(neighbors = n, weight_func = "triangular") %>%
+    model_spec <- parsnip::nearest_neighbor(neighbors = n, weight_func = "triangular") %>%
       parsnip::set_engine("kknn") %>% #needs to be install
       parsnip::set_mode("regression")
   }else if(type == 2){
-    model_spec <- nearest_neighbor(neighbors = n, weight_func = "triangular") %>%
+    model_spec <- parsnip::nearest_neighbor(neighbors = n, weight_func = "triangular") %>%
       parsnip::set_engine("kknn") %>%
       parsnip::set_mode("classification")
   }
@@ -40,6 +40,4 @@ train_model_knn <- function(train_data, type = 1) {
     parsnip::fit(data = train_data)
 
   return(model$fit)
-  #return(model)
-
 }
