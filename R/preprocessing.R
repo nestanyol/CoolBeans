@@ -9,29 +9,19 @@
 #' @param raw_data dataframe with metabolomic data
 #' @param id id of each row
 #' @param target target to focus in the model
-#' @param start_met column where metabolites start
 #' @param cutoff_met threshold to use to discard columns given n NaN
 #' @param cutoff_subj threshold to use to discard rows given n NaN
 #'
 #' @return dataframe after data wrangling
 #' @export
 #'
-preprocess_data_all <- function(raw_data, id, target, start_met, cutoff_met = 0.2, cutoff_subj = 0.2, imputation = "median") {
-  # Split data
-  variables <- raw_data[, c(1:start_met - 1)]
-  metabolites <- raw_data[, c(start_met:ncol(raw_data))]
-  # get section to use for preprocessing
-  col_selection <- variables %>% dplyr::select(id, target)
-  subdata <- cbind(col_selection, metabolites)
-  # Extra variables
-  extra <- variables %>%
-    dplyr::select(!id) %>%
-    dplyr::select(!target)
-
+# preprocess_data <- function(raw_data, cutoff_met = 0, cutoff_subj = 0) {
+# modified definition to have the cutoffs intended in the comments
+preprocess_data <- function(raw_data, id, target, cutoff_met = 0.2, cutoff_subj = 0.2) {
   # Remove noise data
-  preprocessed_data_prep <- subdata %>%
+  preprocessed_data_prep <- raw_data %>%
     # Remove rows with NaN in target column
-    tidyr::drop_na(target) %>%
+    # tidyr::drop_na(target)%>%
     # Remove duplicate rows
     dplyr::distinct() %>%
     # Remove columns (metabolites) that have 20% of values as missing
@@ -39,31 +29,16 @@ preprocess_data_all <- function(raw_data, id, target, start_met, cutoff_met = 0.
     # Remove rows (subjects) that have 20% of values as missing
     janitor::remove_empty("rows", cutoff = cutoff_subj) # Optional step
 
+  # some data sets migth have NaN in the target column, can we do something about it during this step?
+
   # Create a recipe for preprocessing the data
   preprocess_recipe <- recipes::recipe(~., data = preprocessed_data_prep) %>%
     # are we always expecting the same column names? #changed to be more general
     recipes::update_role(id, new_role = "id") %>%
-    recipes::update_role(target, new_role = "outcome")
-
-
-  ### Imputation ###
-  if (imputation == "knn") {
-    preprocess_recipe <- preprocess_recipe %>%
-      recipes::step_impute_knn(recipes::all_predictors())
-  } else if (imputation == "lower") {
-    preprocess_recipe <- preprocess_recipe %>%
-      recipes::step_impute_lower(recipes::all_predictors())
-  } else if (imputation == "mean") {
-    preprocess_recipe <- preprocess_recipe %>%
-      recipes::step_impute_mean(recipes::all_predictors())
-  } else {
-    preprocess_recipe <- preprocess_recipe %>%
-      recipes::step_impute_median(recipes::all_predictors())
-  }
-
-  # continue with transformation and scaling
-  # log transformation
-  preprocess_recipe <- preprocess_recipe %>%
+    recipes::update_role(target, new_role = "outcome") %>%
+    # Imputation
+    recipes::step_impute_median(recipes::all_predictors()) %>% # step_imputelower() min?
+    # log transformation
     recipes::step_log(recipes::all_predictors()) %>%
     # normalization
     recipes::step_normalize(recipes::all_predictors())
@@ -77,8 +52,5 @@ preprocess_data_all <- function(raw_data, id, target, start_met, cutoff_met = 0.
   preprocessed_data <- preprocessed_data %>% rename_at(id, ~"id")
   preprocessed_data <- preprocessed_data %>% rename_at(target, ~"target")
 
-  # join all data
-  preprocessed_dataAll <- cbind(extra, preprocessed_data)
-
-  return(preprocessed_dataAll)
+  return(preprocessed_data)
 }
