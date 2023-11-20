@@ -10,7 +10,7 @@
 #' @return model coefficients
 #' @export
 #'
-test_kknn_regression <- function(model, test_data) {
+test_knn_regression <- function(model, test_data) {
   #model_fit <- trained_model$fit
   model_fit <- model$fit
   
