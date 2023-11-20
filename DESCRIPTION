@@ -39,3 +39,4 @@ Imports:
     vip,
     workflows,
     broom
+Roxygen: list(markdown = TRUE)
