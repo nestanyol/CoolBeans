@@ -15,13 +15,13 @@
 #' @return dataframe after data wrangling
 #' @export
 #'
-#preprocess_data <- function(raw_data, cutoff_met = 0, cutoff_subj = 0) {
-#modified definition to have the cutoffs intended in the comments
+# preprocess_data <- function(raw_data, cutoff_met = 0, cutoff_subj = 0) {
+# modified definition to have the cutoffs intended in the comments
 preprocess_data <- function(raw_data, id, target, cutoff_met = 0.2, cutoff_subj = 0.2) {
   # Remove noise data
   preprocessed_data_prep <- raw_data %>%
     # Remove rows with NaN in target column
-    #tidyr::drop_na(target)%>%
+    # tidyr::drop_na(target)%>%
     # Remove duplicate rows
     dplyr::distinct() %>%
     # Remove columns (metabolites) that have 20% of values as missing
@@ -29,15 +29,15 @@ preprocess_data <- function(raw_data, id, target, cutoff_met = 0.2, cutoff_subj 
     # Remove rows (subjects) that have 20% of values as missing
     janitor::remove_empty("rows", cutoff = cutoff_subj) # Optional step
 
-  #some data sets migth have NaN in the target column, can we do something about it during this step?
+  # some data sets migth have NaN in the target column, can we do something about it during this step?
 
   # Create a recipe for preprocessing the data
   preprocess_recipe <- recipes::recipe(~., data = preprocessed_data_prep) %>%
-    #are we always expecting the same column names? #changed to be more general
+    # are we always expecting the same column names? #changed to be more general
     recipes::update_role(id, new_role = "id") %>%
     recipes::update_role(target, new_role = "outcome") %>%
     # Imputation
-    recipes::step_impute_median(recipes::all_predictors()) %>% #step_imputelower() min?
+    recipes::step_impute_median(recipes::all_predictors()) %>% # step_imputelower() min?
     # log transformation
     recipes::step_log(recipes::all_predictors()) %>%
     # normalization
@@ -48,9 +48,9 @@ preprocess_data <- function(raw_data, id, target, cutoff_met = 0.2, cutoff_subj 
     recipes::prep(data = preprocessed_data_prep) %>%
     recipes::juice()
 
-  #allows the downstream funtions to run with this initial decision
-  preprocessed_data <- preprocessed_data%>%rename_at(id, ~'id')
-  preprocessed_data <- preprocessed_data%>%rename_at(target, ~'target')
+  # allows the downstream funtions to run with this initial decision
+  preprocessed_data <- preprocessed_data %>% rename_at(id, ~"id")
+  preprocessed_data <- preprocessed_data %>% rename_at(target, ~"target")
 
   return(preprocessed_data)
 }
