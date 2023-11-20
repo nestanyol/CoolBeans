@@ -44,8 +44,8 @@ sing_met <- function(data, exposure_feature, start_met, confounders, threshold =
 
 # Set up modelling function:
 lm_singmet <- function(data, metabolite, y) {
-  model_formula <- reformulate(features, response = metabolite)
-  results <- lm(model_formula, data = data)
+  model_formula <- stats::reformulate(features, response = metabolite)
+  results <- stats::lm(model_formula, data = data)
   broom::tidy(results) %>%
     mutate(yvar = metabolite, .before = everything())
 }
