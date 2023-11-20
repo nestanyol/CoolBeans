@@ -16,15 +16,9 @@ sing_met <- function(data, exposure_feature, start_met, confounders, threshold =
   # defining the model
   features <- c(exposure_feature, confounders)
 
-  # Set up parallel processing
-  plan(multisession)
-
   output <- metabolite_columns %>%
     furrr::future_map(~ lm_singmet(.x, features, data = data)) %>%
     purrr::list_rbind(names_to = "model_id")
-
-  # Reset the plan to sequential
-  plan(sequential)
 
   if (length(correction)) {
     p.value_corrected <- stats::p.adjust(output$p.value, method = correction)
