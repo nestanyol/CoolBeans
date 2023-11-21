@@ -13,7 +13,7 @@
 #' @param cutoff_columns threshold to use to discard columns given n NaN
 #' @param cutoff_rows threshold to use to discard rows given n NaN
 #'
-#' @return dataframe after data wrangling. It changes name columns for column ID
+#' @return A [tibble::tibble()]. It changes name columns for column ID
 #' and column target.
 #' @export
 #'
