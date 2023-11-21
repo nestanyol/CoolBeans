@@ -58,8 +58,8 @@ dwServer <- function(id) {
         #                                    cutoff_met = input$na_cutoff/100, cutoff_subj = input$na_cutoff/100)) 
         # })
         
-        observe({prep_data(preprocess_data_all(data, input$id, input$target, input$ncols,
-                                           cutoff_met = input$na_cutoff/100, cutoff_subj = input$na_cutoff/100,
+        observe({prep_data(preprocessing(data, input$id, input$target, start_metabolites = input$ncols,
+                                         cutoff_columns = input$na_cutoff/100, cutoff_rows = input$na_cutoff/100,
                                            imputation = input$imputation_method))
         })
         
