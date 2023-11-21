@@ -1,14 +1,13 @@
 #' Split dataset
 #'
 #' @description The function splits the data for model training, two datasets
-#' are generated for training and testing. It is possible to define the percetage
+#' are generated for training and testing. It is possible to define the percentage
 #' of data wanted for training, default = 0.7.
-#'
 #'
 #' @param preprocessed_data data after pre-processing
 #' @param training_split data fraction to use for training
 #'
-#' @return split dataframes
+#' @return A list of two [tibble::tibble()] for a testing and training dataset.
 #' @export
 #'
 split_data <- function(preprocessed_data, target, training_split = 0.7) {
@@ -16,8 +15,8 @@ split_data <- function(preprocessed_data, target, training_split = 0.7) {
   split <- rsample::initial_split(
     preprocessed_data,
     prop = training_split,
-    strata = target#,
-    #jitter = 0.05 parameter doesn't exist
+    strata = target # ,
+    # jitter = 0.05 parameter doesn't exist
   )
 
   train_data <- rsample::training(split)
@@ -25,4 +24,3 @@ split_data <- function(preprocessed_data, target, training_split = 0.7) {
 
   return(list(test_data = test_data, train_data = train_data))
 }
-

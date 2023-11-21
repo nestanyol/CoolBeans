@@ -24,5 +24,4 @@ train_model <- function(train_data) {
     parsnip::fit(data = train_data)
 
   return(model$fit)
-
 }

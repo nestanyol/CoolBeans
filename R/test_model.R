@@ -10,7 +10,7 @@
 #' @export
 #'
 test_model <- function(model, test_data) {
-  #model_fit <- trained_model$fit
+  # model_fit <- trained_model$fit
   model_fit <- model$fit
 
   # Make predictions on the test set
@@ -27,9 +27,8 @@ test_model <- function(model, test_data) {
   model_coeffs <- broom::tidy(model_fit)
 
   # Print the evaluation metrics
-  #cat("Root Mean Squared Error:", rmse, "\n")
-  #cat("R-squared:", r_squared, "\n")
+  # cat("Root Mean Squared Error:", rmse, "\n")
+  # cat("R-squared:", r_squared, "\n")
 
   return(list(model_coeffs = model_coeffs, rmse_val = rmse))
-
 }
