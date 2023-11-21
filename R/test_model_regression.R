@@ -11,7 +11,7 @@
 #' @export
 #'
 test_rf_regression <- function(model, test_data) {
-  #model_fit <- trained_model$fit
+  # model_fit <- trained_model$fit
   model_fit <- model$fit
 
   # Make predictions on the test set
@@ -27,7 +27,6 @@ test_rf_regression <- function(model, test_data) {
   # View the variable importance
   model_importance <- vip::vi(model_fit)
 
-  #return(list(model_importance = model_importance, roc_au = rocau, accuracy = acc, conf_mat = confmat))
+  # return(list(model_importance = model_importance, roc_au = rocau, accuracy = acc, conf_mat = confmat))
   return(list(prediction = predictions, model_importance = model_importance, r_squared = r2, RMSE = rmse))
-
 }

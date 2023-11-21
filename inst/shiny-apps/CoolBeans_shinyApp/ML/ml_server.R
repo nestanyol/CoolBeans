@@ -20,16 +20,16 @@ mlServer <- function(id, df) {
         #check and drop NAs in target column, otherwise ML won't run
         train_data <- train_data %>% drop_na('target')
         test_data <- test_data %>% drop_na('target')
-        
+
         # output$output_model <- renderPrint({
         #   skim_without_charts(train_data,c(1:10))
         # })
-   
+
         observeEvent(input$run_train, {
         #   output$output_model <- renderPrint({
         #     skim_without_charts(df(),c(1:10))
         # })
-      
+
         if (input$model_type == "Linear Regression") {
           #train model
           model <- train_model(train_data)
@@ -39,74 +39,74 @@ mlServer <- function(id, df) {
           output$output_model <- renderPrint({
            model
           })
-          
+
           output$feature_imp <- renderPrint({
             results
           })
-          
+
           } else if (input$model_type == "Random Forest") {
             if(input$algorithm == 'regression'){
-              
+
               #train model with regression option
               model <- train_model_rf(train_data, type=1)
               #test model
               results <- test_rf_regression(model, test_data)
-              
+
               output$output_model <- renderPrint({
                 model
               })
-              
+
               output$feature_imp <- renderPrint({
                 results
               })
-      
+
             } else if(input$algorithm == 'classification'){
-              
+
               #train model with regression option
               model <- train_model_rf(train_data, type=2)
               #test model
               results <- test_rf_classification(model, test_data)
-              
+
               output$output_model <- renderPrint({
                 model
               })
-              
+
               output$feature_imp <- renderPrint({
                 results
               })
-      
+
             }
           } else if (input$model_type == "K-Nearest Neighbor") {
             if(input$algorithm == 'regression'){
-              
+
               #train model with regression option
               model <- train_model_knn(train_data, type=1)
               #test model
-              results <- test_kknn_regression(model, test_data)
-              
+              results <- test_knn_regression(model, test_data)
+
               output$output_model <- renderPrint({
                 model
               })
-              
+
               output$feature_imp <- renderPrint({
                 results
               })
-              
+
             } else if(input$algorithm == 'classification'){
-              
+
               #train model with regression option
               model <- train_model_knn(train_data, type=2)
               #test model
-              results <- test_kknn_classification(model, test_data)
-              
+              results <- test_knn_classification(model, test_data)
+
               output$output_model <- renderPrint({
                 model
               })
-              
+
               output$feature_imp <- renderPrint({
                 results
               })
-              
+
             }
           }
         })

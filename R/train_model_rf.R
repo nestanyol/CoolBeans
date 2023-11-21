@@ -16,13 +16,13 @@ train_model_rf <- function(train_data, type = 1) {
 
   # Create the model specification
   if (type == 1) {
-    model_spec <- rand_forest() %>%
+    model_spec <- parsnip::rand_forest() %>%
       parsnip::set_engine("ranger", importance = "impurity") %>%
       parsnip::set_mode("regression")
     # model_spec <- parsnip::linear_reg(penalty = 0.5, mixture = 0.5) %>%
     #  parsnip::set_engine("glmnet")
   } else if (type == 2) {
-    model_spec <- rand_forest() %>%
+    model_spec <- parsnip::rand_forest() %>%
       parsnip::set_engine("ranger", importance = "impurity") %>%
       parsnip::set_mode("classification")
   }
