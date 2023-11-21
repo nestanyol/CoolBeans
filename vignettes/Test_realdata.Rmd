@@ -30,14 +30,14 @@ devtools::load_all()
 Load clustered data, a regression model will be implemented:
 
 ```{r load raw data 1}
-fpath <- system.file("extdata", "MEDGICARB_peaktable_clustered.rds", package="CoolBeans")
+fpath <- system.file("extdata", "MEDGICARB_peaktable_clustered.rds", package = "CoolBeans")
 raw_dataAll <- readRDS(fpath)
 
-raw_data <- raw_dataAll[,c(1,13,14:ncol(raw_dataAll))] #all columns
-#raw_data <- raw_data%>%rename_at('combo', ~'id')
-#raw_data <- raw_data%>%rename_at('BMI', ~'diet_score')
+raw_data <- raw_dataAll[, c(1, 13, 14:ncol(raw_dataAll))] # all columns
+# raw_data <- raw_data%>%rename_at('combo', ~'id')
+# raw_data <- raw_data%>%rename_at('BMI', ~'diet_score')
 
-raw_data_boxplots <- raw_data[,c(1:20)] %>%
+raw_data_boxplots <- raw_data[, c(1:20)] %>%
   tidyr::gather(key = "HN", value = "value", starts_with("HN"))
 
 boxplot <- raw_data_boxplots %>%
@@ -52,8 +52,8 @@ boxplot
 Data preprocessing:
 
 ```{r preprocessing 1}
-prep_data <- preprocess_data(raw_data, 'combo', 'BMI')
-prep_data_boxplots <- prep_data[,c(1:20)] %>%
+prep_data <- preprocess_data(raw_data, "combo", "BMI")
+prep_data_boxplots <- prep_data[, c(1:20)] %>%
   tidyr::gather(key = "HNC", value = "value", starts_with("HNC"))
 
 boxplot_prep <- prep_data_boxplots %>%
@@ -72,19 +72,18 @@ the diet_score column.
 data_split <- split_data(prep_data)
 train_data <- data_split$train_data
 test_data <- data_split$test_data
-#check NA
+# check NA
 which(is.na(train_data$target))
 which(is.na(test_data$target))
-#remove rows that have NA in target/label column
-train_data <- train_data %>% drop_na('target')
-test_data <- test_data %>% drop_na('target')
-
+# remove rows that have NA in target/label column
+train_data <- train_data %>% drop_na("target")
+test_data <- test_data %>% drop_na("target")
 ```
 
 Trained model, for regression select 1 and for classification select 2:
 
 ```{r train 1}
-trained_model <- train_model_rf(train_data, type=1)
+trained_model <- train_model_rf(train_data, type = 1)
 trained_model
 ```
 
@@ -98,13 +97,12 @@ results
 Load clustered data, a classification model will be implemented:
 
 ```{r load raw data 2}
+# raw_data <- raw_dataAll[,c(1,8,14:50)]
+raw_data <- raw_dataAll[, c(1, 8, 14:ncol(raw_dataAll))] # all columns
+# raw_data <- raw_data%>%rename_at('combo', ~'id')
+# raw_data <- raw_data%>%rename_at('group', ~'diet_score')
 
-#raw_data <- raw_dataAll[,c(1,8,14:50)]
-raw_data <- raw_dataAll[,c(1,8,14:ncol(raw_dataAll))] #all columns
-#raw_data <- raw_data%>%rename_at('combo', ~'id')
-#raw_data <- raw_data%>%rename_at('group', ~'diet_score')
-
-raw_data_boxplots <- raw_data[,c(1:20)] %>%
+raw_data_boxplots <- raw_data[, c(1:20)] %>%
   tidyr::gather(key = "HN", value = "value", starts_with("HN"))
 
 boxplot <- raw_data_boxplots %>%
@@ -119,8 +117,8 @@ boxplot
 Data preprocessing:
 
 ```{r preprocessing 2}
-prep_data <- preprocess_data(raw_data, 'combo', 'group')
-prep_data_boxplots <- prep_data[,c(1:20)] %>%
+prep_data <- preprocess_data(raw_data, "combo", "group")
+prep_data_boxplots <- prep_data[, c(1:20)] %>%
   tidyr::gather(key = "HNC", value = "value", starts_with("HNC"))
 
 boxplot_prep <- prep_data_boxplots %>%
@@ -139,19 +137,18 @@ the diet_score column.
 data_split <- split_data(prep_data)
 train_data <- data_split$train_data
 test_data <- data_split$test_data
-#check NA
+# check NA
 which(is.na(train_data$target))
 which(is.na(test_data$target))
-#remove rows that have NA in target/label column
-train_data <- train_data %>% drop_na('target')
-test_data <- test_data %>% drop_na('target')
-
+# remove rows that have NA in target/label column
+train_data <- train_data %>% drop_na("target")
+test_data <- test_data %>% drop_na("target")
 ```
 
 Trained model, for regression select 1 and for classification select 2:
 
 ```{r train 2}
-trained_model <- train_model_rf(train_data, type=2)
+trained_model <- train_model_rf(train_data, type = 2)
 trained_model
 ```
 

@@ -11,7 +11,6 @@
 #' @export
 #'
 test_rf_classification <- function(model, test_data) {
-
   model_fit <- model$fit
 
   # Make predictions on the test set
@@ -21,15 +20,14 @@ test_rf_classification <- function(model, test_data) {
     dplyr::bind_cols(test_data)
 
   # Assess model performance
-  #rocau <- roc_auc(predictions, diet_score, predicted)
+  # rocau <- roc_auc(predictions, diet_score, predicted)
   # acc <- accuracy(predictions, target, predicted)
   # confmat <- conf_mat(predictions, truth = target, estimate = predicted)
-  cm <- confusionMatrix(predictions$predicted, test_data$target)
+  cm <- caret::confusionMatrix(predictions$predicted, test_data$target)
 
   # View the variable importance
   model_importance <- vip::vi(model_fit)
 
-  #return(list(model_importance = model_importance, accuracy = acc, conf_mat = confmat))
+  # return(list(model_importance = model_importance, accuracy = acc, conf_mat = confmat))
   return(list(prediction = predictions, conf_mat = cm, model_importance = model_importance))
-
 }
