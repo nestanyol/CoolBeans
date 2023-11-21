@@ -41,4 +41,5 @@ Imports:
     vip,
     workflows,
     broom,
+    magrittr,
     stats
