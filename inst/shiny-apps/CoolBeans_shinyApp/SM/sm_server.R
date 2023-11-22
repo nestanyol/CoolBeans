@@ -4,6 +4,7 @@ smServer <- function(id, df) {
   library(tidyr)
   library(tidyverse)
   library(skimr)
+  library(future)
   library(CoolBeans)
 
   moduleServer(
@@ -32,7 +33,7 @@ smServer <- function(id, df) {
       ###Pre-analytical step###
       #eventReactive(input$run, { #doesn't give output
       observeEvent(input$run, {
-        observe({single_metabolites(sing_met(data = df(), exposure_feature = "target", start_met = input$smet, threshold = input$pvalue, confounders = input$confounders, correction = input$correction_method))
+        observe({single_metabolites(sing_met_analysis(data = df(), exposure_feature = "target", start_met = input$smet, threshold = input$pvalue, confounders = input$confounders, correction = input$correction_method))
         })
         
         #check output

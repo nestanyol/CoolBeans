@@ -1,5 +1,9 @@
 library(shinydashboard)
 library(shiny)
+library(fresh)
+library(shinyWidgets)
+
+
 options(shiny.maxRequestSize = 900*1024^2)
 
 source("DW/dw_ui.R")
@@ -11,11 +15,26 @@ source("SM/sm_server.R")
 source("ML/ml_ui.R")
 source("ML/ml_server.R")
 
+# Create the theme
+mytheme <- create_theme(
+  bs_vars_color(
+    gray_base = "#101719",
+    brand_primary = "#101719",
+    brand_info = "#101719"
+  ),
+  bs_vars_input(
+    color = "#101719",
+    color_placeholder = "#101719"),
+  bs_vars_button(
+   primary_bg = "#101719")
+)
+
 
 introUI <- function(id) {
   ns <- NS(id)
 
   fluidPage(
+
     titlePanel("Welcome to CoolBeans!"),
 
     p("High-throughput metabolomics approaches in human studies provide large datasets with complex correlation structures that reflect genetic, phenotypical, lifestyle and environmental influences. 
@@ -27,7 +46,7 @@ introUI <- function(id) {
     tags$ul(
       tags$li("Data preprocessing"),
       tags$li("Single metabolite analysis"),
-      tags$li("Multi-metabolite signature"),
+      tags$li("Multi-metabolite signature")
       #tags$li("Understand the importance of different metabolites or features in your dataset.")
     ),
 
@@ -44,8 +63,10 @@ introUI <- function(id) {
 
 
 ui <- dashboardPage(
+
   skin = "black",
   header = dashboardHeader(title = "Metabolomics Data Analysis"),
+
   sidebar = dashboardSidebar(
     sidebarMenu(
       menuItem("Introduction", tabName = "intro", icon = icon("info-circle")),
@@ -56,6 +77,9 @@ ui <- dashboardPage(
     )
   ),
   body = dashboardBody(
+    use_theme(mytheme), # <-- use the theme
+    chooseSliderSkin("Modern", color = "#606161"), #change color of slider
+
     tabItems(
       tabItem(tabName = "intro", introUI("intro1")),
       tabItem(tabName = "dataWrangling", dwUI("dataWrangling1")),

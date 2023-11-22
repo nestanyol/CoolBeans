@@ -4,7 +4,7 @@ Title: Multi-metabolite scores
 Version: 0.1.0
 Authors@R: c(person("Núria", "Estanyol", , "estanyol.nuria@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6146-4867")),
-    person("Luke", "Johnston", , "lwjohnst@gmail.com", role = c("aut", "cre"),
+    person("Luke", "Johnston", , "lwjohnst@gmail.com", role = c("aut"),
            comment = c(ORCID = "0000-0003-4169-2616")),
     person("Daniela A.", "Garcia-Soriano", , "lwjohnst@gmail.com", role = c("aut"),
            comment = c(ORCID = "0000-0003-2849-8528")))
