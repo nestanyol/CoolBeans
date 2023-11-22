@@ -35,7 +35,8 @@ devtools::load_all()
 Load data:
 
 ```{r load raw data}
-# load("data/sim_data.rda") since the data has been added to the loaded
+#fpath <- system.file("data", "sim_data.rda", package = "CoolBeans")
+#load(fpath) #since the data has been added to the loaded #not working path required
 raw_data <- sim_data
 
 # Data summary
@@ -59,7 +60,7 @@ boxplot
 Data preprocessing:
 
 ```{r}
-prep_data <- preprocess_data(raw_data, "id", "diet_score")
+prep_data <- preprocessing(raw_data, "id", "diet_score", start_metabolites = 3)
 
 prep_data_boxplots <- prep_data %>%
   gather(key = "metabolite", value = "value", starts_with("metabolite"))
@@ -81,7 +82,7 @@ Single metabolite models. Meti \~ β0P + β1C + ... + Ԑ
 Split data into training and testing datasets:
 
 ```{r}
-data_split <- split_data(prep_data)
+data_split <- splitting(prep_data)
 train_data <- data_split$train_data
 test_data <- data_split$test_data
 ```
@@ -109,6 +110,5 @@ coefficients <- model_coeffs$estimate
 feature_names <- model_coeffs$term[-1]
 
 coefficients_df <- data.frame(feature = feature_names, coefficient = coefficients[-1])
-
 coefficients_df
 ```
