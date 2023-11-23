@@ -1,7 +1,7 @@
 #' train_model_knn
 #'
 #'
-#' @description The function trains a model using random forest. It is possible
+#' @description The function trains a model using k nearest neighbors (k-NN). It is possible
 #' to use two different algorithms: regression or classification.
 #'
 #' @param train_data data to be used for training
