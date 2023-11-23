@@ -1,4 +1,4 @@
-#' test_model_knn_regression
+#' Model testing from k-nearest neighbor model using regression algorithm
 #'
 #' @description The function asses the performance of the trained model using
 #' random forest with regression algorithm.
@@ -7,10 +7,10 @@
 #' @param model to be use with the data
 #' @param test_data data to test the model
 #'
-#' @return model coefficients
+#' @return list of one [tibble::tibble()] and two numeric values
 #' @export
 #'
-test_knn_regression <- function(model, test_data) {
+testing_knn_regression <- function(model, test_data) {
   # model_fit <- trained_model$fit
   model_fit <- model$fit
 
@@ -28,5 +28,5 @@ test_knn_regression <- function(model, test_data) {
   # model_importance <- vip::vi(model_fit)
 
   # return(list(model_importance = model_importance, r_squared = r2, RMSE = rmse))
-  return(list(prediction = predictions, r_squared = r2, RMSE = rmse))
+  list(prediction = predictions, r_squared = r2, RMSE = rmse)
 }

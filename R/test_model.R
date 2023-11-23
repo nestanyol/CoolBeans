@@ -1,4 +1,4 @@
-#' test_model_lr
+#' Model testing from linear regression model
 #'
 #' @description The function asses the performance of the trained model using
 #' linear regression.
@@ -6,10 +6,10 @@
 #' @param model to be use with the data
 #' @param test_data data to test the model
 #'
-#' @return model coefficients
+#' @return A list of one [tibble::tibble()] and one numeric value
 #' @export
 #'
-test_model <- function(model, test_data) {
+testing_lr <- function(model, test_data) {
   # model_fit <- trained_model$fit
   model_fit <- model$fit
 
@@ -30,5 +30,5 @@ test_model <- function(model, test_data) {
   # cat("Root Mean Squared Error:", rmse, "\n")
   # cat("R-squared:", r_squared, "\n")
 
-  return(list(model_coeffs = model_coeffs, rmse_val = rmse))
+  list(model_coefficients = model_coeffs, rmse_value = rmse)
 }

@@ -1,16 +1,17 @@
-#' train_model_knn
+#' Model training using k-nearest neighbor
 #'
 #'
-#' @description The function trains a model using k nearest neighbors (k-NN). It is possible
-#' to use two different algorithms: regression or classification.
+#' @description The function trains a model using k-nearest neighbor. It is possible
+#' to use two different algorithms: regression or classification. The number of clusters
+#' will be defined based on the unique elements on the target column up to n = 10.
 #'
 #' @param train_data data to be used for training
 #' @param type two options 1 for regression using linear regression and 2 for classification using random forest.
 #'
-#' @return model parameters
+#' @return A list of two elements a list and an stage class
 #' @export
 #'
-train_model_knn <- function(train_data, type = 1) {
+training_knn <- function(train_data, type = 1) {
   # number of cluster k/neighbour
   n <- length(unique(train_data$target))
   if (n > 10) {

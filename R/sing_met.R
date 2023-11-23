@@ -13,7 +13,6 @@
 #' @return A [tibble::tibble()].
 #' @export
 #'
-#' @examples
 sing_met_analysis <- function(data, exposure_feature, start_metabolites, confounders = NULL, threshold = 0.1, correction = NULL) {
   # Variables definition
   metabolite_columns <- colnames(data)[c(start_metabolites:ncol(data))]

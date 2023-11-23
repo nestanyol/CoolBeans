@@ -8,7 +8,7 @@
 #' @param target column
 #' @param training_split data fraction to use for training
 #'
-#' @return A list of two [tibble::tibble()] for a testing and training dataset.
+#' @return A list of two [tibble::tibble()] for training and testing dataset.
 #' @export
 #'
 splitting <- function(preprocessed_data, target, training_split = 0.7) {
@@ -16,8 +16,7 @@ splitting <- function(preprocessed_data, target, training_split = 0.7) {
   split <- rsample::initial_split(
     preprocessed_data,
     prop = training_split,
-    strata = target # ,
-    # jitter = 0.05 parameter doesn't exist
+    strata = target
   )
 
   train_data <- rsample::training(split)

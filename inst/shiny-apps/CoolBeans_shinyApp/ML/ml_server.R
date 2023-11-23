@@ -11,7 +11,7 @@ mlServer <- function(id, df) {
 
     observeEvent(input$run_split,{
         # Split data
-        data_split <- split_data(df(), 'target', input$split/100)
+        data_split <- splitting(df(), 'target', input$split/100)
 
         #split data
         train_data <- data_split$train_data
@@ -32,9 +32,9 @@ mlServer <- function(id, df) {
 
         if (input$model_type == "Linear Regression") {
           #train model
-          model <- train_model(train_data)
+          model <- training_lr(train_data)
           #test model
-          results <- test_model(model, test_data)
+          results <- testing_lr(model, test_data)
 
           output$output_model <- renderPrint({
            model
@@ -48,9 +48,9 @@ mlServer <- function(id, df) {
             if(input$algorithm == 'regression'){
 
               #train model with regression option
-              model <- train_model_rf(train_data, type=1)
+              model <- training_rf(train_data, type=1)
               #test model
-              results <- test_rf_regression(model, test_data)
+              results <- testing_rf_regression(model, test_data)
 
               output$output_model <- renderPrint({
                 model
@@ -63,9 +63,9 @@ mlServer <- function(id, df) {
             } else if(input$algorithm == 'classification'){
 
               #train model with regression option
-              model <- train_model_rf(train_data, type=2)
+              model <- training_rf(train_data, type=2)
               #test model
-              results <- test_rf_classification(model, test_data)
+              results <- testing_rf_classification(model, test_data)
 
               output$output_model <- renderPrint({
                 model
@@ -80,9 +80,9 @@ mlServer <- function(id, df) {
             if(input$algorithm == 'regression'){
 
               #train model with regression option
-              model <- train_model_knn(train_data, type=1)
+              model <- training_knn(train_data, type=1)
               #test model
-              results <- test_knn_regression(model, test_data)
+              results <- testing_knn_regression(model, test_data)
 
               output$output_model <- renderPrint({
                 model
@@ -95,9 +95,9 @@ mlServer <- function(id, df) {
             } else if(input$algorithm == 'classification'){
 
               #train model with regression option
-              model <- train_model_knn(train_data, type=2)
+              model <- training_knn(train_data, type=2)
               #test model
-              results <- test_knn_classification(model, test_data)
+              results <- testing_knn_classification(model, test_data)
 
               output$output_model <- renderPrint({
                 model
