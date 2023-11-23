@@ -7,7 +7,7 @@
 #' @param model to be use with the data
 #' @param test_data data to test the model
 #'
-#' @returnA list of one [tibble::tibble()] and two numeric values
+#' @return list of one [tibble::tibble()] and two numeric values
 #' @export
 #'
 testing_knn_regression <- function(model, test_data) {
