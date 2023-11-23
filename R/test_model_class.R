@@ -1,4 +1,4 @@
-#' test_model_rf_class
+#' Model testing from random forest model using classification algorithm
 #'
 #' @description The function asses the performance of the trained model using
 #' random forest with classification algorithm.
@@ -7,10 +7,10 @@
 #' @param model to be use with the data
 #' @param test_data data to test the model
 #'
-#' @return model coefficients
+#' @return A list of one [tibble::tibble()] and two numeric values
 #' @export
 #'
-test_rf_classification <- function(model, test_data) {
+testing_rf_classification <- function(model, test_data) {
   model_fit <- model$fit
 
   # Make predictions on the test set
@@ -29,5 +29,5 @@ test_rf_classification <- function(model, test_data) {
   model_importance <- vip::vi(model_fit)
 
   # return(list(model_importance = model_importance, accuracy = acc, conf_mat = confmat))
-  return(list(prediction = predictions, conf_mat = cm, model_importance = model_importance))
+ list(prediction = predictions, conf_mat = cm, model_importance = model_importance)
 }

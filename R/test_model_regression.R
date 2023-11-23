@@ -1,4 +1,4 @@
-#' test_model_rf_regression
+#' Model testing from random forest model using regression algorithm
 #'
 #' @description The function asses the performance of the trained model using
 #' random forest with regression algorithm.
@@ -7,10 +7,10 @@
 #' @param model to be use with the data
 #' @param test_data data to test the model
 #'
-#' @return model coefficients
+#' @return A list of two [tibble::tibble()] and two numeric values
 #' @export
 #'
-test_rf_regression <- function(model, test_data) {
+testing_rf_regression <- function(model, test_data) {
   # model_fit <- trained_model$fit
   model_fit <- model$fit
 
@@ -28,5 +28,5 @@ test_rf_regression <- function(model, test_data) {
   model_importance <- vip::vi(model_fit)
 
   # return(list(model_importance = model_importance, roc_au = rocau, accuracy = acc, conf_mat = confmat))
-  return(list(prediction = predictions, model_importance = model_importance, r_squared = r2, RMSE = rmse))
+  list(prediction = predictions, model_importance = model_importance, r_squared = r2, RMSE = rmse)
 }

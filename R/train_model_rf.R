@@ -1,4 +1,4 @@
-#' train_model_rf
+#' Model training using random forest
 #'
 #' @description The function trains a model using random forest. It is possible
 #' to use two different algorithms: regression or classification.
@@ -6,10 +6,10 @@
 #' @param train_data data to be used for training
 #' @param type two options 1 for regression using linear regression and 2 for classification using random forest.
 #'
-#' @return model parameters
+#' @return A list of two elements a list and an stage class
 #' @export
 #'
-train_model_rf <- function(train_data, type = 1) {
+training_rf <- function(train_data, type = 1) {
   # Create a recipe
   recipe <- recipes::recipe(target ~ ., data = train_data) %>%
     recipes::step_rm(id)
@@ -33,6 +33,5 @@ train_model_rf <- function(train_data, type = 1) {
     workflows::add_model(model_spec) %>%
     parsnip::fit(data = train_data)
 
-  return(model$fit)
-  # return(model)
+  model$fit
 }
