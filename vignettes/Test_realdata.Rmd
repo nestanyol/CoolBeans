@@ -82,14 +82,14 @@ test_data <- test_data %>% drop_na("target")
 Trained model, for regression select 1 and for classification select 2:
 
 ```{r train 1}
-trained_model <- train_model_rf(train_data, type = 1)
+trained_model <- training_rf(train_data, type = 1)
 trained_model
 ```
 
 Testing model and results:
 
 ```{r results 1}
-results <- test_rf_regression(trained_model, test_data)
+results <- testing_rf_regression(trained_model, test_data)
 results
 ```
 
@@ -131,13 +131,13 @@ test_data <- test_data %>% drop_na("target")
 Trained model, for regression select 1 and for classification select 2:
 
 ```{r train 2}
-trained_model <- train_model_rf(train_data, type = 2)
+trained_model <- training_rf(train_data, type = 2)
 trained_model
 ```
 
 Testing model and results:
 
 ```{r test 2}
-results <- test_rf_classification(trained_model, test_data)
+results <- testing_rf_classification(trained_model, test_data)
 results
 ```

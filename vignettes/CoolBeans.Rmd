@@ -90,14 +90,14 @@ test_data <- data_split$test_data
 Trained model:
 
 ```{r}
-trained_model <- train_model(train_data)
+trained_model <- training_lr(train_data)
 trained_model
 ```
 
 Testing model and results:
 
 ```{r}
-results <- test_model(trained_model, test_data)
+results <- testing_lr(trained_model, test_data)
 model_coeffs <- results$model_coeffs
 model_coeffs
 
