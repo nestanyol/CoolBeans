@@ -17,6 +17,9 @@
 #' and column target.
 #' @export
 #'
+<<<<<<< HEAD
+preprocess_data <- function(raw_data, id, target, cutoff_met = 0.2, cutoff_subj = 0.2) {
+=======
 # preprocess_data <- function(raw_data, cutoff_met = 0, cutoff_subj = 0) {
 # modified definition to have the cutoffs intended in the comments
 preprocessing <- function(raw_data, id, target, start_metabolites, cutoff_columns = 0.2, cutoff_rows = 0.2, imputation = "median") {
@@ -30,6 +33,7 @@ preprocessing <- function(raw_data, id, target, start_metabolites, cutoff_column
   extra <- variables %>% dplyr::select(!id) %>% dplyr::select(!target)
 
 
+>>>>>>> d2fe28a388d39fe58ceac6dab067345ed0177825
   # Remove noise data
   preprocessed_data_prep <- subdata %>%
     # Remove rows with NaN in target column
