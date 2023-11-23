@@ -1,4 +1,5 @@
 library(dplyr)
+library(lavaan)
 library(simsurv)
 
 
@@ -10,8 +11,10 @@ metabolite_1 ~ 0.2*exposure
 metabolite_8 ~ -0.5*exposure
 metabolite_10 ~ 0.3*exposure
 
+
 # Confounders:
 age ~ exposure + outcome_continuous
+
 
 # Network connections:
 metabolite_1 ~ 0.25*metabolite_2 + 0.25*metabolite_12
@@ -50,13 +53,13 @@ fun_range <- function(x) {                              # Create user-defined fu
 
 sim_data <- as_tibble(simulateData(dag_model, sample.nobs = 2000)) %>%
   mutate(id = 1:n()) %>%
-  mutate(age = age + 50) %>%
-  mutate(across(matches("metabolite_"), ~ . + (5 + abs(min(.))) * 1.1)) %>%
   mutate(exposure = fun_range(exposure)) %>%
+  mutate(across(matches("metabolite_"), ~ . + (5 + abs(min(.))) * 1.1)) %>%
+  mutate(age = age + 50) %>%
   insert_random_missingness()
 
 #reorder
-sim_data <- cbind(id = sim_data$id, diet_score = sim_data$diet_score, sim_data[,1:12])
+sim_data <- sim_data %>% select(id, exposure, age, starts_with("met"))
 
 # Check if DAG was created correctly:
 # sim_model_fit <- lavaan::sem(model = dag_model, data = sim_data)
