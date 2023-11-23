@@ -5,12 +5,12 @@ format: html
 
 ```{mermaid}
 flowchart TB
-    RD -.- l0[Raw Data visualization]
+    RD -.-> l0[Raw Data visualization]
     RD[("`**Raw Data**
     Suported files:
     .csv, .txt, .rda, .rds 
-    `")] --> PREPROCESSING
-    
+    `")] --not preprocessed data--> PREPROCESSING
+
     subgraph PREPROCESSING
     direction LR
     p.1["`**Remove duplicates**`"] --> p.2["`**Missing value handling**
@@ -23,12 +23,14 @@ flowchart TB
     p.4 --> p.5["`**Normalization**
     (z-score)`"] 
     end
-    PREPROCESSING -.- l1[Preprocessed 
+    PREPROCESSING -.-> l1[Preprocessed 
     data vizualization]
     PREPROCESSING  --> DIMENSION_REDUCTION
     PREPROCESSING --> split
+    RD -- already preprocessed data --> DIMENSION_REDUCTION
 
     subgraph DIMENSION_REDUCTION
+    direction TB
     fs1["`**Single metabolite models**
     Define: main predictor
     User option: confounders`"]   
@@ -55,10 +57,11 @@ flowchart TB
     end
     split--test 
     dataset-->mms.2
-    MULTI_METABOLITE_SIGNATURE -.- l3["`**Multi-metabolite signature
+    MULTI_METABOLITE_SIGNATURE -.-> l3["`**Multi-metabolite signature**
     +
-    Prediction results:**
+    **Prediction results:**
     _Classification metrics:_ Specificity, Accuracy, Sensitivity, Confusion Matrix 
-    _Regression metrics:_ R2, RMSE, MSE`"]
-    
+    _Regression metrics:_ R2, RMSE, MSE
+    +
+    **Sum scores**`"]
 ```
