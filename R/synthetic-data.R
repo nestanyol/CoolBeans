@@ -55,6 +55,8 @@ sim_data <- as_tibble(simulateData(dag_model, sample.nobs = 2000)) %>%
   mutate(exposure = fun_range(exposure)) %>%
   insert_random_missingness()
 
+#reorder
+sim_data <- cbind(id = sim_data$id, diet_score = sim_data$diet_score, sim_data[,1:12])
 
 # Check if DAG was created correctly:
 # sim_model_fit <- lavaan::sem(model = dag_model, data = sim_data)
