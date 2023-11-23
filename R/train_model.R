@@ -1,4 +1,4 @@
-#' train_model_lr
+#' Model training using linear regression
 #'
 #' @description The function trains a model using linear regression (elastic net)
 #'
@@ -8,7 +8,7 @@
 #' @return model parameters
 #' @export
 #'
-train_model <- function(train_data) {
+traininig_lr <- function(train_data) {
   # Create a recipe
   recipe <- recipes::recipe(target ~ ., data = train_data) %>%
     recipes::step_rm(id)
@@ -23,5 +23,6 @@ train_model <- function(train_data) {
     workflows::add_model(model_spec) %>%
     parsnip::fit(data = train_data)
 
-  return(model$fit)
+  #only the contents from fit list are needed
+  model$fit
 }
