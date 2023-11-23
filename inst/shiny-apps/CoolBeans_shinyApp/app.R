@@ -15,18 +15,24 @@ source("SM/sm_server.R")
 source("ML/ml_ui.R")
 source("ML/ml_server.R")
 
-# Create the theme
+# Create the theme to control appearance app
 mytheme <- create_theme(
   bs_vars_color(
-    gray_base = "#101719",
+    gray_base = "#101719", #text in panel
     brand_primary = "#101719",
     brand_info = "#101719"
   ),
   bs_vars_input(
     color = "#101719",
     color_placeholder = "#101719"),
+  
   bs_vars_button(
-   primary_bg = "#101719")
+   primary_bg = "#101719"),
+  
+  bs_vars_wells(
+    bg = "#FFF",
+    border = "#101719"
+  )
 )
 
 
@@ -64,7 +70,7 @@ introUI <- function(id) {
 
 ui <- dashboardPage(
 
-  skin = "black",
+  skin = "black", #
   header = dashboardHeader(title = "Metabolomics Data Analysis"),
 
   sidebar = dashboardSidebar(

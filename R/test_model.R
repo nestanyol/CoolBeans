@@ -1,4 +1,4 @@
-#' Model testing from linear regression
+#' Model testing from linear regression model
 #'
 #' @description The function asses the performance of the trained model using
 #' linear regression.

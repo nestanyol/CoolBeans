@@ -10,7 +10,7 @@
 #' @returnA list of one [tibble::tibble()] and two numeric values
 #' @export
 #'
-testing_kknn_regression <- function(model, test_data) {
+testing_knn_regression <- function(model, test_data) {
   # model_fit <- trained_model$fit
   model_fit <- model$fit
 

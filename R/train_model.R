@@ -5,10 +5,10 @@
 #'
 #' @param train_data data to be used for training
 #'
-#' @return model parameters
+#' @return A list of two elements a list and an stage class
 #' @export
 #'
-traininig_lr <- function(train_data) {
+training_lr <- function(train_data) {
   # Create a recipe
   recipe <- recipes::recipe(target ~ ., data = train_data) %>%
     recipes::step_rm(id)

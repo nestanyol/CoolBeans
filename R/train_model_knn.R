@@ -11,7 +11,7 @@
 #' @return A list of two elements a list and an stage class
 #' @export
 #'
-train_model_knn <- function(train_data, type = 1) {
+training_knn <- function(train_data, type = 1) {
   # number of cluster k/neighbour
   n <- length(unique(train_data$target))
   if (n > 10) {

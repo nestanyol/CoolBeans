@@ -10,7 +10,7 @@
 #' @return A list of one [tibble::tibble()] and one numeric value
 #' @export
 #'
-testing_kknn_classification <- function(model, test_data) {
+testing_knn_classification <- function(model, test_data) {
   model_fit <- model$fit
 
   # Make predictions on the test set
