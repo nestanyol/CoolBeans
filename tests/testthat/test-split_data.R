@@ -1,6 +1,8 @@
+library(dplyr)
+
 test_that("Evaluates output of two data frames", {
   actual <- sim_data |>
-    preprocessing(id = "id", target = "exposure", start_metabolites = 4) |>
+    preprocessing(id = "id", target = "exposure", start_metabolites = 5) |>
     splitting() |>
     length()
 

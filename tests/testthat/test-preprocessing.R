@@ -3,7 +3,7 @@ library(dplyr)
 test_that("Preprocessing zero-mean centers the data", {
   # Calculate the mean of all metabolite columns and only keep the vector of zeroes
   actual <- sim_data |>
-    preprocessing(id = "id", target = "exposure", start_metabolites = 4) |>
+    preprocessing(id = "id", target = "exposure", start_metabolites = 5) |>
     summarise(across(starts_with("meta"), ~round(mean(.x), digits = 0))) |>
     as.vector() |>
     unlist() |>

@@ -3,7 +3,7 @@ library(dplyr)
 test_that("Check the expected rmse value from linear regression model", {
   #evaluates the model and evaluates the rmse value
   data <- sim_data |>
-    preprocessing(id = "id", target = "exposure", start_metabolites = 4) |>
+    preprocessing(id = "id", target = "exposure", start_metabolites = 5) |>
     select(id, target, starts_with("met")) |>
     splitting()
 

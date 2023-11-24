@@ -1,14 +1,15 @@
 library(dplyr)
 
-test_that("Test if output dataframe has the expected seven columns", {
-  "test if the otput as 7 columns"
+test_that("Evaluates and compares pvalue", {
+  "test if the p.value column gets the expected value"
   actual <- sim_data |>
-    preprocessing(id = "id", target = "exposure", start_metabolites = 4) |>
-    sing_met_analysis(exposure_feature = "target", start_metabolites = 4,confounders = c("age")) |>
-    ncol()
+    preprocessing(id = "id", target = "exposure", start_metabolites = 5) |>
+    sing_met_analysis(exposure_feature = "target", start_metabolites = 5,confounders = c("age")) |>
+    pull(p.value) |>
+    mean()
 
-  # We expect the standardization to have 12 zeroes.
-  expected <- 7
+  # We expect mean pvalue to have a specific value.
+  expected <- 0.0002898679
 
   expect_equal(actual, expected)
 })

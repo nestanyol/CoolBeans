@@ -28,5 +28,5 @@ testing_rf_regression <- function(model, test_data) {
   model_importance <- vip::vi(model_fit)
 
   # return(list(model_importance = model_importance, roc_au = rocau, accuracy = acc, conf_mat = confmat))
-  list(prediction = predictions, model_importance = model_importance, r_squared = r2, RMSE = rmse)
+  list(prediction = predictions, model_importance = model_importance, r_squared = r2, rmse_value = rmse)
 }

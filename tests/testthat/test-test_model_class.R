@@ -1,7 +1,7 @@
 library(dplyr)
 
-test_that("Check the expected rmse value from random forest model using classification", {
-  #evaluates the model and evaluates the rmse value
+test_that("Check the expected value of the model importance from top variable in a random forest model using classification", {
+  #evaluates the model and evaluates the value importance of the top variable
   data <- sim_data |>
     preprocessing(id = "id", target = "sex", start_metabolites = 5) |>
     select(id, target, starts_with("met")) |>

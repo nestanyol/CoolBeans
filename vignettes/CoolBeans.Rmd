@@ -60,7 +60,7 @@ boxplot
 Data preprocessing:
 
 ```{r}
-prep_data <- preprocessing(raw_data, "id", "diet_score", start_metabolites = 3)
+prep_data <- preprocessing(raw_data, "id", "exposure", start_metabolites = 5)
 
 prep_data_boxplots <- prep_data %>%
   gather(key = "metabolite", value = "value", starts_with("metabolite"))
@@ -79,10 +79,35 @@ Feature selection.
 
 Single metabolite models. Meti \~ β0P + β1C + ... + Ԑ
 
+```{r}
+sin_metabolites <- sing_met_analysis(data=prep_data, exposure_feature = "target", start_metabolites = 4, confounders = "age", correction = "fdr")
+
+met_pvalue <- sin_metabolites %>%
+  ggplot2::ggplot(aes(x = yvar, y = p.value_corrected)) +
+  geom_segment( aes(x=yvar, xend=yvar, y=0, yend=p.value_corrected), color="black") +
+  geom_point( color="gray", size=2, alpha=0.6) +
+  theme_light() +
+  coord_flip() +
+  labs(x = "Metabolites", y = "p-value") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  theme(axis.text.y = element_text(size = 5))
+
+met_pvalue
+
+sin_metabolites_filtered <- sin_metabolites[str_detect(sin_metabolites$term, "target"),] %>%
+  filter(p.value_corrected < 0.01) %>%
+  arrange(p.value_corrected)
+
+selected_metabolites_id <- sin_metabolites_filtered$yvar
+
+selected_data <- prep_data %>%
+  select(c(id, target, selected_metabolites_id))
+```
+
 Split data into training and testing datasets:
 
 ```{r}
-data_split <- splitting(prep_data)
+data_split <- splitting(selected_data)
 train_data <- data_split$train_data
 test_data <- data_split$test_data
 ```
@@ -98,7 +123,7 @@ Testing model and results:
 
 ```{r}
 results <- testing_lr(trained_model, test_data)
-model_coeffs <- results$model_coeffs
+model_coeffs <- results$model_coefficients
 model_coeffs
 
 rmse_val <- results$rmse_val

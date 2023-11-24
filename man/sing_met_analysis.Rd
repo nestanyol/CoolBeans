@@ -9,7 +9,7 @@ sing_met_analysis(
   exposure_feature,
   start_metabolites,
   confounders = NULL,
-  threshold = 0.1,
+  threshold = 0.01,
   correction = NULL
 )
 }
