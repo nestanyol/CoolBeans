@@ -14,7 +14,7 @@ metabolite_10 ~ 0.3*exposure
 
 # Confounders:
 age ~ exposure + outcome_continuous
-
+sex ~ exposure + outcome_continuous
 
 # Network connections:
 metabolite_1 ~ 0.25*metabolite_2 + 0.25*metabolite_12
@@ -56,10 +56,11 @@ sim_data <- as_tibble(simulateData(dag_model, sample.nobs = 2000)) %>%
   mutate(exposure = fun_range(exposure)) %>%
   mutate(across(matches("metabolite_"), ~ . + (5 + abs(min(.))) * 1.1)) %>%
   mutate(age = age + 50) %>%
+  mutate(sex = ifelse ( sex > 0, "F", "M")) %>%
   insert_random_missingness()
 
 #reorder
-sim_data <- sim_data %>% select(id, exposure, age, starts_with("met"))
+sim_data <- sim_data %>% select(id, exposure, age, sex, starts_with("met"))
 
 # Check if DAG was created correctly:
 # sim_model_fit <- lavaan::sem(model = dag_model, data = sim_data)
