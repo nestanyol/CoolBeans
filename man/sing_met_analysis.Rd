@@ -22,6 +22,8 @@ sing_met_analysis(
 
 \item{confounders}{list of confounders}
 
+\item{threshold}{p-value to use as filter}
+
 \item{correction}{correction method to use}
 }
 \value{

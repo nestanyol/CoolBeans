@@ -26,6 +26,8 @@ preprocessing(
 \item{cutoff_columns}{threshold to use to discard columns given n NaN}
 
 \item{cutoff_rows}{threshold to use to discard rows given n NaN}
+
+\item{imputation}{method of choice, four available: median, +mean, lower, knn}
 }
 \value{
 A [tibble::tibble()]. It changes name columns for column ID
