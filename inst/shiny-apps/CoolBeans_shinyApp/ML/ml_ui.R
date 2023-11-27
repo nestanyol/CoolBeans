@@ -24,7 +24,8 @@ mlUI <- function(id, label = 'machineLearning1') {
                       selected = "Random Forest"),
           # Select regression or classification
           #h4("Select algorithm"),
-          radioButtons(ns("algorithm"), "algorithm:",
+          prettyRadioButtons(ns("algorithm"), "algorithm:",
+                             status = "default",
                        choices = list("regression" = "regression",
                                       "classification" = "classification"),
                        selected = "classification"),
