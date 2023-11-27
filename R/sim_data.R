@@ -22,4 +22,4 @@
 #'   \item{metabolite_11}{Intensity of metabolite 11}
 #'   \item{metabolite_12}{Intensity of metabolite 12}
 #' }
-#' "sim_data"
+"sim_data"
