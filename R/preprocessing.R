@@ -12,6 +12,7 @@
 #' @param start_metabolites column number where metabolites start
 #' @param cutoff_columns threshold to use to discard columns given n NaN
 #' @param cutoff_rows threshold to use to discard rows given n NaN
+#' @param imputation method of choice, four available: median, +mean, lower, knn
 #'
 #' @return A [tibble::tibble()]. It changes name columns for column ID
 #' and column target.

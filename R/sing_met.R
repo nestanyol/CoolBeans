@@ -8,6 +8,7 @@
 #' @param exposure_feature variable of exposure name (e.g. diet score, group of exposure)
 #' @param start_metabolites column number where metabolites start
 #' @param confounders list of confounders
+#' @param threshold p-value to use as filter
 #' @param correction correction method to use
 #'
 #' @return A [tibble::tibble()].
