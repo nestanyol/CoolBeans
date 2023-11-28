@@ -1,5 +1,5 @@
 # Module server function
-smServer <- function(id, df) {
+smServer <- function(id, df, name) {
   #dwServer.R
   library(tidyr)
   library(tidyverse)
@@ -48,10 +48,16 @@ smServer <- function(id, df) {
         })
         
         output$plot1 <- renderPlot({
-          met_pvalue <- single_metabolites() %>%
+          if(nrow(single_metabolites()) >= 10){
+            top_metabolites <- single_metabolites()[1:10,]
+          } else {
+            top_metabolites <- single_metabolites()
+          }
+          
+          met_pvalue <- top_metabolites %>%
             ggplot2::ggplot(aes(x = yvar, y = p.value_corrected)) +
-            geom_segment( aes(x=yvar, xend=yvar, y=0, yend=p.value_corrected), color="black") +
-            geom_point( color="gray", size=2, alpha=0.6) +
+            geom_segment(aes(x=yvar, xend=yvar, y=0, yend=p.value_corrected), color="black", linewidth = 1) +
+            geom_point( color="gray", size=3, alpha=0.6) +
             theme_light() +
             coord_flip() +
             labs(x = "Metabolites", y = "p-value") +
@@ -60,6 +66,16 @@ smServer <- function(id, df) {
           
           met_pvalue
         }, res = 96)
+        
+        output$download <- downloadHandler(
+          filename = function() {
+            file <- name
+            paste(file, "_single_metabolite_analysis.csv")
+          },
+          content = function(file) {
+            vroom::vroom_write(single_metabolites(), file)
+          }
+        )
           
         #filter dataset based on metabolites with high p-value
         #observeEvent(input$select, {
@@ -71,6 +87,7 @@ smServer <- function(id, df) {
         # output$preview2 <- renderPrint({
         #   #input$confounders
         #   head(single_metabolites_corrected(), 10)
+
         #   })
         
         #data_ML 

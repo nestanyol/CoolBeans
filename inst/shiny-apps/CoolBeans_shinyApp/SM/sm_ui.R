@@ -31,7 +31,10 @@ smUI <- function(id, label = 'singMetabolite1') {
                                                                                           "bonferroni")),
           #p-value
           numericInput(ns("pvalue"), "Insert p-value threshold after correction",0.01),
-          actionButton(ns("run"), "Run")
+          actionButton(ns("run"), "Run"),
+          
+          #Dowload preprocessed data
+          downloadButton(ns("download"), "Download .csv")
         ),
 
         # wellPanel(
@@ -48,7 +51,7 @@ smUI <- function(id, label = 'singMetabolite1') {
                    verbatimTextOutput(ns("preview1")),
                    verbatimTextOutput(ns("preview2"))),
           tabPanel("P-value",
-                   plotOutput(ns("plot1"), height = 1500))
+                   plotOutput(ns("plot1"), height = 500))
         )
       )
     )

@@ -26,6 +26,7 @@ dwServer <- function(id) {
       })
       
       observeEvent(input$plot_raw, {
+        
         # output$preview1 <- renderPrint({
         #   skim_without_charts(original_data(),c(1:input$columns))
         # })
@@ -93,6 +94,6 @@ dwServer <- function(id) {
         
       })
       
-      return(prep_data)
+      return(list(preprocessed_data = prep_data, file_name = file))
       
     })}
