@@ -33,7 +33,10 @@ dwUI <- function(id, label = 'dataWrangling1') {
                                                                                           "knn",
                                                                                           "lower")),
           #run the pre-analytical step
-          actionButton(ns("run"), "Run")
+          actionButton(ns("run"), "Run"),
+          
+          #Dowload preprocessed data
+          downloadButton(ns("download"), "Download .csv")
         )
         
         # wellPanel(

@@ -81,6 +81,16 @@ dwServer <- function(id) {
           boxplot_prep
         }, res = 96)
         
+        output$download <- downloadHandler(
+          filename = function() {
+            file <- input$data
+            paste0(substr(file, 1, nchar(file)-4), "_preprocessed.csv")
+          },
+          content = function(file) {
+            vroom::vroom_write(prep_data(), file)
+          }
+        )
+        
       })
       
       return(prep_data)
