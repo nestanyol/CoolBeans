@@ -29,11 +29,13 @@ smServer <- function(id, df, name) {
       # Reactive value to store the transformed data
       single_metabolites <- reactiveVal()
       data_filtered <- reactiveVal()
+      file_name <- reactiveVal()
       
       ###Pre-analytical step###
       #eventReactive(input$run, { #doesn't give output
       observeEvent(input$run, {
         observe({single_metabolites(sing_met_analysis(data = df(), exposure_feature = "target", start_met = input$smet, threshold = input$pvalue, confounders = input$confounders, correction = input$correction_method))
+        
         })
         
         #check output
@@ -44,6 +46,7 @@ smServer <- function(id, df, name) {
           })
         #check if something is happening
         output$preview2 <- renderPrint({
+          #name()[1]
           cat("Number of filtered metabolites", nrow(single_metabolites()))
         })
         
@@ -69,8 +72,8 @@ smServer <- function(id, df, name) {
         
         output$download <- downloadHandler(
           filename = function() {
-            file <- name
-            paste(file, "_single_metabolite_analysis.csv")
+            file <- name()[1]
+            paste0(substr(file, 1, nchar(file)-4), "_single_metabolite_analysis.csv")
           },
           content = function(file) {
             vroom::vroom_write(single_metabolites(), file)
@@ -94,10 +97,13 @@ smServer <- function(id, df, name) {
         observe({data_filtered(df()%>%
                 select(id, target, single_metabolites()$yvar))
         })
+        
+        #Name for files
+        observe({file_name(name()[1])})
       
       })
       
-      return(data_filtered)    
+      return(list(datafiltered = data_filtered, filename = file_name))    
 
 
     })
