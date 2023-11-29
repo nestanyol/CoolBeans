@@ -80,7 +80,7 @@ Feature selection.
 Single metabolite models. Meti \~ β0P + β1C + ... + Ԑ
 
 ```{r}
-sin_metabolites <- sing_met_analysis(data=prep_data, exposure_feature = "target", start_metabolites = 4, confounders = "age", correction = "fdr")
+sin_metabolites <- sing_met_analysis(data=prep_data, exposure_feature = "target", start_metabolites = 4, covariates = "age", correction = "fdr")
 
 met_pvalue <- sin_metabolites %>%
   ggplot2::ggplot(aes(x = yvar, y = p.value_corrected)) +

@@ -19,19 +19,9 @@
 #' @export
 #'
 preprocessing <- function(raw_data, id, target, start_metabolites, cutoff_columns = 0.2, cutoff_rows = 0.2, imputation = "median") {
-  # split data
-  variables <- raw_data[, c(1:start_metabolites - 1)]
-  metabolites <- raw_data[, c(start_metabolites:ncol(raw_data))]
-  # get section to use for preprocessing
-  col_selection <- variables %>% dplyr::select(id, target)
-  subdata <- cbind(col_selection, metabolites)
-  # extra variables
-  extra <- variables %>%
-    dplyr::select(!id) %>%
-    dplyr::select(!target)
 
   # Remove noise data
-  preprocessed_data_prep <- subdata %>%
+  clean_data <- raw_data %>%
     # Remove rows with NaN in target column
     tidyr::drop_na(target) %>%
     # Remove duplicate rows
@@ -41,7 +31,17 @@ preprocessing <- function(raw_data, id, target, start_metabolites, cutoff_column
     # Remove rows (subjects) that have 20% of values as missing
     janitor::remove_empty("rows", cutoff = cutoff_rows) # Optional step
 
-  # some data sets migth have NaN in the target column, can we do something about it during this step?
+  # split data
+  variables <- clean_data[, c(1:start_metabolites - 1)]
+  metabolites <- clean_data[, c(start_metabolites:ncol(clean_data))]
+  # get section to use for preprocessing
+  col_selection <- variables %>% dplyr::select(id, target)
+  preprocessed_data_prep <- cbind(col_selection, metabolites)
+  # extra variables
+  extra <- variables %>%
+    dplyr::select(!id) %>%
+    dplyr::select(!target)
+
 
   # Create a recipe for preprocessing the data
   preprocess_recipe <- recipes::recipe(~., data = preprocessed_data_prep) %>%
