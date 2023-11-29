@@ -1,20 +1,20 @@
-#' Splits the prepossessed data set into train and test
+#' Splits the data set after the data wrangling steps and feature selection into train and test
 #'
 #' @description The function splits the data for model training, two datasets
 #' are generated for training and testing. It is possible to define the percentage
 #' of data wanted for training, default = 0.7.
 #'
-#' @param preprocessed_data data after pre-processing
+#' @param clean_data data after data wrangling and feature selection
 #' @param target column
 #' @param training_split data fraction to use for training
 #'
-#' @return A list of two [tibble::tibble()] for training and testing dataset.
+#' @return A list of two [tibble::tibble()] for training and testing data set.
 #' @export
 #'
-splitting <- function(preprocessed_data, target, training_split = 0.7) {
+splitting <- function(clean_data, target, training_split = 0.7) {
   # Perform a random split using the `rsample` package
   split <- rsample::initial_split(
-    preprocessed_data,
+    clean_data,
     prop = training_split,
     strata = target
   )

@@ -1,30 +1,31 @@
-#' Analysis of single metabolites based on a target (and confounder/s)
+#' Analysis of single metabolites based on a target exposure feature (and covariate/s).
 #'
-#' @description The function fits a linear model where the response variable are
-#' each metabolite and the terms are the exposure feature and other features that
-#' are defined as confounders.
+#' @description The function concurrently fits a linear model with each metabolite feature in the data set, with the exposure feature
+#' as the primary predictor and other features that are defined as covariates.
 #'
-#' @param data data frame to use for analysis
-#' @param exposure_feature variable of exposure name (e.g. diet score, group of exposure)
-#' @param start_metabolites column number where metabolites start
-#' @param confounders list of confounders
-#' @param threshold p-value to use as filter
-#' @param correction correction method to use
+#'
+#' @param data data frame to use for analysis. It contains subject id, an exposure feature variable and metabolite variables; can also contain covariates.
+#' @param exposure_feature variable of exposure name (e.g. diet score, group of exposure).
+#' @param start_metabolites column index where metabolite features start.
+#' @param covariates list of optional covariates.
+#' @param threshold Threshold for significance in the results filtering.
+#' @param correction Multiple testinc optional correction.
 #'
 #' @return A [tibble::tibble()].
 #' @export
 #'
-sing_met_analysis <- function(data, exposure_feature, start_metabolites, confounders = NULL, threshold = 0.01, correction = NULL) {
-  # Variables definition
-  metabolite_columns <- colnames(data)[c(start_metabolites:ncol(data))]
-  # defining the model
-  features <- c(exposure_feature, confounders)
+sing_met_analysis <- function(data, exposure_feature, start_metabolites, covariates = NULL, threshold = 0.01, correction = NULL) {
 
+  # Variables definition:
+  metabolite_columns <- colnames(data)[c(start_metabolites:ncol(data))]
+  features <- c(exposure_feature, covariates)
+
+  # Model fitting to each metabolite column in parallel:
   output <- metabolite_columns %>%
     furrr::future_map(~ lm_singmet(.x, features, data = data)) %>%
-    purrr::list_rbind(names_to = "model_id")
+    purrr::list_rbind(names_to = "model_id") # Combine results in a single dataframe
 
-  #check if input is given or correction, regardless
+  # Results filtering:
   if (length(correction)) {
     output_filtered <- output %>%
       dplyr::mutate(p.value_corrected = stats::p.adjust(output$p.value, method = correction)) %>%
@@ -40,7 +41,7 @@ sing_met_analysis <- function(data, exposure_feature, start_metabolites, confoun
   output_filtered
 }
 
-# Set up modelling function:
+# Modelling function definition:
 lm_singmet <- function(data, metabolite, y) {
   model_formula <- stats::reformulate(y, response = metabolite)
   results <- stats::lm(model_formula, data = data)
