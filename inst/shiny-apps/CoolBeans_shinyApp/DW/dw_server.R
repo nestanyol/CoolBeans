@@ -26,6 +26,7 @@ dwServer <- function(id) {
       })
       
       observeEvent(input$plot_raw, {
+        
         # output$preview1 <- renderPrint({
         #   skim_without_charts(original_data(),c(1:input$columns))
         # })
@@ -45,6 +46,8 @@ dwServer <- function(id) {
       
       # Reactive value to store the transformed data
       prep_data <- reactiveVal()
+      file_name <- reactiveVal()
+      
       
       ###Pre-analytical step###
       #eventReactive(input$run, { #doesn't give output
@@ -53,6 +56,7 @@ dwServer <- function(id) {
         #ncols <- as.numeric(unlist(strsplit(input$ncols,",")))
         #data <- original_data()[,c(ncols[1],ncols[2],ncols[3]:ncol(original_data()))]
         data <- original_data()
+        observe(file_name({as.character(input$data)}))
         
         # observe({prep_data(preprocess_data(data, input$id, input$target, 
         #                                    cutoff_met = input$na_cutoff/100, cutoff_subj = input$na_cutoff/100)) 
@@ -60,7 +64,7 @@ dwServer <- function(id) {
         
         observe({prep_data(preprocessing(data, input$id, input$target, start_metabolites = input$ncols,
                                          cutoff_columns = input$na_cutoff/100, cutoff_rows = input$na_cutoff/100,
-                                           imputation = input$imputation_method))
+                                         imputation = input$imputation_method))
         })
         
         #check if something is happening
@@ -81,8 +85,18 @@ dwServer <- function(id) {
           boxplot_prep
         }, res = 96)
         
+        output$download <- downloadHandler(
+          filename = function() {
+            file <- as.character(input$data)
+            paste0(substr(file, 1, nchar(file)-4), "_preprocessed.csv")
+          },
+          content = function(file) {
+            vroom::vroom_write(prep_data(), file)
+          }
+        )
+        
       })
       
-      return(prep_data)
+      return(list(preprocessed_data = prep_data, filename = file_name))
       
     })}

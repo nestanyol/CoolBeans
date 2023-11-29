@@ -1,4 +1,4 @@
-mlServer <- function(id, df) {
+mlServer <- function(id, df, name) {
 
   library(tidyr)
   library(tidyverse)
@@ -8,6 +8,9 @@ mlServer <- function(id, df) {
   moduleServer(
     id,
   function(input, output, session) {
+    
+    # Reactive value to store the results
+    results <- reactiveVal()
 
     observeEvent(input$run_split,{
         # Split data
@@ -34,14 +37,13 @@ mlServer <- function(id, df) {
           #train model
           model <- training_lr(train_data)
           #test model
-          results <- testing_lr(model, test_data)
-
+          observe({results(testing_lr(model, test_data))})
           output$output_model <- renderPrint({
            model
           })
 
           output$feature_imp <- renderPrint({
-            results
+            results()[-1]
           })
 
           } else if (input$model_type == "Random Forest") {
@@ -50,14 +52,14 @@ mlServer <- function(id, df) {
               #train model with regression option
               model <- training_rf(train_data, type=1)
               #test model
-              results <- testing_rf_regression(model, test_data)
+              observe({results(testing_rf_regression(model, test_data))})
 
               output$output_model <- renderPrint({
                 model
               })
 
               output$feature_imp <- renderPrint({
-                results
+                results()[-1]
               })
 
             } else if(input$algorithm == 'classification'){
@@ -65,14 +67,14 @@ mlServer <- function(id, df) {
               #train model with regression option
               model <- training_rf(train_data, type=2)
               #test model
-              results <- testing_rf_classification(model, test_data)
+              observe({results(testing_rf_classification(model, test_data))})
 
               output$output_model <- renderPrint({
                 model
               })
 
               output$feature_imp <- renderPrint({
-                results
+                results()[-1]
               })
 
             }
@@ -82,14 +84,14 @@ mlServer <- function(id, df) {
               #train model with regression option
               model <- training_knn(train_data, type=1)
               #test model
-              results <- testing_knn_regression(model, test_data)
+              observe({results(testing_knn_regression(model, test_data))})
 
               output$output_model <- renderPrint({
                 model
               })
 
               output$feature_imp <- renderPrint({
-                results
+                results()[-1]
               })
 
             } else if(input$algorithm == 'classification'){
@@ -97,20 +99,30 @@ mlServer <- function(id, df) {
               #train model with regression option
               model <- training_knn(train_data, type=2)
               #test model
-              results <- testing_knn_classification(model, test_data)
+              observe({results(testing_knn_classification(model, test_data))})
 
               output$output_model <- renderPrint({
                 model
               })
 
               output$feature_imp <- renderPrint({
-                results
+                results()[-1]
               })
 
             }
           }
         })
           })
+    
+    output$download <- downloadHandler(
+      filename = function() {
+        file <- name()[1]
+        paste0(substr(file, 1, nchar(file)-4), "_predictionsML.csv")
+      },
+      content = function(file) {
+        vroom::vroom_write(results()$prediction, file)
+      }
+    )
 
   }
   )

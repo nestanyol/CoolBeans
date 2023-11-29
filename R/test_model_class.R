@@ -29,5 +29,5 @@ testing_rf_classification <- function(model, test_data) {
   model_importance <- vip::vi(model_fit)
 
   # return(list(model_importance = model_importance, accuracy = acc, conf_mat = confmat))
- list(prediction = predictions, conf_mat = cm, model_importance = model_importance)
+ list(prediction = predictions, model_importance = model_importance, conf_mat = cm)
 }

@@ -19,16 +19,19 @@ testing_lr <- function(model, test_data) {
     dplyr::rename(predicted = .pred) %>%
     dplyr::bind_cols(test_data)
 
+
+  # View the model coefficients
+  model_coeffs <- broom::tidy(model_fit)
+  #save(model_coeffs, file = "LRmodel_coefficients.RData")
+
   # Assess model performance
   rmse <- caret::RMSE(predictions$predicted, predictions$target)
   # r_squared <- caret::R2(predictions$predicted, predictions$diet_score)
 
-  # View the model coefficients
-  model_coeffs <- broom::tidy(model_fit)
 
   # Print the evaluation metrics
   # cat("Root Mean Squared Error:", rmse, "\n")
   # cat("R-squared:", r_squared, "\n")
 
-  list(model_coefficients = model_coeffs, rmse_value = rmse)
+  list(prediction = predictions, model_coefficients = model_coeffs, rmse_value = rmse)
 }

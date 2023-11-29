@@ -14,7 +14,7 @@
 #' @return A [tibble::tibble()].
 #' @export
 #'
-sing_met_analysis <- function(data, exposure_feature, start_metabolites, covariates = NULL, threshold = 0.1, correction = NULL) {
+sing_met_analysis <- function(data, exposure_feature, start_metabolites, covariates = NULL, threshold = 0.01, correction = NULL) {
 
   # Variables definition:
   metabolite_columns <- colnames(data)[c(start_metabolites:ncol(data))]

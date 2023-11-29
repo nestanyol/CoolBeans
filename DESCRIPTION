@@ -21,26 +21,23 @@ Depends:
 Suggests: 
     knitr,
     rmarkdown,
-    styler
+    styler,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 Imports: 
     caret,
     dplyr,
-    future,
-    ggplot2,
-    glmnet,
-    here,
     janitor,
-    lavaan,
     parsnip,
     purrr,
     recipes,
     rsample,
-    simsurv,
-    usethis,
     vip,
     workflows,
     broom,
     magrittr,
-    stats
+    stats,
+    furrr,
+    stringr
+Config/testthat/edition: 3

@@ -102,8 +102,8 @@ ui <- dashboardPage(
 server <- function(input, output, session) {
   data_preprocessed <- dwServer(id = "dataWrangling1")
   #smServer(id = "singMetabolite1")
-  data_filtered <- smServer(id = "singMetabolite1", df=data_preprocessed)
-  mlServer(id = 'machineLearning1', df=data_filtered)
+  data_filtered <- smServer(id = "singMetabolite1", df=data_preprocessed$preprocessed_data, name = data_preprocessed$filename)
+  mlServer(id = 'machineLearning1', df=data_filtered$datafiltered, name = data_filtered$filename )
   #callModule(dwServer,"dataWrangling1")
   #callModule(mlServer, "ml1")
 }
