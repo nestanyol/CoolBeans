@@ -9,16 +9,20 @@ smUI <- function(id, label = 'singMetabolite1') {
     sidebarLayout(
       sidebarPanel(
 
-        # wellPanel(
-        #   title = "Data Upload",
-        #   fileInput(ns("data"), "Upload your dataset", accept = c(".rds", ".csv")),
-        #   numericInput(ns("columns"), "# columns to include in summary",10),
-        #   actionButton(ns("summary"), "Summary")
-        # ),
+        wellPanel(
+          title = "Start from a preprocessed file",
+          h4("Start from a preprocessed file"),
+          fileInput(ns("data"), "Upload your dataset", accept = c(".rds", ".csv")),
+          #textInput(ns("ncols"), "Enter first column with metabolites", "14"),
+          actionButton(ns("load"), "Load")
+        ),
 
         wellPanel(
-          title = "Single metabolite analysis",
-          #h4("Do pre-analitical step"),
+          title = "Preprocessed data from shiny",
+          #h4("Run"),
+          #Box to check if analysis is done with preprocessed data from previous step
+          checkboxInput("use", "Use data from previous step", TRUE),
+          textInput(ns("target"), "Type exposure feature column", "group"),
           #Column number where metabolites start
           numericInput(ns("smet"), "Column where metabolites start",14),
           #Columns to select

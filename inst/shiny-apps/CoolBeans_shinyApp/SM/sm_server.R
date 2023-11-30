@@ -10,31 +10,53 @@ smServer <- function(id, df, name) {
   moduleServer(
     id,
     function(input, output, session){
-      # #Reactive expression to read the uploaded data
-      # original_data <- reactive({
-      #   req(input$data)
-      #   tryCatch({
-      #     if (tools::file_ext(input$data$datapath) == "rds") {
-      #       readRDS(input$data$datapath)
-      #     } else {
-      #       read.csv(input$data$datapath)
-      #     }
-      #   }, error = function(e) {
-      #     showNotification(paste("Error:", e$message), type = "error")
-      #     return(NULL)
-      #   })
-      # })
-
+      #Reactive expression to read the uploaded data
+      loaded_data <- reactive({
+        req(input$data)
+        tryCatch({
+          if (tools::file_ext(input$data$datapath) == "rds") {
+            readRDS(input$data$datapath)
+          } else {
+            read.csv(input$data$datapath, sep="\t")
+          }
+        }, error = function(e) {
+          showNotification(paste("Error:", e$message), type = "error")
+          return(NULL)
+        })
+      })
 
       # Reactive value to store the transformed data
+      data_to_use <- reactiveVal()
       single_metabolites <- reactiveVal()
       data_filtered <- reactiveVal()
       file_name <- reactiveVal()
       
+      ###Preprocessed data###
+      observeEvent(input$load,{
+        observe({file_name(as.character(input$data))})
+        observe({data_to_use(loaded_data())})
+        
+        #check output
+        output$preview1 <- renderPrint({
+          dim(data_to_use())
+          #cat("Number of filtered metabolites", nrow(single_metabolites()))
+        })
+
+        output$preview2 <- renderPrint({
+          file_name()[1]
+          #cat("Number of filtered metabolites", nrow(single_metabolites()))
+        })
+      })
+      
       ###Pre-analytical step###
       #eventReactive(input$run, { #doesn't give output
-      observeEvent(input$run, {
-        observe({single_metabolites(sing_met_analysis(data = df(), exposure_feature = "target", start_metabolites = input$smet, threshold = input$pvalue, covariates = input$covariates, correction = input$correction_method))
+      observeEvent(input$run,{
+        if(input$use){
+          data_to_use(df())
+          file_name(name())
+        }
+        
+        observe({single_metabolites(sing_met_analysis(data = data_to_use(), exposure_feature = input$target, start_metabolites = input$smet, threshold = input$pvalue, covariates = input$covariates, correction = input$correction_method))
         
         })
         
@@ -46,7 +68,7 @@ smServer <- function(id, df, name) {
           })
         #check if something is happening
         output$preview2 <- renderPrint({
-          #name()[1]
+          #file_name()[1]
           cat("Number of filtered metabolites", nrow(single_metabolites()))
         })
         
@@ -72,7 +94,8 @@ smServer <- function(id, df, name) {
         
         output$download <- downloadHandler(
           filename = function() {
-            file <- name()[1]
+            #Name for files
+            file <- file_name()[1]
             paste0(substr(file, 1, nchar(file)-4), "_single_metabolite_analysis.csv")
           },
           content = function(file) {
@@ -93,13 +116,11 @@ smServer <- function(id, df, name) {
 
         #   })
         
-        #data_ML 
-        observe({data_filtered(df()%>%
+        # #data_ML 
+        observe({data_filtered(data_to_use()%>%
                 select(id, target, single_metabolites()$yvar))
         })
         
-        #Name for files
-        observe({file_name(name()[1])})
       
       })
       
