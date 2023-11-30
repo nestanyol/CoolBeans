@@ -21,7 +21,7 @@ smUI <- function(id, label = 'singMetabolite1') {
           title = "Preprocessed data from shiny",
           #h4("Run"),
           #Box to check if analysis is done with preprocessed data from previous step
-          checkboxInput("use", "Use data from previous step", TRUE),
+          checkboxInput(ns("use"), "Use data from previous step", FALSE),
           textInput(ns("target"), "Type exposure feature column", "group"),
           #Column number where metabolites start
           numericInput(ns("smet"), "Column where metabolites start",14),
