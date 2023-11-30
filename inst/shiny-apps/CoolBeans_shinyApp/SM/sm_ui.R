@@ -23,7 +23,7 @@ smUI <- function(id, label = 'singMetabolite1') {
           numericInput(ns("smet"), "Column where metabolites start",14),
           #Columns to select
           #textInput(ns("confounders"), "Enter the confounders list", "id, sex, etc"),
-          selectizeInput(ns("confounders"),  "Enter the confounders list",
+          selectizeInput(ns("covariates"),  "Enter the covariates list",
                          choices = NULL,
                          multiple =TRUE,
                          options = list(create = TRUE)),

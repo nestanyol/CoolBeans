@@ -26,7 +26,6 @@ Suggests:
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 Imports: 
-	tidyr,
     caret,
     dplyr,
     janitor,

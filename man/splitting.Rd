@@ -2,19 +2,19 @@
 % Please edit documentation in R/split_data.R
 \name{splitting}
 \alias{splitting}
-\title{Splits the data set after the data wrangling steps and feature selection into train and test}
+\title{Splits the prepossessed data set into train and test}
 \usage{
-splitting(clean_data, target, training_split = 0.7)
+splitting(preprocessed_data, target, training_split = 0.7)
 }
 \arguments{
-\item{clean_data}{data after data wrangling and feature selection}
+\item{preprocessed_data}{data after pre-processing}
 
 \item{target}{column}
 
 \item{training_split}{data fraction to use for training}
 }
 \value{
-A list of two [tibble::tibble()] for training and testing data set.
+A list of two [tibble::tibble()] for training and testing dataset.
 }
 \description{
 The function splits the data for model training, two datasets

@@ -34,7 +34,7 @@ smServer <- function(id, df, name) {
       ###Pre-analytical step###
       #eventReactive(input$run, { #doesn't give output
       observeEvent(input$run, {
-        observe({single_metabolites(sing_met_analysis(data = df(), exposure_feature = "target", start_met = input$smet, threshold = input$pvalue, confounders = input$confounders, correction = input$correction_method))
+        observe({single_metabolites(sing_met_analysis(data = df(), exposure_feature = "target", start_metabolites = input$smet, threshold = input$pvalue, covariates = input$covariates, correction = input$correction_method))
         
         })
         

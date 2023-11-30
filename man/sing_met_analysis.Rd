@@ -2,34 +2,35 @@
 % Please edit documentation in R/sing_met.R
 \name{sing_met_analysis}
 \alias{sing_met_analysis}
-\title{Analysis of single metabolites based on a target exposure feature (and covariate/s).}
+\title{Analysis of single metabolites based on a target (and confounder/s)}
 \usage{
 sing_met_analysis(
   data,
   exposure_feature,
   start_metabolites,
-  covariates = NULL,
+  confounders = NULL,
   threshold = 0.01,
   correction = NULL
 )
 }
 \arguments{
-\item{data}{data frame to use for analysis. It contains subject id, an exposure feature variable and metabolite variables; can also contain covariates.}
+\item{data}{data frame to use for analysis}
 
-\item{exposure_feature}{variable of exposure name (e.g. diet score, group of exposure).}
+\item{exposure_feature}{variable of exposure name (e.g. diet score, group of exposure)}
 
-\item{start_metabolites}{column index where metabolite features start.}
+\item{start_metabolites}{column number where metabolites start}
 
-\item{covariates}{list of optional covariates.}
+\item{confounders}{list of confounders}
 
-\item{threshold}{Threshold for significance in the results filtering.}
+\item{threshold}{p-value to use as filter}
 
-\item{correction}{Multiple testinc optional correction.}
+\item{correction}{correction method to use}
 }
 \value{
 A [tibble::tibble()].
 }
 \description{
-The function concurrently fits a linear model with each metabolite feature in the data set, with the exposure feature
-as the primary predictor and other features that are defined as covariates.
+The function fits a linear model where the response variable are
+each metabolite and the terms are the exposure feature and other features that
+are defined as confounders.
 }
