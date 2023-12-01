@@ -22,7 +22,7 @@ smUI <- function(id, label = 'singMetabolite1') {
           #h4("Run"),
           #Box to check if analysis is done with preprocessed data from previous step
           checkboxInput(ns("use"), "Use data from previous step", FALSE),
-          textInput(ns("target"), "Type exposure feature column", "group"),
+          textInput(ns("target"), "Type exposure feature column", "target"),
           #Column number where metabolites start
           numericInput(ns("smet"), "Column where metabolites start",14),
           #Columns to select
@@ -38,7 +38,7 @@ smUI <- function(id, label = 'singMetabolite1') {
           actionButton(ns("run"), "Run"),
           
           #Dowload preprocessed data
-          downloadButton(ns("download"), "Download .csv")
+          downloadButton(ns("download"), "Download metabolites .csv")
         ),
 
         # wellPanel(

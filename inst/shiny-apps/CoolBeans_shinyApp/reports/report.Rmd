@@ -1,0 +1,15 @@
+---
+title: "`r params$title`"
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: html_document
+params:
+  title:
+  step1: NA 
+---
+
+## Summary Plot
+
+
+```r
+params$step1
+```

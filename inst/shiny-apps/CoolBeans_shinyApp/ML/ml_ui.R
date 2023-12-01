@@ -37,8 +37,12 @@ mlUI <- function(id, label = 'machineLearning1') {
           actionButton(ns("run_train"), "Train Model"),
           
           #Dowload preprocessed data
-          downloadButton(ns("download"), "Download .csv")
-        )
+          downloadButton(ns("download"), "Download predictions .csv")
+        ), 
+        
+        # wellPanel(
+        #   downloadButton("report", "Generate report")
+        #   )
         ),
 
       mainPanel(

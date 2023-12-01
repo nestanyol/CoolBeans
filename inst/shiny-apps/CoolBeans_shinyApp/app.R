@@ -15,6 +15,10 @@ source("SM/sm_server.R")
 source("ML/ml_ui.R")
 source("ML/ml_server.R")
 
+source("reports/rep_ui.R")
+source("reports/rep_server.R")
+
+
 # Create the theme to control appearance app
 mytheme <- create_theme(
   bs_vars_color(
@@ -78,8 +82,8 @@ ui <- dashboardPage(
       menuItem("Introduction", tabName = "intro", icon = icon("info-circle")),
       menuItem("Data Preprocessing", tabName = "dataWrangling", icon = icon("cogs")),
       menuItem("Dimension reduction", tabName = "singMetabolite", icon = icon("tachometer-alt")),
-      menuItem("Multi-metabolite signature", tabName = "ml", icon = icon("robot"))#,
-      #menuItem("Feature Importance", tabName = "feature_importance", icon = icon("list"))
+      menuItem("Multi-metabolite signature", tabName = "ml", icon = icon("robot")),
+      menuItem("Generate report", tabName = "report", icon = icon("list"))
     )
   ),
   body = dashboardBody(
@@ -90,8 +94,8 @@ ui <- dashboardPage(
       tabItem(tabName = "intro", introUI("intro1")),
       tabItem(tabName = "dataWrangling", dwUI("dataWrangling1")),
       tabItem(tabName = "singMetabolite", smUI("singMetabolite1")),
-      tabItem(tabName = "ml", mlUI("machineLearning1"))#,
-      #tabItem(tabName = "feature_importance", h2("Feature Importance & Interpretability"))
+      tabItem(tabName = "ml", mlUI("machineLearning1")),
+      tabItem(tabName = "report", repUI("report1") )
     )
   ),
   title = "Metabolomics Analysis"
@@ -101,11 +105,9 @@ ui <- dashboardPage(
 
 server <- function(input, output, session) {
   data_preprocessed <- dwServer(id = "dataWrangling1")
-  #smServer(id = "singMetabolite1")
   data_filtered <- smServer(id = "singMetabolite1", df=data_preprocessed$preprocessed_data, name = data_preprocessed$filename)
-  mlServer(id = 'machineLearning1', df=data_filtered$datafiltered, name = data_filtered$filename )
-  #callModule(dwServer,"dataWrangling1")
-  #callModule(mlServer, "ml1")
+  ml_output <- mlServer(id = 'machineLearning1', df=data_filtered$datafiltered, name = data_filtered$filename )
+  repServer(id = "report1", preprocess = data_preprocessed)
 }
 
 

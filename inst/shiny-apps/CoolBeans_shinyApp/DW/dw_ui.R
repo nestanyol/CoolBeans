@@ -36,7 +36,7 @@ dwUI <- function(id, label = 'dataWrangling1') {
           actionButton(ns("run"), "Run"),
           
           #Dowload preprocessed data
-          downloadButton(ns("download"), "Download .csv")
+          downloadButton(ns("download"), "Download preprossed .csv")
         )
         
         # wellPanel(
