@@ -1,15 +1,11 @@
 # Module server function
-repServer <- function(id, preprocess){#, graph_2, graph){
-  #stopifnot(is.reactive(preprocess))
-  #stopifnot(is.reactive(graph))
+repServer <- function(id, rawname, rawdata){
 
   library(rmarkdown)
   
   moduleServer(
     id, 
     function(input, output, session){
-    ns <- session$ns 
-    
     output$report <- downloadHandler(
       filename = function() {
         paste0("report", Sys.Date(), ".html")
@@ -18,11 +14,13 @@ repServer <- function(id, preprocess){#, graph_2, graph){
         rmarkdown::render("reports/report.Rmd",
                           output_file = file, 
                           params = list(
-                            title = input$title, 
-                            step1 = preprocess$name
+                            title = input$title,
+                            author = input$author,
+                            nameraw = rawname(),
+                            fileraw = rawdata()
                           ),
-                          envir = new.env(),
-                          intermediates_dir = tempdir())
+                          envir = new.env())#,
+                          #intermediates_dir = tempdir())
                           
       }
         )}

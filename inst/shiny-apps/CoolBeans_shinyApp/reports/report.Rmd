@@ -1,15 +1,23 @@
 ---
 title: "`r params$title`"
+author: "`r params$author`"
 date: "`r format(Sys.time(), '%d %B, %Y')`" 
 output: html_document
 params:
   title:
-  step1: NA 
+  author:
+  nameraw: NA
+  fileraw: NA 
 ---
 
-## Summary Plot
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(ggplot2)
+library(shiny)
+library(rmarkdown)
+library(knitr)
+```
 
-
-```r
-params$step1
+```{r preprocessing}
+ncol(params$fileraw)
 ```
