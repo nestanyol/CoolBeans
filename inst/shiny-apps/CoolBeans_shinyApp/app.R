@@ -107,7 +107,8 @@ server <- function(input, output, session) {
   data_preprocessed <- dwServer(id = "dataWrangling1")
   data_filtered <- smServer(id = "singMetabolite1", df=data_preprocessed$preprocessed_data, name = data_preprocessed$filename)
   ml_output <- mlServer(id = 'machineLearning1', df=data_filtered$datafiltered, name = data_filtered$filename )
-  repServer(id = "report1", preprocess = data_preprocessed)
+  repServer(id = "report1", rawdata = data_preprocessed$raw_data, prepdata = data_preprocessed$preprocessed_data,
+            metdata = data_filtered$singlemetabolites)
 }
 
 

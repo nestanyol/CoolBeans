@@ -7,12 +7,21 @@ repUI <- function(id, label = 'report1') {
                # # Set title of report
                fluidRow(
                  column(4,  HTML('Report title')),
-                 column(8,textInput(ns("title"), placeholder='Report title',label=NULL))
+                 column(8,textInput(ns("title"), placeholder='Report',label=NULL))
                ),
                fluidRow(
                  column(4,  HTML('author')),
-                 column(8,textInput(ns("author"), placeholder='Modeler name',label=NULL))
+                 column(8,textInput(ns("author"), placeholder='Name',label=NULL))
                ),
+               
+               # Some inputs
+               fluidRow(
+                 hr(),
+                 numericInput(ns("ncols"), "Type column where metabolites start",5),
+                 textInput(ns("key_plot"), "Key to use for plotting", "metabolite")),
+               
+               
+                 
                # Start report rendering
                fluidRow(
                  hr(),

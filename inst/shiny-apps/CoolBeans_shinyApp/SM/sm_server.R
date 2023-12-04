@@ -124,7 +124,7 @@ smServer <- function(id, df, name) {
       
       })
       
-      return(list(datafiltered = data_filtered, filename = file_name))    
+      return(list(singlemetabolites = single_metabolites, datafiltered = data_filtered, filename = file_name))    
 
 
     })
