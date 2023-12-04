@@ -1,5 +1,5 @@
 # Module server function
-repServer <- function(id, rawdata, prepdata, metdata){
+repServer <- function(id, rawdata, prepdata, metdata, results){
 
   library(rmarkdown)
   
@@ -18,7 +18,8 @@ repServer <- function(id, rawdata, prepdata, metdata){
                             author = input$author,
                             fileraw = rawdata(),
                             fileprep = prepdata(),
-                            filemetabolites = metdata()
+                            filemetabolites = metdata(),
+                            modelresults = results()
                           ),
                           envir = new.env())#,
                           #intermediates_dir = tempdir())
