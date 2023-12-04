@@ -28,18 +28,19 @@ dwServer <- function(id) {
       observeEvent(input$plot_raw, {
         
         # output$preview1 <- renderPrint({
-        #   skim_without_charts(original_data(),c(1:input$columns))
+        #   head(original_data(), input$ncols)
         # })
+        
         output$plot1 <- renderPlot({
-          raw_data_boxplots <- original_data()[,c(1:20)] %>%
-            tidyr::gather(key = "HN", value = "value", starts_with("HN"))
-          
+          raw_data_boxplots <- original_data()[,c(input$ncols:(input$ncols+5))] %>%
+            tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
+
           boxplot <- raw_data_boxplots %>%
-            ggplot2::ggplot(aes(x = HN, y = value)) +
+            ggplot2::ggplot(aes(x = metabolites, y = value)) +
             ggplot2::geom_boxplot() +
             labs(x = "Metabolites", y = "Intensity") +
             theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-          
+
           boxplot
         }, res = 96)
       })
@@ -73,11 +74,11 @@ dwServer <- function(id) {
         # })
         
         output$plot2 <- renderPlot({
-          prep_data_boxplots <- prep_data()[,c(1:20)] %>%
-            tidyr::gather(key = "HN", value = "value", starts_with("HN"))
+          prep_data_boxplots <- prep_data()[,c(input$ncols:(input$ncols+5))] %>%
+            tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
           
           boxplot_prep <- prep_data_boxplots %>%
-            ggplot2::ggplot(aes(x = HN, y = value)) +
+            ggplot2::ggplot(aes(x = metabolites, y = value)) +
             ggplot2::geom_boxplot() +
             labs(x = "Metabolites", y = "Intensity") +
             theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
@@ -97,6 +98,6 @@ dwServer <- function(id) {
         
       })
       
-      return(list(preprocessed_data = prep_data, filename = file_name))
+      return(list(raw_data = original_data, preprocessed_data = prep_data, filename = file_name))
       
     })}

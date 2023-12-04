@@ -13,6 +13,10 @@ dwUI <- function(id, label = 'dataWrangling1') {
           title = "Data Upload",
           fileInput(ns("data"), "Upload your dataset", accept = c(".rds", ".csv")),
           #numericInput(ns("columns"), "# columns to include in summary",10),
+          #Columns to select
+          # textInput(ns("ncols"), "Enter columns (comma delimited)", "1,8,14"),
+          numericInput(ns("ncols"), "Enter first column with metabolites", 14),
+          textInput(ns("key_plot"), "Key to use for plotting", "metabolites"),
           actionButton(ns("plot_raw"), "Plot")
         ),
         
@@ -22,9 +26,6 @@ dwUI <- function(id, label = 'dataWrangling1') {
           #Insert column names for ID and target
           textInput(ns("id"), "Type id column", "combo"),
           textInput(ns("target"), "Type exposure feature column", "group"),
-          #Columns to select
-          # textInput(ns("ncols"), "Enter columns (comma delimited)", "1,8,14"),
-          textInput(ns("ncols"), "Enter first column with metabolites", "14"),
           # columns cutoff
           sliderInput(ns("na_cutoff"), "Na cutoff (%):", min = 0, max = 100, value = 20, step = 10),
           # select imputation method
