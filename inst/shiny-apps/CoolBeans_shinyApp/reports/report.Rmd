@@ -1,0 +1,77 @@
+---
+title: "`r params$title`"
+author: "`r params$author`"
+date: "`r format(Sys.time(), '%d %B, %Y')`" 
+output: html_document
+params:
+  title:
+  author:
+  fileraw: NA
+  fileprep: NA 
+  filemetabolites: NA
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(ggplot2)
+library(shiny)
+library(rmarkdown)
+library(knitr)
+```
+
+After loading the data, boxplot of the first columns of metabolites shows how the distributions is on the raw data.
+
+```{r raw data}
+raw_data_boxplots <- params$fileraw[,c(input$ncols:(input$ncols+5))] %>%
+  tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
+
+boxplot <- raw_data_boxplots %>%
+  ggplot2::ggplot(aes(x = metabolites, y = value)) +
+  ggplot2::geom_boxplot() +
+  labs(x = "Metabolites", y = "Intensity") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+boxplot
+```
+
+After preprocessing boxplot of the first columns of metabolites shows how the distributions after preprocessing.
+
+```{r preprocessing data}
+raw_data_boxplots <- params$fileprep[,c(input$ncols:(input$ncols+5))] %>%
+  tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
+
+boxplot <- raw_data_boxplots %>%
+  ggplot2::ggplot(aes(x = metabolites, y = value)) +
+  ggplot2::geom_boxplot() +
+  labs(x = "Metabolites", y = "Intensity") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+boxplot
+```
+
+For feature selection.
+
+Single metabolite models. Meti \~ β0P + β1C + ... + Ԑ
+
+The top metabolites are plotted as follow
+
+```{r single metabolites}
+
+if(nrow(params$filemetabolites) >= 10){
+  top_metabolites <- params$filemetabolites[1:10,]
+  } else {
+    top_metabolites <- params$filemetabolites
+    }
+
+met_pvalue <- top_metabolites %>%
+  ggplot2::ggplot(aes(x = yvar, y = p.value_corrected)) +
+  geom_segment( aes(x=yvar, xend=yvar, y=0, yend=p.value_corrected), color="black") +
+  geom_point( color="gray", size=2, alpha=0.6) +
+  theme_light() +
+  coord_flip() +
+  labs(x = "Metabolites", y = "p-value") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  theme(axis.text.y = element_text(size = 5))
+
+met_pvalue
+```

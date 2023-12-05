@@ -11,6 +11,7 @@ mlServer <- function(id, df, name) {
     
     # Reactive value to store the results
     results <- reactiveVal()
+    modelout <- reactiveVal()
 
     observeEvent(input$run_split,{
         # Split data
@@ -111,8 +112,14 @@ mlServer <- function(id, df, name) {
 
             }
           }
+        
+          
+          #Save coefficients for RMarkdown
+          observe({modelout(model)})
         })
           })
+          
+
     
     output$download <- downloadHandler(
       filename = function() {
@@ -124,6 +131,6 @@ mlServer <- function(id, df, name) {
       }
     )
 
-  }
-  )
+    return(model_results = modelout)
+  })
   }

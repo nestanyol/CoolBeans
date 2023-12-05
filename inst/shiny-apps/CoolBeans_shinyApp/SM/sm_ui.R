@@ -9,21 +9,25 @@ smUI <- function(id, label = 'singMetabolite1') {
     sidebarLayout(
       sidebarPanel(
 
-        # wellPanel(
-        #   title = "Data Upload",
-        #   fileInput(ns("data"), "Upload your dataset", accept = c(".rds", ".csv")),
-        #   numericInput(ns("columns"), "# columns to include in summary",10),
-        #   actionButton(ns("summary"), "Summary")
-        # ),
+        wellPanel(
+          title = "Start from a preprocessed file",
+          h4("Start from a preprocessed file"),
+          fileInput(ns("data"), "Upload your dataset", accept = c(".rds", ".csv")),
+          #textInput(ns("ncols"), "Enter first column with metabolites", "14"),
+          actionButton(ns("load"), "Load")
+        ),
 
         wellPanel(
-          title = "Single metabolite analysis",
-          #h4("Do pre-analitical step"),
+          title = "Preprocessed data from shiny",
+          #h4("Run"),
+          #Box to check if analysis is done with preprocessed data from previous step
+          checkboxInput(ns("use"), "Use data from previous step", TRUE),
+          textInput(ns("target"), "Type exposure feature column", "target"),
           #Column number where metabolites start
-          numericInput(ns("smet"), "Column where metabolites start",14),
+          numericInput(ns("smet"), "Column where metabolites start",5),
           #Columns to select
           #textInput(ns("confounders"), "Enter the confounders list", "id, sex, etc"),
-          selectizeInput(ns("confounders"),  "Enter the confounders list",
+          selectizeInput(ns("covariates"),  "Enter the covariates list",
                          choices = NULL,
                          multiple =TRUE,
                          options = list(create = TRUE)),
@@ -34,7 +38,7 @@ smUI <- function(id, label = 'singMetabolite1') {
           actionButton(ns("run"), "Run"),
           
           #Dowload preprocessed data
-          downloadButton(ns("download"), "Download .csv")
+          downloadButton(ns("download"), "Download metabolites .csv")
         ),
 
         # wellPanel(
