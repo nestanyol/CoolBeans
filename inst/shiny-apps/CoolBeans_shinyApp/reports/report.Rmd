@@ -9,7 +9,6 @@ params:
   fileraw: NA
   fileprep: NA 
   filemetabolites: NA
-  modelresults: NA
 ---
 
 ```{r setup, include=FALSE}
@@ -59,7 +58,7 @@ The top metabolites are plotted as follow
 ```{r single metabolites}
 
 if(nrow(params$filemetabolites) >= 10){
-  top_metabolites <- params$filemetabolites[1:10,]
+  top_metabolites <- single_metabolites()[1:10,]
   } else {
     top_metabolites <- params$filemetabolites
     }
@@ -75,12 +74,4 @@ met_pvalue <- top_metabolites %>%
   theme(axis.text.y = element_text(size = 5))
 
 met_pvalue
-```
-
-After modelling the results are the following
-
-```{r ML}
-
-print(params$modelresults)
-
 ```
