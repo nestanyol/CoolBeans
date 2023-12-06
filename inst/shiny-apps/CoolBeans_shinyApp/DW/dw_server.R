@@ -48,7 +48,12 @@ dwServer <- function(id) {
       # Reactive value to store the transformed data
       prep_data <- reactiveVal()
       file_name <- reactiveVal()
+      id <- reactiveVal()
+      target <- reactiveVal()
       start_met <- reactiveVal()
+      cutoff_colums <- reactiveVal()
+      cutoff_rows <- reactiveVal()
+      imputation <- reactiveVal()
       
       
       ###Pre-analytical step###
@@ -64,11 +69,17 @@ dwServer <- function(id) {
         #                                    cutoff_met = input$na_cutoff/100, cutoff_subj = input$na_cutoff/100)) 
         # })
         
+        observe({id(input$id)})
+        observe({target(input$target)})
         observe({start_met(input$ncols)})
+        observe({cutoff_colums(input$na_cutoffcol)})
+        observe({cutoff_rows(input$na_cutoffrows)})
+        observe({imputation(input$imputation_method)})
         
-        observe({prep_data(preprocessing(data, input$id, input$target, start_metabolites = start_met(),
-                                         cutoff_columns = input$na_cutoff/100, cutoff_rows = input$na_cutoff/100,
-                                         imputation = input$imputation_method)) #extra slider to choose different cutoffs from rows and columns.
+        
+        observe({prep_data(preprocessing(data, id(), target(), start_metabolites = start_met(),
+                                         cutoff_columns = cutoff_colums()/100, cutoff_rows = cutoff_rows()/100,
+                                         imputation = imputation())) #extra slider to choose different cutoffs from rows and columns.
         })
         
         # extra step optional for outliers
@@ -102,6 +113,6 @@ dwServer <- function(id) {
         
       })
       
-      return(list(raw_data = original_data, preprocessed_data = prep_data, filename = file_name, startmet = start_met))
+      return(list(raw_data = original_data, preprocessed_data = prep_data, filename = file_name, startmet = start_met, idcolum = id))
       
     })}

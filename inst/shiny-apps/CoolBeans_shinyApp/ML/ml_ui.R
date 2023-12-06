@@ -16,7 +16,7 @@ mlUI <- function(id, label = 'machineLearning1') {
                       selected = "Random Forest"),
           # Select regression or classification
           #h4("Select algorithm"),
-          prettyRadioButtons(ns("algorithm"), "algorithm:",
+          prettyRadioButtons(ns("algorithm"), "Problem type:",
                              status = "default",
                        choices = list("regression" = "regression",
                                       "classification" = "classification"),
@@ -40,9 +40,9 @@ mlUI <- function(id, label = 'machineLearning1') {
       mainPanel(
         # Model Evaluation Outputs
         tabsetPanel(
-          tabPanel("Output model",
+          tabPanel("Output training",
                    verbatimTextOutput(ns("output_model"))),
-          tabPanel("Feature Importance",
+          tabPanel("Output testing",
                    verbatimTextOutput(ns("feature_imp")))
         )
       )

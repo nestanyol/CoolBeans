@@ -1,4 +1,4 @@
-mlServer <- function(id, df, name) {
+mlServer <- function(id, df_train, df_test, name) {
 
   library(tidyr)
   library(tidyverse)
@@ -15,6 +15,8 @@ mlServer <- function(id, df, name) {
 
 
     observeEvent(input$run_train,{
+      train_data <- df_train()
+      test_data <- df_test()
     #   output$output_model <- renderPrint({
     #     skim_without_charts(df(),c(1:10))
     # })

@@ -25,9 +25,11 @@ dwUI <- function(id, label = 'dataWrangling1') {
           h4("Do pre-analitical step"),
           #Insert column names for ID and target
           textInput(ns("id"), "Type id column", "id"),
-          textInput(ns("target"), "Type exposure feature column", "exposure"),
+          textInput(ns("target"), "Type target feature column", "exposure"),
           # columns cutoff
-          sliderInput(ns("na_cutoff"), "Na cutoff (%):", min = 0, max = 100, value = 20, step = 10),
+          sliderInput(ns("na_cutoffcol"), "Na cutoff columns (%):", min = 0, max = 100, value = 20, step = 10),
+          # rows cutoff
+          sliderInput(ns("na_cutoffrows"), "Na cutoff rows (%):", min = 0, max = 100, value = 20, step = 10),
           # select imputation method
           selectInput(ns("imputation_method"), "Select imputation method", choices = list("mean",
                                                                                           "median",
