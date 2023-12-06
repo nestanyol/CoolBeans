@@ -13,28 +13,13 @@ mlServer <- function(id, df, name) {
     results <- reactiveVal()
     modelout <- reactiveVal()
 
-    observeEvent(input$run_split,{
-        # Split data
-        data_split <- splitting(df(), 'target', input$split/100)
 
-        #split data
-        train_data <- data_split$train_data
-        test_data <- data_split$test_data
+    observeEvent(input$run_train,{
+    #   output$output_model <- renderPrint({
+    #     skim_without_charts(df(),c(1:10))
+    # })
 
-        #check and drop NAs in target column, otherwise ML won't run
-        train_data <- train_data %>% drop_na('target')
-        test_data <- test_data %>% drop_na('target')
-
-        # output$output_model <- renderPrint({
-        #   skim_without_charts(train_data,c(1:10))
-        # })
-
-        observeEvent(input$run_train, {
-        #   output$output_model <- renderPrint({
-        #     skim_without_charts(df(),c(1:10))
-        # })
-
-        if (input$model_type == "Linear Regression") {
+    if (input$model_type == "Linear Regression") {
           #train model
           model <- training_lr(train_data)
           #test model
@@ -114,10 +99,10 @@ mlServer <- function(id, df, name) {
           }
         
           
-          #Save coefficients for RMarkdown
-          observe({modelout(model)})
+    #Save coefficients for RMarkdown
+    observe({modelout(model)})
         })
-          })
+  
           
 
     
@@ -132,5 +117,7 @@ mlServer <- function(id, df, name) {
     )
 
     return(model_results = modelout)
-  })
-  }
+  
+})
+  
+}

@@ -7,14 +7,6 @@ mlUI <- function(id, label = 'machineLearning1') {
     sidebarLayout(
       sidebarPanel(
         
-        wellPanel(
-          # Training and Validation Split for Supervised Learning
-          sliderInput(ns("split"), "Training Data Split (%):", min = 50, max = 90, value = 70, step = 5),
-
-          # Train Model Button for Supervised Learning
-          actionButton(ns("run_split"), "Split Data")
-
-        ),
 
         wellPanel(
           # Model Selection for Supervised Learning

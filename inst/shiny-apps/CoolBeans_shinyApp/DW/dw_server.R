@@ -32,7 +32,7 @@ dwServer <- function(id) {
         # })
         
         output$plot1 <- renderPlot({
-          raw_data_boxplots <- original_data()[,c(input$ncols:(input$ncols+5))] %>%
+          raw_data_boxplots <- original_data()[,c(input$ncols:(input$ncols+5))] %>% #change for select based on input vector
             tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
 
           boxplot <- raw_data_boxplots %>%
@@ -48,6 +48,7 @@ dwServer <- function(id) {
       # Reactive value to store the transformed data
       prep_data <- reactiveVal()
       file_name <- reactiveVal()
+      start_met <- reactiveVal()
       
       
       ###Pre-analytical step###
@@ -63,11 +64,14 @@ dwServer <- function(id) {
         #                                    cutoff_met = input$na_cutoff/100, cutoff_subj = input$na_cutoff/100)) 
         # })
         
-        observe({prep_data(preprocessing(data, input$id, input$target, start_metabolites = input$ncols,
+        observe({start_met(input$ncols)})
+        
+        observe({prep_data(preprocessing(data, input$id, input$target, start_metabolites = start_met(),
                                          cutoff_columns = input$na_cutoff/100, cutoff_rows = input$na_cutoff/100,
-                                         imputation = input$imputation_method))
+                                         imputation = input$imputation_method)) #extra slider to choose different cutoffs from rows and columns.
         })
         
+        # extra step optional for outliers
         #check if something is happening
         # output$preview2 <- renderPrint({
         #   skim_without_charts(prep_data(),c(1:10))
@@ -98,6 +102,6 @@ dwServer <- function(id) {
         
       })
       
-      return(list(raw_data = original_data, preprocessed_data = prep_data, filename = file_name))
+      return(list(raw_data = original_data, preprocessed_data = prep_data, filename = file_name, startmet = start_met))
       
     })}
