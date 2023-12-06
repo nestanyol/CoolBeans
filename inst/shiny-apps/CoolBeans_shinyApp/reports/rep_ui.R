@@ -17,7 +17,6 @@ repUI <- function(id, label = 'report1') {
                # Some inputs
                fluidRow(
                  hr(),
-                 numericInput(ns("ncols"), "Type column where metabolites start",5),
                  textInput(ns("key_plot"), "Key to use for plotting", "metabolite")),
                
                

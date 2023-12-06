@@ -1,6 +1,7 @@
 # Module server function
 #repServer <- function(id, rawdata, prepdata, metdata, results){
-repServer <- function(id, rawdata, prepdata, metdata){
+repServer <- function(id, rawdata, prepdata, idcol, target, startmet, nacol, narow, imputmethod, 
+                      metdata){
     
 
   library(rmarkdown)
@@ -20,6 +21,12 @@ repServer <- function(id, rawdata, prepdata, metdata){
                             author = input$author,
                             fileraw = rawdata(),
                             fileprep = prepdata(),
+                            inputid = idcol(),
+                            inputtarget = target(),
+                            inputstartmet = startmet(),
+                            inputnacol = nacol(),
+                            inputnarow = narow(),
+                            inputimputmethod = imputmethod(),
                             filemetabolites = metdata()#,
                             #modelresults = results()
                           ),

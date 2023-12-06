@@ -113,6 +113,8 @@ dwServer <- function(id) {
         
       })
       
-      return(list(raw_data = original_data, preprocessed_data = prep_data, filename = file_name, startmet = start_met, idcolum = id))
+      return(list(raw_data = original_data, preprocessed_data = prep_data, filename = file_name, idcol = id, 
+                  targetcol = target, startmet = start_met, nacolumns = cutoff_colums, narows = cutoff_rows,
+                  imput = imputation))
       
     })}

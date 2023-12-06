@@ -106,9 +106,10 @@ ui <- dashboardPage(
 server <- function(input, output, session) {
   data_preprocessed <- dwServer(id = "dataWrangling1")
   data_filtered <- smServer(id = "singMetabolite1", df=data_preprocessed$preprocessed_data, name = data_preprocessed$filename, startmet = data_preprocessed$startmet)
-  ml_output <- mlServer(id = 'machineLearning1', df=data_filtered$datafiltered, name = data_filtered$filename )
+  ml_output <- mlServer(id = 'machineLearning1', df_train=data_filtered$traindatafiltered, df_test=data_filtered$testdatafiltered, name = data_filtered$filename )
   repServer(id = "report1", rawdata = data_preprocessed$raw_data, prepdata = data_preprocessed$preprocessed_data,
-            metdata = data_filtered$singlemetabolites)#, results = ml_output$model_results)
+            idcol=data_preprocessed$idcol, target=data_preprocessed$targetcol, startmet=data_preprocessed$startmet, nacol=data_preprocessed$nacolumns, 
+            narow=data_preprocessed$narows, imputmethod=data_preprocessed$imput, metdata = data_filtered$singlemetabolites)#, results = ml_output$model_results)
 }
 
 
