@@ -109,7 +109,8 @@ server <- function(input, output, session) {
   ml_output <- mlServer(id = 'machineLearning1', df_train=data_filtered$traindatafiltered, df_test=data_filtered$testdatafiltered, name = data_filtered$filename )
   repServer(id = "report1", rawdata = data_preprocessed$raw_data, prepdata = data_preprocessed$preprocessed_data,
             idcol=data_preprocessed$idcol, target=data_preprocessed$targetcol, startmet=data_preprocessed$startmet, nacol=data_preprocessed$nacolumns, 
-            narow=data_preprocessed$narows, imputmethod=data_preprocessed$imput, metdata = data_filtered$singlemetabolites)#, results = ml_output$model_results)
+            narow=data_preprocessed$narows, imputmethod=data_preprocessed$imput, metdata = data_filtered$singlemetabolites, 
+            results_training = ml_output$model_trainig, results_testing = ml_output$model_testing)
 }
 
 

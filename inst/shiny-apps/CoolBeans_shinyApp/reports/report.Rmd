@@ -15,6 +15,8 @@ params:
   inputnarow: NA
   inputimputmethod: NA
   filemetabolites: NA
+  modeltraining: NA
+  modeltesting: NA
 ---
 
 ```{r setup, include=FALSE}
@@ -72,6 +74,7 @@ Single metabolite models. Meti \~ β0P + β1C + ... + Ԑ
 The top metabolites are plotted as follow
 
 ```{r single metabolites}
+params$filemetabolites
 
 if(nrow(params$filemetabolites) >= 10){
   top_metabolites <- params$filemetabolites[1:10,]
@@ -90,4 +93,12 @@ met_pvalue <- top_metabolites %>%
   theme(axis.text.y = element_text(size = 5))
 
 met_pvalue
+```
+
+ML
+
+```{r ML}
+params$modeltraining
+
+params$modeltesting[-1]
 ```

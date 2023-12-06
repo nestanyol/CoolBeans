@@ -11,7 +11,8 @@ mlServer <- function(id, df_train, df_test, name) {
     
     # Reactive value to store the results
     results <- reactiveVal()
-    modelout <- reactiveVal()
+    model <- reactiveVal()
+  
 
 
     observeEvent(input$run_train,{
@@ -23,27 +24,26 @@ mlServer <- function(id, df_train, df_test, name) {
 
     if (input$model_type == "Linear Regression") {
           #train model
-          model <- training_lr(train_data)
+          observe({model(training_lr(train_data))})
           #test model
-          observe({results(testing_lr(model, test_data))})
+          observe({results(testing_lr(model(), test_data))})
           output$output_model <- renderPrint({
-           model
+           model()
           })
 
           output$feature_imp <- renderPrint({
             results()[-1]
-          })
-
-          } else if (input$model_type == "Random Forest") {
+          })} else if (input$model_type == "Random Forest") {
             if(input$algorithm == 'regression'){
 
               #train model with regression option
-              model <- training_rf(train_data, type=1)
+              observe({model(training_rf(train_data, type=1))})
+              #model <- training_rf(train_data, type=1)
               #test model
-              observe({results(testing_rf_regression(model, test_data))})
+              observe({results(testing_rf_regression(model(), test_data))})
 
               output$output_model <- renderPrint({
-                model
+                model()
               })
 
               output$feature_imp <- renderPrint({
@@ -53,12 +53,13 @@ mlServer <- function(id, df_train, df_test, name) {
             } else if(input$algorithm == 'classification'){
 
               #train model with regression option
-              model <- training_rf(train_data, type=2)
+              observe({model(training_rf(train_data, type=2))})
+              #model <- training_rf(train_data, type=2)
               #test model
-              observe({results(testing_rf_classification(model, test_data))})
+              observe({results(testing_rf_classification(model(), test_data))})
 
               output$output_model <- renderPrint({
-                model
+                model()
               })
 
               output$feature_imp <- renderPrint({
@@ -70,12 +71,13 @@ mlServer <- function(id, df_train, df_test, name) {
             if(input$algorithm == 'regression'){
 
               #train model with regression option
-              model <- training_knn(train_data, type=1)
+              observe({model(training_knn(train_data, type=1))})
+              #model <- training_knn(train_data, type=1)
               #test model
-              observe({results(testing_knn_regression(model, test_data))})
+              observe({results(testing_knn_regression(model(), test_data))})
 
               output$output_model <- renderPrint({
-                model
+                model()
               })
 
               output$feature_imp <- renderPrint({
@@ -85,12 +87,13 @@ mlServer <- function(id, df_train, df_test, name) {
             } else if(input$algorithm == 'classification'){
 
               #train model with regression option
-              model <- training_knn(train_data, type=2)
+              observe({model(training_knn(train_data, type=2))})
+              #model <- training_knn(train_data, type=2)
               #test model
-              observe({results(testing_knn_classification(model, test_data))})
+              observe({results(testing_knn_classification(model(), test_data))})
 
               output$output_model <- renderPrint({
-                model
+                model()
               })
 
               output$feature_imp <- renderPrint({
@@ -99,15 +102,9 @@ mlServer <- function(id, df_train, df_test, name) {
 
             }
           }
-        
-          
-    #Save coefficients for RMarkdown
-    observe({modelout(model)})
         })
   
           
-
-    
     output$download <- downloadHandler(
       filename = function() {
         file <- name()[1]
@@ -118,7 +115,7 @@ mlServer <- function(id, df_train, df_test, name) {
       }
     )
 
-    return(model_results = modelout)
+    return(list(model_trainig = model, model_testing = results))
   
 })
   
