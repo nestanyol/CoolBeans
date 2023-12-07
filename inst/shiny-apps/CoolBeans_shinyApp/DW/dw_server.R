@@ -27,13 +27,15 @@ dwServer <- function(id) {
       
       observeEvent(input$plot_raw, {
         
+        #selected <- as.character(unlist(strsplit(input$namecols,",")))
         # output$preview1 <- renderPrint({
-        #   head(original_data(), input$ncols)
+        #   colnames(original_data()[,c(input$namecols)])
         # })
         
         output$plot1 <- renderPlot({
-          raw_data_boxplots <- original_data()[,c(input$ncols:(input$ncols+5))] %>% #change for select based on input vector
-            tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
+          raw_data_boxplots <- original_data()[,input$namecols]%>%
+            #dplyr::select(input$namecol)%>%
+            tidyr::gather(key = "metabolites", value = "value")#, starts_with(input$key_plot))
 
           boxplot <- raw_data_boxplots %>%
             ggplot2::ggplot(aes(x = metabolites, y = value)) +
@@ -89,8 +91,9 @@ dwServer <- function(id) {
         # })
         
         output$plot2 <- renderPlot({
-          prep_data_boxplots <- prep_data()[,c(input$ncols:(input$ncols+5))] %>%
-            tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
+          prep_data_boxplots <- prep_data()[,input$namecols]%>%
+            #select(input$namecols)%>% #[,c(input$ncols:(input$ncols+5))] %>%
+            tidyr::gather(key = "metabolites", value = "value") #starts_with(input$key_plot))
           
           boxplot_prep <- prep_data_boxplots %>%
             ggplot2::ggplot(aes(x = metabolites, y = value)) +
