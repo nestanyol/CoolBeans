@@ -27,13 +27,15 @@ dwServer <- function(id) {
       
       observeEvent(input$plot_raw, {
         
+        #selected <- as.character(unlist(strsplit(input$namecols,",")))
         # output$preview1 <- renderPrint({
-        #   head(original_data(), input$ncols)
+        #   colnames(original_data()[,c(input$namecols)])
         # })
         
         output$plot1 <- renderPlot({
-          raw_data_boxplots <- original_data()[,c(input$ncols:(input$ncols+5))] %>%
-            tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
+          raw_data_boxplots <- original_data()[,input$namecols]%>%
+            #dplyr::select(input$namecol)%>%
+            tidyr::gather(key = "metabolites", value = "value")#, starts_with(input$key_plot))
 
           boxplot <- raw_data_boxplots %>%
             ggplot2::ggplot(aes(x = metabolites, y = value)) +
@@ -48,6 +50,12 @@ dwServer <- function(id) {
       # Reactive value to store the transformed data
       prep_data <- reactiveVal()
       file_name <- reactiveVal()
+      id <- reactiveVal()
+      target <- reactiveVal()
+      start_met <- reactiveVal()
+      cutoff_colums <- reactiveVal()
+      cutoff_rows <- reactiveVal()
+      imputation <- reactiveVal()
       
       
       ###Pre-analytical step###
@@ -63,19 +71,29 @@ dwServer <- function(id) {
         #                                    cutoff_met = input$na_cutoff/100, cutoff_subj = input$na_cutoff/100)) 
         # })
         
-        observe({prep_data(preprocessing(data, input$id, input$target, start_metabolites = input$ncols,
-                                         cutoff_columns = input$na_cutoff/100, cutoff_rows = input$na_cutoff/100,
-                                         imputation = input$imputation_method))
+        observe({id(input$id)})
+        observe({target(input$target)})
+        observe({start_met(input$ncols)})
+        observe({cutoff_colums(input$na_cutoffcol)})
+        observe({cutoff_rows(input$na_cutoffrows)})
+        observe({imputation(input$imputation_method)})
+        
+        
+        observe({prep_data(preprocessing(data, id(), target(), start_metabolites = start_met(),
+                                         cutoff_columns = cutoff_colums()/100, cutoff_rows = cutoff_rows()/100,
+                                         imputation = imputation())) #extra slider to choose different cutoffs from rows and columns.
         })
         
+        # extra step optional for outliers
         #check if something is happening
         # output$preview2 <- renderPrint({
         #   skim_without_charts(prep_data(),c(1:10))
         # })
         
         output$plot2 <- renderPlot({
-          prep_data_boxplots <- prep_data()[,c(input$ncols:(input$ncols+5))] %>%
-            tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
+          prep_data_boxplots <- prep_data()[,input$namecols]%>%
+            #select(input$namecols)%>% #[,c(input$ncols:(input$ncols+5))] %>%
+            tidyr::gather(key = "metabolites", value = "value") #starts_with(input$key_plot))
           
           boxplot_prep <- prep_data_boxplots %>%
             ggplot2::ggplot(aes(x = metabolites, y = value)) +
@@ -98,6 +116,8 @@ dwServer <- function(id) {
         
       })
       
-      return(list(raw_data = original_data, preprocessed_data = prep_data, filename = file_name))
+      return(list(raw_data = original_data, preprocessed_data = prep_data, filename = file_name, idcol = id, 
+                  targetcol = target, startmet = start_met, nacolumns = cutoff_colums, narows = cutoff_rows,
+                  imput = imputation))
       
     })}

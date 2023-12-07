@@ -1,5 +1,5 @@
 # Module server function
-smServer <- function(id, df, name) {
+smServer <- function(id, df, name, startmet) {
   #dwServer.R
   library(tidyr)
   library(tidyverse)
@@ -24,39 +24,71 @@ smServer <- function(id, df, name) {
           return(NULL)
         })
       })
-
+      #move sample split into this step and use train data, then filter and test.
+      
       # Reactive value to store the transformed data
       data_to_use <- reactiveVal()
-      single_metabolites <- reactiveVal()
       data_filtered <- reactiveVal()
       file_name <- reactiveVal()
+      smet <- reactiveVal()
+      single_metabolites <- reactiveVal()
+      traindata <- reactiveVal()
+      testdata <- reactiveVal()
+      traindata_filtered <- reactiveVal()
+      testdata_filtered <- reactiveVal()
       
       ###Preprocessed data###
       observeEvent(input$load,{
+        if(input$use){
+          data_to_use(df())
+          file_name(name())
+          smet(startmet())
+          
+          #check output
+          output$preview1 <- renderPrint({
+            cat("data frame dimensions", dim(data_to_use()))
+            #cat("Number of filtered metabolites", nrow(single_metabolites()))
+          })
+          
+          output$preview2 <- renderPrint({
+            cat("List of variables:", colnames(data_to_use())[1:(smet()-1)])
+            #cat("Number of filtered metabolites", nrow(single_metabolites()))
+          })
+        }else{
         observe({file_name(as.character(input$data))})
         observe({data_to_use(loaded_data())})
+        observe({smet(input$smet)})
         
         #check output
         output$preview1 <- renderPrint({
-          dim(data_to_use())
+          cat("data frame dimensions:", dim(data_to_use()))
           #cat("Number of filtered metabolites", nrow(single_metabolites()))
         })
 
         output$preview2 <- renderPrint({
-          file_name()[1]
+          cat("List of variables:", colnames(data_to_use())[1:(smet()-1)])
           #cat("Number of filtered metabolites", nrow(single_metabolites()))
-        })
+        })}
       })
       
-      ###Pre-analytical step###
-      #eventReactive(input$run, { #doesn't give output
-      observeEvent(input$run,{
-        if(input$use){
-          data_to_use(df())
-          file_name(name())
-        }
+      ### Data splitting
+      
+      observeEvent(input$run_split,{
+        # Split data
+        data_split <- splitting(data_to_use(), 'target', input$split/100)
         
-        observe({single_metabolites(sing_met_analysis(data = data_to_use(), exposure_feature = input$target, start_metabolites = input$smet, threshold = input$pvalue, covariates = input$covariates, correction = input$correction_method))
+        #split data
+        train_data <- data_split$train_data
+        test_data <- data_split$test_data
+        
+        #check and drop NAs in target column, otherwise ML won't run
+        observe({traindata(train_data %>% drop_na('target'))})
+        observe({testdata(test_data %>% drop_na('target'))})
+      })
+        
+      ###Single metabolites analysis
+      observeEvent(input$run,{
+        observe({single_metabolites(sing_met_analysis(data = traindata(), exposure_feature = input$target, start_metabolites = smet(), threshold = input$pvalue, covariates = input$covariates, correction = input$correction_method))
         
         })
         
@@ -116,15 +148,19 @@ smServer <- function(id, df, name) {
 
         #   })
         
-        # #data_ML 
-        observe({data_filtered(data_to_use()%>%
+        # #data to ML training
+        observe({traindata_filtered(traindata()%>%
                 select(id, target, single_metabolites()$yvar))
         })
         
+        # #data to ML testing
+        observe({testdata_filtered(testdata()%>%
+                                      select(id, target, single_metabolites()$yvar))
+        })
       
       })
       
-      return(list(singlemetabolites = single_metabolites, datafiltered = data_filtered, filename = file_name))    
+      return(list(singlemetabolites = single_metabolites, traindatafiltered = traindata_filtered, testdatafiltered = testdata_filtered, filename = file_name))    
 
 
     })

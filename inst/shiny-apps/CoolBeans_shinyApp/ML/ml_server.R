@@ -1,4 +1,4 @@
-mlServer <- function(id, df, name) {
+mlServer <- function(id, df_train, df_test, name) {
 
   library(tidyr)
   library(tidyverse)
@@ -11,52 +11,39 @@ mlServer <- function(id, df, name) {
     
     # Reactive value to store the results
     results <- reactiveVal()
-    modelout <- reactiveVal()
+    model <- reactiveVal()
+  
 
-    observeEvent(input$run_split,{
-        # Split data
-        data_split <- splitting(df(), 'target', input$split/100)
 
-        #split data
-        train_data <- data_split$train_data
-        test_data <- data_split$test_data
+    observeEvent(input$run_train,{
+      train_data <- df_train()
+      test_data <- df_test()
+    #   output$output_model <- renderPrint({
+    #     skim_without_charts(df(),c(1:10))
+    # })
 
-        #check and drop NAs in target column, otherwise ML won't run
-        train_data <- train_data %>% drop_na('target')
-        test_data <- test_data %>% drop_na('target')
-
-        # output$output_model <- renderPrint({
-        #   skim_without_charts(train_data,c(1:10))
-        # })
-
-        observeEvent(input$run_train, {
-        #   output$output_model <- renderPrint({
-        #     skim_without_charts(df(),c(1:10))
-        # })
-
-        if (input$model_type == "Linear Regression") {
+    if (input$model_type == "Linear Regression") {
           #train model
-          model <- training_lr(train_data)
+          observe({model(training_lr(train_data))})
           #test model
-          observe({results(testing_lr(model, test_data))})
+          observe({results(testing_lr(model(), test_data))})
           output$output_model <- renderPrint({
-           model
+           model()
           })
 
           output$feature_imp <- renderPrint({
             results()[-1]
-          })
-
-          } else if (input$model_type == "Random Forest") {
+          })} else if (input$model_type == "Random Forest") {
             if(input$algorithm == 'regression'){
 
               #train model with regression option
-              model <- training_rf(train_data, type=1)
+              observe({model(training_rf(train_data, type=1))})
+              #model <- training_rf(train_data, type=1)
               #test model
-              observe({results(testing_rf_regression(model, test_data))})
+              observe({results(testing_rf_regression(model(), test_data))})
 
               output$output_model <- renderPrint({
-                model
+                model()
               })
 
               output$feature_imp <- renderPrint({
@@ -66,12 +53,13 @@ mlServer <- function(id, df, name) {
             } else if(input$algorithm == 'classification'){
 
               #train model with regression option
-              model <- training_rf(train_data, type=2)
+              observe({model(training_rf(train_data, type=2))})
+              #model <- training_rf(train_data, type=2)
               #test model
-              observe({results(testing_rf_classification(model, test_data))})
+              observe({results(testing_rf_classification(model(), test_data))})
 
               output$output_model <- renderPrint({
-                model
+                model()
               })
 
               output$feature_imp <- renderPrint({
@@ -83,12 +71,13 @@ mlServer <- function(id, df, name) {
             if(input$algorithm == 'regression'){
 
               #train model with regression option
-              model <- training_knn(train_data, type=1)
+              observe({model(training_knn(train_data, type=1))})
+              #model <- training_knn(train_data, type=1)
               #test model
-              observe({results(testing_knn_regression(model, test_data))})
+              observe({results(testing_knn_regression(model(), test_data))})
 
               output$output_model <- renderPrint({
-                model
+                model()
               })
 
               output$feature_imp <- renderPrint({
@@ -98,12 +87,13 @@ mlServer <- function(id, df, name) {
             } else if(input$algorithm == 'classification'){
 
               #train model with regression option
-              model <- training_knn(train_data, type=2)
+              observe({model(training_knn(train_data, type=2))})
+              #model <- training_knn(train_data, type=2)
               #test model
-              observe({results(testing_knn_classification(model, test_data))})
+              observe({results(testing_knn_classification(model(), test_data))})
 
               output$output_model <- renderPrint({
-                model
+                model()
               })
 
               output$feature_imp <- renderPrint({
@@ -112,15 +102,9 @@ mlServer <- function(id, df, name) {
 
             }
           }
-        
-          
-          #Save coefficients for RMarkdown
-          observe({modelout(model)})
         })
-          })
+  
           
-
-    
     output$download <- downloadHandler(
       filename = function() {
         file <- name()[1]
@@ -131,6 +115,8 @@ mlServer <- function(id, df, name) {
       }
     )
 
-    return(model_results = modelout)
-  })
-  }
+    return(list(model_trainig = model, model_testing = results))
+  
+})
+  
+}

@@ -13,18 +13,28 @@ smUI <- function(id, label = 'singMetabolite1') {
           title = "Start from a preprocessed file",
           h4("Start from a preprocessed file"),
           fileInput(ns("data"), "Upload your dataset", accept = c(".rds", ".csv")),
+          #Column number where metabolites start
+          numericInput(ns("smet"), "Column where metabolites start",5),
           #textInput(ns("ncols"), "Enter first column with metabolites", "14"),
+          h4("Or from previous step"),
+          checkboxInput(ns("use"), "Use data from previous step", TRUE),
           actionButton(ns("load"), "Load")
+        ),
+        
+        wellPanel(
+          # Training and Validation Split for Supervised Learning
+          sliderInput(ns("split"), "Training Data Split (%):", min = 50, max = 90, value = 70, step = 5),
+          
+          # Train Model Button for Supervised Learning
+          actionButton(ns("run_split"), "Split Data")
+          
         ),
 
         wellPanel(
           title = "Preprocessed data from shiny",
           #h4("Run"),
           #Box to check if analysis is done with preprocessed data from previous step
-          checkboxInput(ns("use"), "Use data from previous step", TRUE),
           textInput(ns("target"), "Type exposure feature column", "target"),
-          #Column number where metabolites start
-          numericInput(ns("smet"), "Column where metabolites start",5),
           #Columns to select
           #textInput(ns("confounders"), "Enter the confounders list", "id, sex, etc"),
           selectizeInput(ns("covariates"),  "Enter the covariates list",
@@ -51,7 +61,7 @@ smUI <- function(id, label = 'singMetabolite1') {
       mainPanel(
         # Model Evaluation Outputs
         tabsetPanel(
-          tabPanel("Preview Model Output",
+          tabPanel("Output",
                    verbatimTextOutput(ns("preview1")),
                    verbatimTextOutput(ns("preview2"))),
           tabPanel("P-value",

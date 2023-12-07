@@ -7,34 +7,26 @@ mlUI <- function(id, label = 'machineLearning1') {
     sidebarLayout(
       sidebarPanel(
         
-        wellPanel(
-          # Training and Validation Split for Supervised Learning
-          sliderInput(ns("split"), "Training Data Split (%):", min = 50, max = 90, value = 70, step = 5),
-
-          # Train Model Button for Supervised Learning
-          actionButton(ns("run_split"), "Split Data")
-
-        ),
 
         wellPanel(
           # Model Selection for Supervised Learning
           selectInput(ns("model_type"), "Choose Model:",
                       #choices = c("Linear Regression", "Random Forest", "SVM", "Neural Network", "k-NN"),
-                      choices = c("Random Forest", "Linear Regression", "K-Nearest Neighbor"),
-                      selected = "Random Forest"),
+                      choices = c("Linear Regression", "Random Forest", "K-Nearest Neighbor"),
+                      selected = "Linear Regression"),
           # Select regression or classification
           #h4("Select algorithm"),
-          prettyRadioButtons(ns("algorithm"), "algorithm:",
+          prettyRadioButtons(ns("algorithm"), "Problem type:",
                              status = "default",
                        choices = list("regression" = "regression",
                                       "classification" = "classification"),
-                       selected = "classification"),
+                       selected = "regression"),
 
           # Training and Validation Split for Supervised Learning
           #sliderInput(ns("split"), "Training Data Split (%):", min = 50, max = 90, value = 70, step = 5),
 
           # Train Model Button for Supervised Learning
-          actionButton(ns("run_train"), "Train Model"),
+          actionButton(ns("run_train"), "Run Model"),
           
           #Dowload preprocessed data
           downloadButton(ns("download"), "Download predictions .csv")
@@ -48,9 +40,9 @@ mlUI <- function(id, label = 'machineLearning1') {
       mainPanel(
         # Model Evaluation Outputs
         tabsetPanel(
-          tabPanel("Output model",
+          tabPanel("Output training",
                    verbatimTextOutput(ns("output_model"))),
-          tabPanel("Feature Importance",
+          tabPanel("Output testing",
                    verbatimTextOutput(ns("feature_imp")))
         )
       )

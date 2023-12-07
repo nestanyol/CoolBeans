@@ -8,7 +8,15 @@ params:
   author:
   fileraw: NA
   fileprep: NA 
+  inputid: NA
+  inputtarget: NA
+  inputstartmet: NA
+  inputnacol: NA
+  inputnarow: NA
+  inputimputmethod: NA
   filemetabolites: NA
+  modeltraining: NA
+  modeltesting: NA
 ---
 
 ```{r setup, include=FALSE}
@@ -22,7 +30,9 @@ library(knitr)
 After loading the data, boxplot of the first columns of metabolites shows how the distributions is on the raw data.
 
 ```{r raw data}
-raw_data_boxplots <- params$fileraw[,c(input$ncols:(input$ncols+5))] %>%
+cat("Raw data frame dimensions:", dim(params$fileraw))
+
+raw_data_boxplots <- params$fileraw[,c(params$inputstartmet:(params$inputstartmet+5))] %>%
   tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
 
 boxplot <- raw_data_boxplots %>%
@@ -37,7 +47,15 @@ boxplot
 After preprocessing boxplot of the first columns of metabolites shows how the distributions after preprocessing.
 
 ```{r preprocessing data}
-raw_data_boxplots <- params$fileprep[,c(input$ncols:(input$ncols+5))] %>%
+cat("Preprocessed data frame dimensions:", dim(params$fileprep))
+cat("ID column:", params$inputid)
+cat("Target column:", params$inputtarget)
+cat("Threshold for na% column removal:", params$inputnacol)
+cat("Threshold for na% row removal:", params$inputnarow)
+cat("Imputation method:", params$inputimputmethod)
+
+
+raw_data_boxplots <- params$fileprep[,c(params$inputstartmet:(params$inputstartmet+5))] %>%
   tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
 
 boxplot <- raw_data_boxplots %>%
@@ -56,6 +74,7 @@ Single metabolite models. Meti \~ β0P + β1C + ... + Ԑ
 The top metabolites are plotted as follow
 
 ```{r single metabolites}
+params$filemetabolites
 
 if(nrow(params$filemetabolites) >= 10){
   top_metabolites <- params$filemetabolites[1:10,]
@@ -74,4 +93,12 @@ met_pvalue <- top_metabolites %>%
   theme(axis.text.y = element_text(size = 5))
 
 met_pvalue
+```
+
+ML
+
+```{r ML}
+params$modeltraining
+
+params$modeltesting[-1]
 ```
