@@ -11,6 +11,7 @@ params:
   inputid: NA
   inputtarget: NA
   inputstartmet: NA
+  colplot: NA
   inputnacol: NA
   inputnarow: NA
   inputimputmethod: NA
@@ -32,8 +33,8 @@ After loading the data, boxplot of the first columns of metabolites shows how th
 ```{r raw data}
 cat("Raw data frame dimensions:", dim(params$fileraw))
 
-raw_data_boxplots <- params$fileraw[,c(params$inputstartmet:(params$inputstartmet+5))] %>%
-  tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
+raw_data_boxplots <- params$fileraw[,c(params$colplot)] %>%
+  tidyr::gather(key = "metabolites", value = "value")#, starts_with(input$key_plot))
 
 boxplot <- raw_data_boxplots %>%
   ggplot2::ggplot(aes(x = metabolites, y = value)) +
@@ -55,8 +56,8 @@ cat("Threshold for na% row removal:", params$inputnarow)
 cat("Imputation method:", params$inputimputmethod)
 
 
-raw_data_boxplots <- params$fileprep[,c(params$inputstartmet:(params$inputstartmet+5))] %>%
-  tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
+raw_data_boxplots <- params$fileprep[,c(params$colplot)] %>%
+  tidyr::gather(key = "metabolites", value = "value")#, starts_with(input$key_plot))
 
 boxplot <- raw_data_boxplots %>%
   ggplot2::ggplot(aes(x = metabolites, y = value)) +

@@ -3,6 +3,7 @@ repUI <- function(id, label = 'report1') {
     
     tabPanel("Report ",
              mainPanel(
+               h4("Important to run all the step to generate report"),
                width=12,title="Reporting information", solidHeader = TRUE, status = "primary",collapsible = F,
                # # Set title of report
                fluidRow(
@@ -14,10 +15,10 @@ repUI <- function(id, label = 'report1') {
                  column(8,textInput(ns("author"), placeholder='Name',label=NULL))
                ),
                
-               # Some inputs
-               fluidRow(
-                 hr(),
-                 textInput(ns("key_plot"), "Key to use for plotting", "metabolite")),
+               # # Some inputs
+               # fluidRow(
+               #   hr(),
+               #   textInput(ns("key_plot"), "Key to use for plotting", "metabolite")),
                
                
                  
