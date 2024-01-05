@@ -59,7 +59,7 @@ introUI <- function(id) {
     tags$ul(
       tags$li("Data preprocessing"),
       tags$li("Single metabolite analysis"),
-      tags$li("Testin machine learning models"),
+      tags$li("Testing machine learning models"),
       tags$li("Multi-metabolite signature")
       #tags$li("Understand the importance of different metabolites or features in your dataset.")
     ),
@@ -118,7 +118,9 @@ server <- function(input, output, session) {
             idcol=data_preprocessed$idcol, target=data_preprocessed$targetcol, namecol = data_preprocessed$namecol, 
             startmet=data_preprocessed$startmet, nacol=data_preprocessed$nacolumns, narow=data_preprocessed$narows, 
             imputmethod=data_preprocessed$imput, metdata = data_filtered$singlemetabolites, 
-            results_training = ml_output$model_trainig, results_testing = ml_output$model_testing)
+            results_training = ml_output$model_trainig, results_testing = ml_output$model_testing,
+            results_cv = mls_output$model_cv, nfolds = mls_output$nfolds, nrepeats = mls_output$nrepeats,
+            ltune = mls_output$ltune)
 }
 
 

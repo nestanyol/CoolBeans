@@ -52,6 +52,7 @@ dwServer <- function(id) {
       file_name <- reactiveVal()
       id <- reactiveVal()
       target <- reactiveVal()
+      colplot <- reactiveVal()
       start_met <- reactiveVal()
       cutoff_colums <- reactiveVal()
       cutoff_rows <- reactiveVal()
@@ -74,6 +75,7 @@ dwServer <- function(id) {
         observe({id(input$id)})
         observe({target(input$target)})
         observe({start_met(input$ncols)})
+        observe({colplot(input$namecols)})
         observe({cutoff_colums(input$na_cutoffcol)})
         observe({cutoff_rows(input$na_cutoffrows)})
         observe({imputation(input$imputation_method)})
@@ -91,7 +93,7 @@ dwServer <- function(id) {
         # })
         
         output$plot2 <- renderPlot({
-          prep_data_boxplots <- prep_data()[,input$namecols]%>%
+          prep_data_boxplots <- prep_data()[,colplot()]%>%
             #select(input$namecols)%>% #[,c(input$ncols:(input$ncols+5))] %>%
             tidyr::gather(key = "metabolites", value = "value") #starts_with(input$key_plot))
           
@@ -117,7 +119,7 @@ dwServer <- function(id) {
       })
       
       return(list(raw_data = original_data, preprocessed_data = prep_data, filename = file_name, idcol = id, 
-                  targetcol = target, startmet = start_met, nacolumns = cutoff_colums, narows = cutoff_rows,
+                  targetcol = target, namecol = colplot, startmet = start_met, nacolumns = cutoff_colums, narows = cutoff_rows,
                   imput = imputation))
       
     })}

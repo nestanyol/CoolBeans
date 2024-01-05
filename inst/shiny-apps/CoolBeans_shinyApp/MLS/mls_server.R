@@ -72,7 +72,7 @@ mlsServer <- function(id, df_train, df_test, name) {
       }
     )
 
-    return(list(model_trainig = model))
+    return(list(model_cv = model, nfolds = n_folds, nrepeats = n_repeats, ltune = l_tune))
   
 })
   

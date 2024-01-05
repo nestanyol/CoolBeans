@@ -2,7 +2,8 @@
 #repServer <- function(id, rawdata, prepdata, metdata, results){
 repServer <- function(id, rawdata, prepdata, idcol, target, startmet, 
                       namecol, nacol, narow, imputmethod, 
-                      metdata, results_training, results_testing){
+                      metdata, results_training, results_testing,
+                      results_cv, nfolds, nrepeats, ltune){
     
 
   library(rmarkdown)
@@ -31,7 +32,11 @@ repServer <- function(id, rawdata, prepdata, idcol, target, startmet,
                             inputimputmethod = imputmethod(),
                             filemetabolites = metdata(),
                             modeltraining = results_training(),
-                            modeltesting = results_testing()
+                            modeltesting = results_testing(),
+                            modelcv = results_cv(),
+                            model_nfolds = nfolds(),
+                            model_nrepeats = nrepeats(),
+                            model_ltune = ltune()
                           ),
                           envir = new.env())#,
                           #intermediates_dir = tempdir())

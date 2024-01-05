@@ -18,6 +18,10 @@ params:
   filemetabolites: NA
   modeltraining: NA
   modeltesting: NA
+  modelcv: NA
+  model_nfolds: NA
+  model_nrepeats: NA
+  model_ltune: NA
 ---
 
 ```{r setup, include=FALSE}
@@ -96,10 +100,20 @@ met_pvalue <- top_metabolites %>%
 met_pvalue
 ```
 
-ML
+ML testing
 
 ```{r ML}
 params$modeltraining
 
 params$modeltesting[-1]
+```
+
+Multi-metabolite signature
+
+```{r Multi-metabolite signature}
+cat("Number of folds:", params$model_nfolds)
+cat("Number of repeats:", params$model_nrepeats)
+cat("tuneLenght used:", params$model_ltune)
+
+params$modelcv
 ```
