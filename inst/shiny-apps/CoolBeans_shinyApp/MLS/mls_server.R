@@ -14,7 +14,7 @@ mlsServer <- function(id, df_train, df_test, name) {
     n_folds <- reactiveVal()
     n_repeats <- reactiveVal()
     l_tune <- reactiveVal()
-    #results <- reactiveVal()
+    results <- reactiveVal()
     
 
     observeEvent(input$run_train_cv,{
@@ -34,13 +34,18 @@ mlsServer <- function(id, df_train, df_test, name) {
           observe({model(crossvalidation_model(train_data, model = "glmnet",
                                                nfolds=n_folds(), nrepeats=n_repeats(), ltune=l_tune()))})
           #test model
-          #observe({results(testing_lr(model(), test_data))})
+          observe({results(crossvalidation_eval(model(), test_data))})
+          
           output$output_model <- renderPrint({
            model()
           })
           
           output$plot1 <- renderPlot({
             plot(model())
+          })
+          
+          output$output_eval <- renderPrint({
+            results()
           })
 
           # output$feature_imp <- renderPrint({
@@ -51,9 +56,18 @@ mlsServer <- function(id, df_train, df_test, name) {
             observe({model(crossvalidation_model(train_data, model = "ranger",
                                                  nfolds=n_folds(), nrepeats=n_repeats(), ltune=l_tune()))})
             #test model
-            #observe({results(testing_lr(model(), test_data))})
+            observe({results(crossvalidation_eval(model(), test_data, type = "classification"))})
+            
             output$output_model <- renderPrint({
               model()
+            })
+            
+            output$plot1 <- renderPlot({
+              plot(model())
+            })
+            
+            output$output_eval <- renderPrint({
+              results()
             })
 
           }
@@ -72,7 +86,8 @@ mlsServer <- function(id, df_train, df_test, name) {
       }
     )
 
-    return(list(model_cv = model, nfolds = n_folds, nrepeats = n_repeats, ltune = l_tune))
+    return(list(nfolds = n_folds, nrepeats = n_repeats, ltune = l_tune,
+                model_cv = model, eval_cv = results))
   
 })
   
