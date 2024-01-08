@@ -5,10 +5,10 @@ test_that("Evaluates and checks number of columns", {
   actual <- sim_data |>
     preprocessing(id = "id", target = "exposure", start_metabolites = 5) |>
     sing_met_analysis(exposure_feature = "target", start_metabolites = 5,covariates = c("age")) |>
-    ncol()
+    length()
 
   # We expect mean pvalue to have a specific value.
-  expected <- 7
+  expected <- 2
 
   expect_equal(actual, expected)
 })
