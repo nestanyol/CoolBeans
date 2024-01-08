@@ -1,4 +1,4 @@
-mlsServer <- function(id, df_train, df_test, name) {
+mlsServer <- function(id, df_train, df_test, name, residual_met) {
 
   library(tidyr)
   library(tidyverse)
@@ -10,11 +10,13 @@ mlsServer <- function(id, df_train, df_test, name) {
   function(input, output, session) {
     
     # Reactive value to store the results
-    model <- reactiveVal()
     n_folds <- reactiveVal()
     n_repeats <- reactiveVal()
     l_tune <- reactiveVal()
+    model <- reactiveVal()
+    coeff <- reactiveVal()
     results <- reactiveVal()
+    
     
 
     observeEvent(input$run_train_cv,{
@@ -33,11 +35,22 @@ mlsServer <- function(id, df_train, df_test, name) {
           #train model
           observe({model(crossvalidation_model(train_data, model = "glmnet",
                                                nfolds=n_folds(), nrepeats=n_repeats(), ltune=l_tune()))})
+      
+          #coefficients
+
+          observe({coeff(stats::coef(model()$finalModel, model()$bestTune$lambda))})
+          
           #test model
           observe({results(crossvalidation_eval(model(), test_data))})
           
+          #outputs
+          
           output$output_model <- renderPrint({
            model()
+          })
+          
+          output$coefficients <- renderPrint({
+            coeff()
           })
           
           output$plot1 <- renderPlot({
@@ -55,11 +68,21 @@ mlsServer <- function(id, df_train, df_test, name) {
           # train model
             observe({model(crossvalidation_model(train_data, model = "ranger",
                                                  nfolds=n_folds(), nrepeats=n_repeats(), ltune=l_tune()))})
+            #coefficients
+            observe({coeff(stats::coef(model()$finalModel, model()$bestTune$lambda))})
+            
+            
             #test model
             observe({results(crossvalidation_eval(model(), test_data, type = "classification"))})
             
+            #outputs
+            
             output$output_model <- renderPrint({
               model()
+            })
+            
+            output$coefficients <- renderPrint({
+              coeff()
             })
             
             output$plot1 <- renderPlot({

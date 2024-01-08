@@ -47,7 +47,9 @@ mlsUI <- function(id, label = 'multimetsignature1') {
         # Model Evaluation Outputs
         tabsetPanel(
           tabPanel("Model",
-                   verbatimTextOutput(ns("output_model"))),
+                   verbatimTextOutput(ns("output_model")),
+                   verbatimTextOutput(ns("coefficients")),
+                   verbatimTextOutput(ns("score"))),
           tabPanel("Plot",
                    #verbatimTextOutput(ns("feature_imp"))
                    plotOutput(ns("plot1"))),

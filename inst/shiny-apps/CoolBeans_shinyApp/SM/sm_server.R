@@ -31,7 +31,9 @@ smServer <- function(id, df, name, startmet) {
       data_filtered <- reactiveVal()
       file_name <- reactiveVal()
       smet <- reactiveVal()
+      sin_met_analysis <- reactiveVal()
       single_metabolites <- reactiveVal()
+      sin_met_residuals <- reactiveVal()
       traindata <- reactiveVal()
       testdata <- reactiveVal()
       traindata_filtered <- reactiveVal()
@@ -88,9 +90,14 @@ smServer <- function(id, df, name, startmet) {
         
       ###Single metabolites analysis
       observeEvent(input$run,{
-        observe({single_metabolites(sing_met_analysis(data = traindata(), exposure_feature = input$target, start_metabolites = smet(), threshold = input$pvalue, covariates = input$covariates, correction = input$correction_method))
+        observe({sin_met_analysis(sing_met_analysis(data = traindata(), exposure_feature = input$target, start_metabolites = smet(), threshold = input$pvalue, covariates = input$covariates, correction = input$correction_method))
         
         })
+        
+        observe({single_metabolites(sin_met_analysis()$results)
+        })
+        
+        observe({sin_met_residuals(sin_met_analysis()$residuals)})
         
         #check output
         output$preview1 <- renderPrint({
@@ -160,7 +167,7 @@ smServer <- function(id, df, name, startmet) {
       
       })
       
-      return(list(singlemetabolites = single_metabolites, traindatafiltered = traindata_filtered, testdatafiltered = testdata_filtered, filename = file_name))    
+      return(list(singlemetabolites = single_metabolites, residualmet = sin_met_residuals, traindatafiltered = traindata_filtered, testdatafiltered = testdata_filtered, filename = file_name))    
 
 
     })

@@ -113,7 +113,8 @@ server <- function(input, output, session) {
   data_preprocessed <- dwServer(id = "dataWrangling1")
   data_filtered <- smServer(id = "singMetabolite1", df=data_preprocessed$preprocessed_data, name = data_preprocessed$filename, startmet = data_preprocessed$startmet)
   ml_output <- mlServer(id = 'machineLearning1', df_train=data_filtered$traindatafiltered, df_test=data_filtered$testdatafiltered, name = data_filtered$filename )
-  mls_output <- mlsServer(id = 'multimetsignature1', df_train=data_filtered$traindatafiltered, df_test=data_filtered$testdatafiltered, name = data_filtered$filename )  
+  mls_output <- mlsServer(id = 'multimetsignature1', df_train=data_filtered$traindatafiltered, df_test=data_filtered$testdatafiltered, name = data_filtered$filename,
+                          residual_met = data_filtered$residualmet)  
   repServer(id = "report1", rawdata = data_preprocessed$raw_data, prepdata = data_preprocessed$preprocessed_data,
             idcol=data_preprocessed$idcol, target=data_preprocessed$targetcol, namecol = data_preprocessed$namecol, 
             startmet=data_preprocessed$startmet, nacol=data_preprocessed$nacolumns, narow=data_preprocessed$narows, 
