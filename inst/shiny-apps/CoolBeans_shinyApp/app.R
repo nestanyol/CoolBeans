@@ -119,8 +119,8 @@ server <- function(input, output, session) {
             startmet=data_preprocessed$startmet, nacol=data_preprocessed$nacolumns, narow=data_preprocessed$narows, 
             imputmethod=data_preprocessed$imput, metdata = data_filtered$singlemetabolites, 
             results_training = ml_output$model_trainig, results_testing = ml_output$model_testing,
-            results_cv = mls_output$model_cv, nfolds = mls_output$nfolds, nrepeats = mls_output$nrepeats,
-            ltune = mls_output$ltune)
+            nfolds = mls_output$nfolds, nrepeats = mls_output$nrepeats, ltune = mls_output$ltune,
+            model_cv = mls_output$model_cv, results_cv = mls_output$eval_cv)
 }
 
 

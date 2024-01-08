@@ -18,10 +18,11 @@ params:
   filemetabolites: NA
   modeltraining: NA
   modeltesting: NA
-  modelcv: NA
   model_nfolds: NA
   model_nrepeats: NA
   model_ltune: NA
+  modelcv: NA
+  resultscv: NA
 ---
 
 ```{r setup, include=FALSE}
@@ -116,4 +117,6 @@ cat("Number of repeats:", params$model_nrepeats)
 cat("tuneLenght used:", params$model_ltune)
 
 params$modelcv
+
+params$resultscv
 ```
