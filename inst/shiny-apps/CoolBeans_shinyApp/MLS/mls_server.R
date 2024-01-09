@@ -37,11 +37,13 @@ mlsServer <- function(id, df_train, df_test, name, residual_met) {
                                                nfolds=n_folds(), nrepeats=n_repeats(), ltune=l_tune()))})
       
           #coefficients
-
           observe({coeff(stats::coef(model()$finalModel, model()$bestTune$lambda))})
           
+          #score
+          features <- colnames(residual_met)
+          
           #test model
-          observe({results(crossvalidation_eval(model(), test_data))})
+          observe({results(crossvalidation_eval(model(), test_data, type = input$algorithm))})
           
           #outputs
           
@@ -50,7 +52,8 @@ mlsServer <- function(id, df_train, df_test, name, residual_met) {
           })
           
           output$coefficients <- renderPrint({
-            coeff()
+            cat("Coefficients")
+            head(coeff())
           })
           
           output$plot1 <- renderPlot({
@@ -73,7 +76,7 @@ mlsServer <- function(id, df_train, df_test, name, residual_met) {
             
             
             #test model
-            observe({results(crossvalidation_eval(model(), test_data, type = "classification"))})
+            observe({results(crossvalidation_eval(model(), test_data, type = input$algorithm))})
             
             #outputs
             
@@ -82,7 +85,8 @@ mlsServer <- function(id, df_train, df_test, name, residual_met) {
             })
             
             output$coefficients <- renderPrint({
-              coeff()
+              cat("Coefficients")
+              head(coeff())
             })
             
             output$plot1 <- renderPlot({

@@ -26,12 +26,14 @@ crossvalidation_model <- function(train_data, model = "glmnet", nfolds=2, nrepea
 
   # Training Elastic Net Regression model
   set.seed(42) #set.seed to make it reproducible (otherwise different result each time)
-  model <- caret::train(target~ .,
+  selected_model <- caret::train(target~ .,
                          data = train_data,
                          method = model, #method to use
                          preProcess = c("center", "scale"),
                          tuneLength = ltune, # grid granularity
                          trControl = control)
 
-  model
+  #coeff <- coef(selected_model$finalModel, selected_model$bestTune$lambda)
+
+  #list(model = selected_model, coefficients =coeff)
 }

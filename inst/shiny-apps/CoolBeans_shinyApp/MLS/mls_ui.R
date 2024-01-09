@@ -16,11 +16,11 @@ mlsUI <- function(id, label = 'multimetsignature1') {
                       selected = "Linear Regression"),
           # Select regression or classification
           #h4("Select algorithm"),
-          # prettyRadioButtons(ns("algorithm"), "Problem type:",
-          #                    status = "default",
-          #              choices = list("regression" = "regression",
-          #                             "classification" = "classification"),
-          #              selected = "regression"),
+          prettyRadioButtons(ns("algorithm"), "Problem type:",
+                             status = "default",
+                       choices = list("regression" = "regression",
+                                      "classification" = "classification"),
+                       selected = "regression"),
 
           # Training and Validation Split for Supervised Learning
           #sliderInput(ns("split"), "Training Data Split (%):", min = 50, max = 90, value = 70, step = 5),

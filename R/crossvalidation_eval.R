@@ -15,14 +15,14 @@ crossvalidation_eval <- function(model, test_data, type = "regression") {
     dplyr::as_tibble() %>%
     dplyr::rename(predicted = value) %>%
     dplyr::bind_cols(test_data)
-  
+
   if(type == "regression"){
     rmse <- caret::RMSE(predictions$predicted, predictions$target)
-    metric <- rmse
+    list(df = predictions, RMSE = rmse)
   } else if (type == "classification") {
     cm <- caret::confusionMatrix(predictions$predicted, test_data$target)
-    metric <- cm
+    list(df = predictions, confussion_matrix = cm)
   }
-  
-  list(df = predictions, eval = metric)
+
+
 }
