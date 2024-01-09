@@ -52,7 +52,7 @@ mlsServer <- function(id, df_train, df_test, name, residual_met) {
           })
           
           output$coefficients <- renderPrint({
-            cat("Coefficients")
+            cat("Coefficients table \n")
             head(coeff())
           })
           
@@ -85,7 +85,8 @@ mlsServer <- function(id, df_train, df_test, name, residual_met) {
             })
             
             output$coefficients <- renderPrint({
-              cat("Coefficients")
+              cat("Coefficients table \n")
+              
               head(coeff())
             })
             
@@ -114,7 +115,7 @@ mlsServer <- function(id, df_train, df_test, name, residual_met) {
     )
 
     return(list(nfolds = n_folds, nrepeats = n_repeats, ltune = l_tune,
-                model_cv = model, eval_cv = results))
+                model_cv = model, coefficients = coeff, eval_cv = results))
   
 })
   

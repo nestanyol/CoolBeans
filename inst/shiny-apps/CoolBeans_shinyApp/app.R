@@ -58,9 +58,9 @@ introUI <- function(id) {
 
     tags$ul(
       tags$li("Data preprocessing"),
-      tags$li("Single metabolite analysis"),
+      tags$li("Dimension reduction"),
       tags$li("Testing machine learning models"),
-      tags$li("Multi-metabolite signature")
+      tags$li("ML with crossvalidation")
       #tags$li("Understand the importance of different metabolites or features in your dataset.")
     ),
 
@@ -87,7 +87,7 @@ ui <- dashboardPage(
       menuItem("Data Preprocessing", tabName = "dataWrangling", icon = icon("cogs")),
       menuItem("Dimension reduction", tabName = "singMetabolite", icon = icon("tachometer-alt")),
       menuItem("Testing ML models", tabName = "ml", icon = icon("calendar")),
-      menuItem("Multi-metabolite signature", tabName = "mls", icon = icon("robot")),
+      menuItem("ML with crossvalidation", tabName = "mls", icon = icon("robot")),
       menuItem("Generate report", tabName = "report", icon = icon("list"))
     )
   ),
@@ -121,7 +121,7 @@ server <- function(input, output, session) {
             imputmethod=data_preprocessed$imput, metdata = data_filtered$singlemetabolites, 
             results_training = ml_output$model_trainig, results_testing = ml_output$model_testing,
             nfolds = mls_output$nfolds, nrepeats = mls_output$nrepeats, ltune = mls_output$ltune,
-            model_cv = mls_output$model_cv, results_cv = mls_output$eval_cv)
+            model_cv = mls_output$model_cv, coeff = mls_output$coefficients, results_cv = mls_output$eval_cv)
 }
 
 

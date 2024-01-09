@@ -3,7 +3,7 @@
 repServer <- function(id, rawdata, prepdata, idcol, target, startmet, 
                       namecol, nacol, narow, imputmethod, 
                       metdata, results_training, results_testing,
-                      nfolds, nrepeats, ltune, model_cv, results_cv){
+                      nfolds, nrepeats, ltune, model_cv, coeff, results_cv){
     
 
   library(rmarkdown)
@@ -37,6 +37,7 @@ repServer <- function(id, rawdata, prepdata, idcol, target, startmet,
                             model_nrepeats = nrepeats(),
                             model_ltune = ltune(),
                             modelcv = model_cv(),
+                            coeffs = coeff(),
                             resultscv = results_cv()
                           ),
                           envir = new.env())#,
