@@ -15,6 +15,9 @@ source("SM/sm_server.R")
 source("ML/ml_ui.R")
 source("ML/ml_server.R")
 
+source("MLS/mls_ui.R")
+source("MLS/mls_server.R")
+
 source("reports/rep_ui.R")
 source("reports/rep_server.R")
 
@@ -55,8 +58,9 @@ introUI <- function(id) {
 
     tags$ul(
       tags$li("Data preprocessing"),
-      tags$li("Single metabolite analysis"),
-      tags$li("Multi-metabolite signature")
+      tags$li("Dimension reduction"),
+      tags$li("Testing machine learning models"),
+      tags$li("ML with crossvalidation")
       #tags$li("Understand the importance of different metabolites or features in your dataset.")
     ),
 
@@ -82,7 +86,8 @@ ui <- dashboardPage(
       menuItem("Introduction", tabName = "intro", icon = icon("info-circle")),
       menuItem("Data Preprocessing", tabName = "dataWrangling", icon = icon("cogs")),
       menuItem("Dimension reduction", tabName = "singMetabolite", icon = icon("tachometer-alt")),
-      menuItem("Multi-metabolite signature", tabName = "ml", icon = icon("robot")),
+      menuItem("Testing ML models", tabName = "ml", icon = icon("calendar")),
+      menuItem("ML with crossvalidation", tabName = "mls", icon = icon("robot")),
       menuItem("Generate report", tabName = "report", icon = icon("list"))
     )
   ),
@@ -95,6 +100,7 @@ ui <- dashboardPage(
       tabItem(tabName = "dataWrangling", dwUI("dataWrangling1")),
       tabItem(tabName = "singMetabolite", smUI("singMetabolite1")),
       tabItem(tabName = "ml", mlUI("machineLearning1")),
+      tabItem(tabName = "mls", mlsUI("multimetsignature1")),
       tabItem(tabName = "report", repUI("report1") )
     )
   ),
@@ -107,10 +113,15 @@ server <- function(input, output, session) {
   data_preprocessed <- dwServer(id = "dataWrangling1")
   data_filtered <- smServer(id = "singMetabolite1", df=data_preprocessed$preprocessed_data, name = data_preprocessed$filename, startmet = data_preprocessed$startmet)
   ml_output <- mlServer(id = 'machineLearning1', df_train=data_filtered$traindatafiltered, df_test=data_filtered$testdatafiltered, name = data_filtered$filename )
+  mls_output <- mlsServer(id = 'multimetsignature1', df_train=data_filtered$traindatafiltered, df_test=data_filtered$testdatafiltered, name = data_filtered$filename,
+                          residual_met = data_filtered$residualmet)  
   repServer(id = "report1", rawdata = data_preprocessed$raw_data, prepdata = data_preprocessed$preprocessed_data,
-            idcol=data_preprocessed$idcol, target=data_preprocessed$targetcol, startmet=data_preprocessed$startmet, nacol=data_preprocessed$nacolumns, 
-            narow=data_preprocessed$narows, imputmethod=data_preprocessed$imput, metdata = data_filtered$singlemetabolites, 
-            results_training = ml_output$model_trainig, results_testing = ml_output$model_testing)
+            idcol=data_preprocessed$idcol, target=data_preprocessed$targetcol, namecol = data_preprocessed$namecol, 
+            startmet=data_preprocessed$startmet, nacol=data_preprocessed$nacolumns, narow=data_preprocessed$narows, 
+            imputmethod=data_preprocessed$imput, metdata = data_filtered$singlemetabolites, 
+            results_training = ml_output$model_trainig, results_testing = ml_output$model_testing,
+            nfolds = mls_output$nfolds, nrepeats = mls_output$nrepeats, ltune = mls_output$ltune,
+            model_cv = mls_output$model_cv, coeff = mls_output$coefficients, results_cv = mls_output$eval_cv)
 }
 
 

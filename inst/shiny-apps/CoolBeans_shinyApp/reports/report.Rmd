@@ -11,12 +11,18 @@ params:
   inputid: NA
   inputtarget: NA
   inputstartmet: NA
+  colplot: NA
   inputnacol: NA
   inputnarow: NA
   inputimputmethod: NA
   filemetabolites: NA
   modeltraining: NA
   modeltesting: NA
+  model_nfolds: NA
+  model_nrepeats: NA
+  model_ltune: NA
+  modelcv: NA
+  resultscv: NA
 ---
 
 ```{r setup, include=FALSE}
@@ -32,8 +38,8 @@ After loading the data, boxplot of the first columns of metabolites shows how th
 ```{r raw data}
 cat("Raw data frame dimensions:", dim(params$fileraw))
 
-raw_data_boxplots <- params$fileraw[,c(params$inputstartmet:(params$inputstartmet+5))] %>%
-  tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
+raw_data_boxplots <- params$fileraw[,c(params$colplot)] %>%
+  tidyr::gather(key = "metabolites", value = "value")#, starts_with(input$key_plot))
 
 boxplot <- raw_data_boxplots %>%
   ggplot2::ggplot(aes(x = metabolites, y = value)) +
@@ -55,8 +61,8 @@ cat("Threshold for na% row removal:", params$inputnarow)
 cat("Imputation method:", params$inputimputmethod)
 
 
-raw_data_boxplots <- params$fileprep[,c(params$inputstartmet:(params$inputstartmet+5))] %>%
-  tidyr::gather(key = "metabolites", value = "value", starts_with(input$key_plot))
+raw_data_boxplots <- params$fileprep[,c(params$colplot)] %>%
+  tidyr::gather(key = "metabolites", value = "value")#, starts_with(input$key_plot))
 
 boxplot <- raw_data_boxplots %>%
   ggplot2::ggplot(aes(x = metabolites, y = value)) +
@@ -95,10 +101,22 @@ met_pvalue <- top_metabolites %>%
 met_pvalue
 ```
 
-ML
+ML testing
 
 ```{r ML}
 params$modeltraining
 
 params$modeltesting[-1]
+```
+
+Multi-metabolite signature
+
+```{r Multi-metabolite signature}
+cat("Number of folds:", params$model_nfolds)
+cat("Number of repeats:", params$model_nrepeats)
+cat("tuneLenght used:", params$model_ltune)
+
+params$modelcv
+
+params$resultscv
 ```
