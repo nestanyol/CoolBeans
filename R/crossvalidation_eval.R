@@ -1,13 +1,13 @@
-#' Model training using cross-validation and the model of choice
+#' Model evaluation after cross-validation
 #'
 #' @description The function trains a model using linear regression (elastic net)
 #' and cross-validation
 #'
 #' @param model trained model to be used
 #' @param test_data data to be used for testing
-#' @param type proble type either regression or classification
+#' @param type problem type either regression or classification
 #'
-#' @return Output from training model
+#' @return List that includes model evaluation and some metrics
 #' @export
 #'
 crossvalidation_eval <- function(model, test_data, type = "regression") {

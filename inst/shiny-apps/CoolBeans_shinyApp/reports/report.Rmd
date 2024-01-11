@@ -4,8 +4,8 @@ author: "`r params$author`"
 date: "`r format(Sys.time(), '%d %B, %Y')`" 
 output: html_document
 params:
-  title:
-  author:
+  title: NA
+  author: NA
   fileraw: NA
   fileprep: NA 
   inputid: NA
@@ -22,7 +22,10 @@ params:
   model_nrepeats: NA
   model_ltune: NA
   modelcv: NA
+  coeffs: NA
   resultscv: NA
+  scoresall: NA
+
 ---
 
 ```{r setup, include=FALSE}
@@ -109,7 +112,7 @@ params$modeltraining
 params$modeltesting[-1]
 ```
 
-Multi-metabolite signature
+ML with crossvalitation
 
 ```{r Multi-metabolite signature}
 cat("Number of folds:", params$model_nfolds)
@@ -118,5 +121,22 @@ cat("tuneLenght used:", params$model_ltune)
 
 params$modelcv
 
+cat("Coefficients table \n")
+params$coeffs
+
 params$resultscv
+```
+
+Multi-metabolite scores
+
+```{r ML score}
+head(params$scoresall)
+
+den <- params$scoresall %>%
+            ggplot2::ggplot(aes(x = total)) +
+            ggplot2::geom_density() +
+            labs(x = "Total score", y = "density") +
+            theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+          
+den
 ```

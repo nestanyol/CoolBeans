@@ -2,7 +2,7 @@ mlsUI <- function(id, label = 'multimetsignature1') {
   ns <- NS(id)
 
   tagList(
-    titlePanel("Multi-metabolite signature"),
+    titlePanel("ML with crossvalidation"),
 
     sidebarLayout(
       sidebarPanel(

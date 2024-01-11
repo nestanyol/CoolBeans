@@ -18,6 +18,9 @@ source("ML/ml_server.R")
 source("MLS/mls_ui.R")
 source("MLS/mls_server.R")
 
+source("score/score_ui.R")
+source("score/score_server.R")
+
 source("reports/rep_ui.R")
 source("reports/rep_server.R")
 
@@ -60,7 +63,8 @@ introUI <- function(id) {
       tags$li("Data preprocessing"),
       tags$li("Dimension reduction"),
       tags$li("Testing machine learning models"),
-      tags$li("ML with crossvalidation")
+      tags$li("ML with crossvalidation"),
+      tags$li("Multi metabolite score calculation")
       #tags$li("Understand the importance of different metabolites or features in your dataset.")
     ),
 
@@ -88,6 +92,7 @@ ui <- dashboardPage(
       menuItem("Dimension reduction", tabName = "singMetabolite", icon = icon("tachometer-alt")),
       menuItem("Testing ML models", tabName = "ml", icon = icon("calendar")),
       menuItem("ML with crossvalidation", tabName = "mls", icon = icon("robot")),
+      menuItem("Multi-metabolite score", tabName = "score", icon = icon("bell")),
       menuItem("Generate report", tabName = "report", icon = icon("list"))
     )
   ),
@@ -101,6 +106,7 @@ ui <- dashboardPage(
       tabItem(tabName = "singMetabolite", smUI("singMetabolite1")),
       tabItem(tabName = "ml", mlUI("machineLearning1")),
       tabItem(tabName = "mls", mlsUI("multimetsignature1")),
+      tabItem(tabName = "score", scoreUI("score1")),
       tabItem(tabName = "report", repUI("report1") )
     )
   ),
@@ -111,17 +117,23 @@ ui <- dashboardPage(
 
 server <- function(input, output, session) {
   data_preprocessed <- dwServer(id = "dataWrangling1")
-  data_filtered <- smServer(id = "singMetabolite1", df=data_preprocessed$preprocessed_data, name = data_preprocessed$filename, startmet = data_preprocessed$startmet)
-  ml_output <- mlServer(id = 'machineLearning1', df_train=data_filtered$traindatafiltered, df_test=data_filtered$testdatafiltered, name = data_filtered$filename )
-  mls_output <- mlsServer(id = 'multimetsignature1', df_train=data_filtered$traindatafiltered, df_test=data_filtered$testdatafiltered, name = data_filtered$filename,
-                          residual_met = data_filtered$residualmet)  
+  data_filtered <- smServer(id = "singMetabolite1", df=data_preprocessed$preprocessed_data, name = data_preprocessed$filename, 
+                            startmet = data_preprocessed$startmet)
+  ml_output <- mlServer(id = 'machineLearning1', df_train=data_filtered$traindatafiltered, df_test=data_filtered$testdatafiltered, 
+                        name = data_filtered$filename )
+  mls_output <- mlsServer(id = 'multimetsignature1', df_train=data_filtered$traindatafiltered, df_test=data_filtered$testdatafiltered, 
+                          name = data_filtered$filename,
+                          residual_met = data_filtered$residualmet) 
+  score_output <- scoreServer(id = 'score1', df=data_preprocessed$preprocessed_data, name = data_preprocessed$filename, 
+                              startmet = data_preprocessed$startmet, coeff = mls_output$coefficients)
   repServer(id = "report1", rawdata = data_preprocessed$raw_data, prepdata = data_preprocessed$preprocessed_data,
             idcol=data_preprocessed$idcol, target=data_preprocessed$targetcol, namecol = data_preprocessed$namecol, 
             startmet=data_preprocessed$startmet, nacol=data_preprocessed$nacolumns, narow=data_preprocessed$narows, 
             imputmethod=data_preprocessed$imput, metdata = data_filtered$singlemetabolites, 
             results_training = ml_output$model_trainig, results_testing = ml_output$model_testing,
             nfolds = mls_output$nfolds, nrepeats = mls_output$nrepeats, ltune = mls_output$ltune,
-            model_cv = mls_output$model_cv, coeff = mls_output$coefficients, results_cv = mls_output$eval_cv)
+            model_cv = mls_output$model_cv, coeff = mls_output$coefficients, results_cv = mls_output$eval_cv,
+            scores = score_output)
 }
 
 

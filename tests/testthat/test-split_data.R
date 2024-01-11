@@ -7,7 +7,7 @@ test_that("Evaluates output of two data frames", {
     length()
 
   # We expect the standardization to have 12 zeroes.
-  expected <- 2
+  expected <- 3
 
   expect_equal(actual, expected)
 })

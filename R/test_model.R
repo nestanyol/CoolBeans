@@ -34,4 +34,6 @@ testing_lr <- function(model, test_data) {
   # cat("R-squared:", r_squared, "\n")
 
   list(prediction = predictions, model_coefficients = model_coeffs, rmse_value = rmse)
+  #list(prediction = predictions, model_coefficients = model_coeffs)
+
 }

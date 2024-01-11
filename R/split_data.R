@@ -22,5 +22,5 @@ splitting <- function(clean_data, target, training_split = 0.7) {
   train_data <- rsample::training(split)
   test_data <- rsample::testing(split)
 
-  list(test_data = test_data, train_data = train_data)
+  list(split_data = split, test_data = test_data, train_data = train_data)
 }
