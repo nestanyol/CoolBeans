@@ -63,8 +63,7 @@ scoreServer <- function(id, df, name, startmet, coeff) {
         
       })
 
-      # return(list(nfolds = n_folds, nrepeats = n_repeats, ltune = l_tune,
-      #             model_cv = model, coefficients = coeff, eval_cv = results))
+      return(scores)
       
     })
   
