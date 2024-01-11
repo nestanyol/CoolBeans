@@ -2,6 +2,7 @@
 #'
 #' @description The function calculates a score based on residuals and coefficients
 #'
+#' @param ids calculated from lm
 #' @param residuals calculated from lm
 #' @param coefficients calculated from ml with crossvalidation
 #'
@@ -36,7 +37,7 @@ score_calculation <- function(ids, residuals, coefficients) {
 
   colnames(score) <- features
   
-  scores <- cbind(ids, score)
+  scores <- cbind(ids, score, total = rowSums(score))
   
   scores
   

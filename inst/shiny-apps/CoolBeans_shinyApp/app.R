@@ -132,7 +132,8 @@ server <- function(input, output, session) {
             imputmethod=data_preprocessed$imput, metdata = data_filtered$singlemetabolites, 
             results_training = ml_output$model_trainig, results_testing = ml_output$model_testing,
             nfolds = mls_output$nfolds, nrepeats = mls_output$nrepeats, ltune = mls_output$ltune,
-            model_cv = mls_output$model_cv, coeff = mls_output$coefficients, results_cv = mls_output$eval_cv)
+            model_cv = mls_output$model_cv, coeff = mls_output$coefficients, results_cv = mls_output$eval_cv,
+            scores = score_output)
 }
 
 

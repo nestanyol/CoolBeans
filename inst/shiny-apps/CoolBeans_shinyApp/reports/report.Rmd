@@ -4,8 +4,8 @@ author: "`r params$author`"
 date: "`r format(Sys.time(), '%d %B, %Y')`" 
 output: html_document
 params:
-  title:
-  author:
+  title: NA
+  author: NA
   fileraw: NA
   fileprep: NA 
   inputid: NA
@@ -25,6 +25,7 @@ params:
   coeffs: NA
   resultscv: NA
   scoresall: NA
+
 ---
 
 ```{r setup, include=FALSE}
