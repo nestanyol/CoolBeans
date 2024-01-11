@@ -39,22 +39,30 @@ scoreServer <- function(id, df, name, startmet, coeff) {
           #print(coeff())
           head(scores())
         })
+        
+        output$plot1 <- renderPlot({
           
+          den <- scores() %>%
+            ggplot2::ggplot(aes(x = total)) +
+            ggplot2::geom_density() +
+            labs(x = "Total score", y = "density") +
+            theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+          
+          den
+        }, res = 96)
+
+        output$download <- downloadHandler(
+          filename = function() {
+            file <- name()[1]
+            paste0(substr(file, 1, nchar(file)-4), "_scores.csv")
+          },
+          content = function(file) {
+            vroom::vroom_write(scores(), file)
+          }
+        )
         
       })
-      
-      
-      output$download <- downloadHandler(
-        filename = function() {
-          file <- name()[1]
-          paste0(substr(file, 1, nchar(file)-4), "_model.rds")
-        },
-        content = function(file) {
-          #vroom::vroom_write(model(), file)
-          saveRDS(model(), file)
-        }
-      )
-      
+
       # return(list(nfolds = n_folds, nrepeats = n_repeats, ltune = l_tune,
       #             model_cv = model, coefficients = coeff, eval_cv = results))
       

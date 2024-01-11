@@ -24,15 +24,15 @@ scoreUI <- function(id, label = 'score1') {
           actionButton(ns("calculate"), "Calculate scores"),
           
           # Train Model Button for Supervised Learning
-          actionButton(ns("Plot"), "Plot distribution"),
+          #actionButton(ns("Plot"), "Plot distribution"),
           
           #Dowload preprocessed data
-          #downloadButton(ns("download"), "Download model .rds")
-        ), 
+          downloadButton(ns("download"), "Download scores .csv")
+        )#, 
         
-        wellPanel(
-          downloadButton("download", "Download scores .csv")
-          )
+        # wellPanel(
+        #   downloadButton("download", "Download scores .csv")
+        #   )
       ),
       
       mainPanel(
