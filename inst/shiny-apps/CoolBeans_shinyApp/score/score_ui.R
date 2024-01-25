@@ -3,6 +3,8 @@ scoreUI <- function(id, label = 'score1') {
   
   tagList(
     titlePanel("Multi-metabolite signature"),
+    p("Using the coefficients from the ML with crossvalidation, an artifitial score per row will be generated"),
+    br(),
     
     sidebarLayout(
       sidebarPanel(

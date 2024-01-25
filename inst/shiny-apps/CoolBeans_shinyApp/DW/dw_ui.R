@@ -4,8 +4,9 @@ dwUI <- function(id, label = 'dataWrangling1') {
   tagList(
     #fluidPage(
     titlePanel("Data Preprocessing"),
-    #p("Here the data will be prepared for the ML step. Run will do the following: 1)remove duplicate columns, 2) remove columns/rows
-       #with high Na number defined by the cutoff value, 3) data imputation with the option of 4 different methods, 4) log transformation and 5) normalization."),
+    p("Here the data will be preprocessed for the next step. Run will do the following: 1) remove duplicate columns, 2) remove columns/rows
+       with high Na number defined by the cutoff value, 3) data imputation with the option of 4 different methods, 4) log transformation and 5) normalization."),
+    br(),
     
     sidebarLayout(
       sidebarPanel(

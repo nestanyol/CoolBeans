@@ -83,7 +83,8 @@ dwServer <- function(id) {
         
         observe({prep_data(preprocessing(data, id(), target(), start_metabolites = start_met(),
                                          cutoff_columns = cutoff_colums()/100, cutoff_rows = cutoff_rows()/100,
-                                         imputation = imputation())) #extra slider to choose different cutoffs from rows and columns.
+                                         imputation = imputation())
+                           ) #extra slider to choose different cutoffs from rows and columns.
         })
         
         # extra step optional for outliers

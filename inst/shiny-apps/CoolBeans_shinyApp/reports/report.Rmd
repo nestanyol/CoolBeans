@@ -78,7 +78,7 @@ boxplot
 
 For feature selection.
 
-Single metabolite models. Meti \~ β0P + β1C + ... + Ԑ
+Single metabolite models. Metabolite \~ β0P + β1C + ... + Ԑ
 
 The top metabolites are plotted as follow
 

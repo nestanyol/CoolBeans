@@ -3,8 +3,11 @@ smUI <- function(id, label = 'singMetabolite1') {
 
   tagList(
     #fluidPage(
-    titlePanel("Single metabolite analysis"),
-    p(""),
+    titlePanel("Dimension reduction"),
+    p("Single metabolite selection will reduce the number of total metabolites using the following formula."),
+    strong("Metabolite ~ β0P + β1C + ... + Ԑ"),
+    br(),
+    br(),
 
     sidebarLayout(
       sidebarPanel(
