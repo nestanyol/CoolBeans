@@ -3,6 +3,9 @@ library(shiny)
 library(fresh)
 library(shinyWidgets)
 
+# Specify the application port, docker
+# options(shiny.host = "0.0.0.0")
+# options(shiny.port = 8180)
 
 options(shiny.maxRequestSize = 900*1024^2)
 
@@ -125,7 +128,7 @@ server <- function(input, output, session) {
                           name = data_filtered$filename,
                           residual_met = data_filtered$residualmet) 
   score_output <- scoreServer(id = 'score1', df=data_preprocessed$preprocessed_data, name = data_preprocessed$filename, 
-                              startmet = data_preprocessed$startmet, coeff = mls_output$coefficients)
+                              coeff = mls_output$coefficients)
   repServer(id = "report1", rawdata = data_preprocessed$raw_data, prepdata = data_preprocessed$preprocessed_data,
             idcol=data_preprocessed$idcol, target=data_preprocessed$targetcol, namecol = data_preprocessed$namecol, 
             startmet=data_preprocessed$startmet, nacol=data_preprocessed$nacolumns, narow=data_preprocessed$narows, 

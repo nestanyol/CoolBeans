@@ -1,4 +1,5 @@
-scoreServer <- function(id, df, name, startmet, coeff) {
+scoreServer <- function(id, df, name, coeff) {
+#scoreServer <- function(id, df, name, startmet, coeff) {
   
   library(tidyr)
   library(tidyverse)
@@ -10,27 +11,27 @@ scoreServer <- function(id, df, name, startmet, coeff) {
     function(input, output, session) {
       
       # Reactive value to store the results
-      sin_met <- reactiveVal()
-      residual_met <- reactiveVal()
+      #sin_met <- reactiveVal()
+      #residual_met <- reactiveVal()
       ids <- reactiveVal()
       scores <- reactiveVal()
 
       
       observeEvent(input$calculate,{
 
-          observe({sin_met(sing_met_analysis(data = df(), 
-                                                      exposure_feature = input$target, 
-                                                      start_metabolites = startmet(), threshold = input$pvalue, 
-                                                      covariates = input$covariates, correction = input$correction_method))
-            })
+          # observe({sin_met(sing_met_analysis(data = df(), 
+          #                                             exposure_feature = input$target, 
+          #                                             start_metabolites = startmet(), threshold = input$pvalue, 
+          #                                             covariates = input$covariates, correction = input$correction_method))
+          #  })
         
-        observe({residual_met(sin_met()$residuals)
-          })
+        # observe({residual_met(sin_met()$residuals)
+        #   })
         
         observe({ids(df()$id)
         }) 
         
-        observe({scores(score_calculation(ids(), residual_met(), coeff()))})
+        observe({scores(score_calculation(ids(), df(), coeff()))})
         
         #scores_id <- cbind(scores(), id)
           
