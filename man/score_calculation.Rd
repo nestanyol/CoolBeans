@@ -4,12 +4,12 @@
 \alias{score_calculation}
 \title{Calculation of scores using residuals from lm and coefficients from the CV model}
 \usage{
-score_calculation(ids, residuals, coefficients)
+score_calculation(ids, df, coefficients)
 }
 \arguments{
 \item{ids}{calculated from lm}
 
-\item{residuals}{calculated from lm}
+\item{df}{raw data to calculate score}
 
 \item{coefficients}{calculated from ml with crossvalidation}
 }
