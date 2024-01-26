@@ -21,8 +21,12 @@ You can install the development version of CoolBeans from
 # install.packages("devtools")
 devtools::install_github("nestanyol/CoolBeans")
 ```
-
+## Library
 ``` r
 library(CoolBeans)
-## basic example code
+```
+## shiny-app
+``` r
+library(CoolBeans)
+runShiny()
 ```
