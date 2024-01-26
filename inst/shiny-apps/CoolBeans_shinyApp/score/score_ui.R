@@ -3,23 +3,25 @@ scoreUI <- function(id, label = 'score1') {
   
   tagList(
     titlePanel("Multi-metabolite signature"),
+    p("Using the coefficients from the ML with crossvalidation, an artifitial score per row will be generated"),
+    br(),
     
     sidebarLayout(
       sidebarPanel(
         
         
         wellPanel(
-          textInput(ns("target"), "Type exposure feature column", "target"),
-          #Columns to select
-          #textInput(ns("confounders"), "Enter the confounders list", "id, sex, etc"),
-          selectizeInput(ns("covariates"),  "Enter the covariates list",
-                         choices = NULL,
-                         multiple =TRUE,
-                         options = list(create = TRUE)),
-          selectInput(ns("correction_method"), "Select correction method", choices = list("fdr",
-                                                                                          "bonferroni")),
-          #p-value
-          numericInput(ns("pvalue"), "Insert p-value threshold after correction",0.01),
+          # textInput(ns("target"), "Type exposure feature column", "target"),
+          # #Columns to select
+          # #textInput(ns("confounders"), "Enter the confounders list", "id, sex, etc"),
+          # selectizeInput(ns("covariates"),  "Enter the covariates list",
+          #                choices = NULL,
+          #                multiple =TRUE,
+          #                options = list(create = TRUE)),
+          # selectInput(ns("correction_method"), "Select correction method", choices = list("fdr",
+          #                                                                                 "bonferroni")),
+          # #p-value
+          # numericInput(ns("pvalue"), "Insert p-value threshold after correction",0.01),
           # Calculate scores
           actionButton(ns("calculate"), "Calculate scores"),
           

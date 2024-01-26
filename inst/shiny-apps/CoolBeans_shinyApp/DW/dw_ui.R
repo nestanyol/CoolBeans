@@ -4,8 +4,9 @@ dwUI <- function(id, label = 'dataWrangling1') {
   tagList(
     #fluidPage(
     titlePanel("Data Preprocessing"),
-    #p("Here the data will be prepared for the ML step. Run will do the following: 1)remove duplicate columns, 2) remove columns/rows
-       #with high Na number defined by the cutoff value, 3) data imputation with the option of 4 different methods, 4) log transformation and 5) normalization."),
+    p("Here the data will be preprocessed for the next step. Run will do the following: 1) remove duplicate columns, 2) remove columns/rows
+       with high Na number defined by the cutoff value, 3) data imputation with the option of 4 different methods, 4) log transformation and 5) normalization."),
+    br(),
     
     sidebarLayout(
       sidebarPanel(
@@ -16,11 +17,16 @@ dwUI <- function(id, label = 'dataWrangling1') {
           #textInput(ns("key_plot"), "Key to use for plotting", "metabolite"),
           #Columns to select
           #varSelectInput(ns("namecols"), "Enter columns to plot:", data, multiple = TRUE),
-          #textInput(ns("namecols"), "Enter columns to plot (comma delimited)", "metabolite_1, metabolite_2, metabolite_3"),
-          selectizeInput(ns("namecols"),  "Enter the columns list",
+          # selectizeInput(ns("namecols"),  "Enter the columns list",
+          #                choices = NULL,
+          #                multiple =TRUE,
+          #                options = list(create = TRUE)),
+          
+          #actionButton(ns("choose"), "Choose"),
+          selectizeInput(ns("namecols"), 
+                         "Columns to plot",
                          choices = NULL,
-                         multiple =TRUE,
-                         options = list(create = TRUE)),
+                         multiple = TRUE),
           actionButton(ns("plot_raw"), "Plot")
         ),
         

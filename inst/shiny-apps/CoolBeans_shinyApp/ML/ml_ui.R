@@ -2,7 +2,9 @@ mlUI <- function(id, label = 'machineLearning1') {
   ns <- NS(id)
 
   tagList(
-    titlePanel("Machine learning"),
+    titlePanel("Testing machine learning (ML) models"),
+    p("In this section you can test you can test a couple of machine learning models"),
+    br(),
 
     sidebarLayout(
       sidebarPanel(

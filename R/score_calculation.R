@@ -3,14 +3,14 @@
 #' @description The function calculates a score based on residuals and coefficients
 #'
 #' @param ids calculated from lm
-#' @param residuals calculated from lm
+#' @param df raw data to calculate score
 #' @param coefficients calculated from ml with crossvalidation
 #'
 #' @return data frame with scores per sample
 #' @export
 #'
-score_calculation <- function(ids, residuals, coefficients) {
-  
+score_calculation <- function(ids, df, coefficients) {
+
   coefficients_df <- data.frame(metabolite = rownames(coefficients),
                                 coefficient = as.numeric(coefficients))
   #remove non-metabolites from the df
@@ -18,17 +18,17 @@ score_calculation <- function(ids, residuals, coefficients) {
     filter(metabolite != "(Intercept)") %>%
     filter(metabolite != "id") %>%
     filter(coefficient != 0)
-  
+
   features <- coefficients_filtered$metabolite
-  
+
   score <- data.frame(matrix(NA,
-                             nrow=nrow(residuals),
+                             nrow=nrow(df),
                              ncol=length(features)))
 
 
   for(i in c(1:length(features))){
     n <- which(coefficients_filtered$metabolite == features[i])
-    val <- residuals %>%
+    val <- df %>%
       select(features[i]) %>%
       mutate(.*coefficients_filtered[n,2])
 
@@ -36,9 +36,9 @@ score_calculation <- function(ids, residuals, coefficients) {
   }
 
   colnames(score) <- features
-  
+
   scores <- cbind(ids, score, total = rowSums(score))
-  
+
   scores
-  
+
 }
