@@ -25,16 +25,25 @@ dwServer <- function(id) {
         })
       })
       
-      observeEvent(input$plot_raw, {
+      #get updated based on the columns picked
+      colplot <- reactiveVal()
+      observe({
+        #req(input$data)
+        updateSelectInput(session, "namecols", choices = colnames(original_data()))
+        #updateSelectInput(session, "namecols", choices = colnames(original_data()), server = TRUE)
         
+      })
+      
+      observeEvent(input$plot_raw, {
         #selected <- as.character(unlist(strsplit(input$namecols,",")))
         # output$preview1 <- renderPrint({
-        #   colnames(original_data()[,c(input$namecols)])
+        #   #as.list(strsplit(input$namecols, " ")[[1]])
+        #   input$namecols
         # })
         
         output$plot1 <- renderPlot({
-          raw_data_boxplots <- original_data()[,input$namecols]%>%
-            #dplyr::select(input$namecol)%>%
+          raw_data_boxplots <- original_data()%>%#[,input$namecols]
+            dplyr::select(one_of(input$namecols))%>%
             tidyr::gather(key = "metabolites", value = "value")#, starts_with(input$key_plot))
 
           boxplot <- raw_data_boxplots %>%
@@ -52,7 +61,6 @@ dwServer <- function(id) {
       file_name <- reactiveVal()
       id <- reactiveVal()
       target <- reactiveVal()
-      colplot <- reactiveVal()
       start_met <- reactiveVal()
       cutoff_colums <- reactiveVal()
       cutoff_rows <- reactiveVal()

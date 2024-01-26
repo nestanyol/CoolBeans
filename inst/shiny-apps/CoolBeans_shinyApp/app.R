@@ -65,8 +65,8 @@ introUI <- function(id) {
     tags$ul(
       tags$li("Data preprocessing"),
       tags$li("Dimension reduction"),
-      tags$li("Testing machine learning models"),
-      tags$li("ML with crossvalidation"),
+      tags$li("Testing machine learning (ML) models"),
+      tags$li("Machine learning (ML) with crossvalidation"),
       tags$li("Multi metabolite score calculation")
       #tags$li("Understand the importance of different metabolites or features in your dataset.")
     ),

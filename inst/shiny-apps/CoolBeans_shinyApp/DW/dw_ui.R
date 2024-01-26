@@ -17,11 +17,16 @@ dwUI <- function(id, label = 'dataWrangling1') {
           #textInput(ns("key_plot"), "Key to use for plotting", "metabolite"),
           #Columns to select
           #varSelectInput(ns("namecols"), "Enter columns to plot:", data, multiple = TRUE),
-          #textInput(ns("namecols"), "Enter columns to plot (comma delimited)", "metabolite_1, metabolite_2, metabolite_3"),
-          selectizeInput(ns("namecols"),  "Enter the columns list",
+          # selectizeInput(ns("namecols"),  "Enter the columns list",
+          #                choices = NULL,
+          #                multiple =TRUE,
+          #                options = list(create = TRUE)),
+          
+          #actionButton(ns("choose"), "Choose"),
+          selectizeInput(ns("namecols"), 
+                         "Columns to plot",
                          choices = NULL,
-                         multiple =TRUE,
-                         options = list(create = TRUE)),
+                         multiple = TRUE),
           actionButton(ns("plot_raw"), "Plot")
         ),
         
