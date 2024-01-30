@@ -3,7 +3,7 @@
 #' @description The function calculates a score based on residuals and coefficients
 #'
 #' @param ids calculated from lm
-#' @param df raw data to calculate score
+#' @param df data to calculate score
 #' @param coefficients calculated from ml with crossvalidation
 #'
 #' @return data frame with scores per sample

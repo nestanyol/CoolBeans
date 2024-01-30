@@ -4,7 +4,9 @@
 #' as the primary predictor and other features that are defined as covariates.
 #'
 #'
-#' @param data data frame to use for analysis. It contains subject id, an exposure feature variable and metabolite variables; can also contain covariates.
+#' @param data data frame to use for analysis. It contains subject id, an exposure feature variable and metabolite variables;
+#' can also contain covariates.
+#' @param train_data data or split data.
 #' @param exposure_feature variable of exposure name (e.g. diet score, group of exposure).
 #' @param start_metabolites column index where metabolite features start.
 #' @param covariates list of optional covariates.
@@ -14,17 +16,18 @@
 #' @return A [tibble::tibble()].
 #' @export
 #'
-sing_met_analysis <- function(data, exposure_feature, start_metabolites, covariates = NULL, threshold = 0.01, correction = NULL) {
+sing_met_analysis <- function(data, train_data, exposure_feature, start_metabolites, covariates = NULL, threshold = 0.01, correction = NULL) {
 
   # Variables definition:
   metabolite_columns <- colnames(data)[c(start_metabolites:ncol(data))]
   features <- c(exposure_feature, covariates)
 
-  # Model fitting to each metabolite column in parallel:
+  # Model fitting to each metabolite column in parallel with split data:
   output <- metabolite_columns %>%
-    furrr::future_map(~ lm_singmet(.x, features, data = data)) %>%
+    furrr::future_map(~ lm_singmet(.x, features, data = train_data)) %>%
     purrr::list_rbind(names_to = "model_id") # Combine results in a single dataframe
 
+  # Model fitting to each metabolite column in parallel with whole data:
   res_output <- metabolite_columns %>%
     furrr::future_map(~ lm_residuals(.x, features, data = data)) %>%
     purrr::list_cbind()

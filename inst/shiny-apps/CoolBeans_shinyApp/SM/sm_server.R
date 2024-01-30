@@ -90,7 +90,7 @@ smServer <- function(id, df, name, startmet) {
         
       ###Single metabolites analysis
       observeEvent(input$run,{
-        observe({sin_met_analysis(sing_met_analysis(data = traindata(), exposure_feature = input$target, start_metabolites = smet(), threshold = input$pvalue, covariates = input$covariates, correction = input$correction_method))
+        observe({sin_met_analysis(sing_met_analysis(data = data_to_use(), train_data = traindata(), exposure_feature = input$target, start_metabolites = smet(), threshold = input$pvalue, covariates = input$covariates, correction = input$correction_method))
         
         })
         

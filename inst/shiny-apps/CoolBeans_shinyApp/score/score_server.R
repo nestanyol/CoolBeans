@@ -1,4 +1,4 @@
-scoreServer <- function(id, df, name, coeff) {
+scoreServer <- function(id, df, name, residuals, coeff) {
 #scoreServer <- function(id, df, name, startmet, coeff) {
   
   library(tidyr)
@@ -31,7 +31,7 @@ scoreServer <- function(id, df, name, coeff) {
         observe({ids(df()$id)
         }) 
         
-        observe({scores(score_calculation(ids(), df(), coeff()))})
+        observe({scores(score_calculation(ids(), residuals(), coeff()))})
         
         #scores_id <- cbind(scores(), id)
           
