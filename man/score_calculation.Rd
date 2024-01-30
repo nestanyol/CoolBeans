@@ -9,7 +9,7 @@ score_calculation(ids, df, coefficients)
 \arguments{
 \item{ids}{calculated from lm}
 
-\item{df}{raw data to calculate score}
+\item{df}{data to calculate score}
 
 \item{coefficients}{calculated from ml with crossvalidation}
 }

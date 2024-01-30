@@ -74,13 +74,20 @@ boxplot_prep <- prep_data_boxplots %>%
 boxplot_prep
 # ggsave(filename = "doc/images/prep_data_boxplots.png", plot = boxplot_prep)
 ```
+Split data into training and testing datasets:
+
+```{r}
+data_split <- splitting(prep_data)
+train_data <- data_split$train_data
+test_data <- data_split$test_data
+```
 
 Feature selection.
 
 Single metabolite models. Meti \~ β0P + β1C + ... + Ԑ
 
 ```{r}
-sin_met <- sing_met_analysis(data=prep_data, exposure_feature = "target", start_metabolites = 4, covariates = "age", correction = "fdr")
+sin_met <- sing_met_analysis(data=prep_data, train_data = train_data, exposure_feature = "target", start_metabolites = 4, covariates = "age", correction = "fdr")
 
 sin_metabolites <- sin_met$results
 
@@ -102,16 +109,11 @@ sin_metabolites_filtered <- sin_metabolites[str_detect(sin_metabolites$term, "ta
 
 selected_metabolites_id <- sin_metabolites_filtered$yvar
 
-selected_data <- prep_data %>%
+train_data <- train_data %>%
   select(c(id, target, selected_metabolites_id))
-```
 
-Split data into training and testing datasets:
-
-```{r}
-data_split <- splitting(selected_data)
-train_data <- data_split$train_data
-test_data <- data_split$test_data
+test_data <- test_data %>%
+  select(c(id, target, selected_metabolites_id))
 ```
 
 Trained model:

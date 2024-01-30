@@ -6,6 +6,7 @@
 \usage{
 sing_met_analysis(
   data,
+  train_data,
   exposure_feature,
   start_metabolites,
   covariates = NULL,
@@ -14,7 +15,10 @@ sing_met_analysis(
 )
 }
 \arguments{
-\item{data}{data frame to use for analysis. It contains subject id, an exposure feature variable and metabolite variables; can also contain covariates.}
+\item{data}{data frame to use for analysis. It contains subject id, an exposure feature variable and metabolite variables;
+can also contain covariates.}
+
+\item{train_data}{data or split data.}
 
 \item{exposure_feature}{variable of exposure name (e.g. diet score, group of exposure).}
 
